@@ -1,0 +1,25 @@
+<h1>予算一覧</h1>
+
+<div class="overflow-x-auto">
+    <table class="table">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th>登録番号</th>
+          <th>カテゴリー</th>
+          <th>予算</th>
+          <th>残金</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @budgets.each do |budget| %>
+          <tr class="bg-base-200">
+            <th><%= budget.id%></th>
+            <td><%= budget.categories.first.name %></td>
+            <td><%= budget.amount %></td>
+            <td>残金</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>

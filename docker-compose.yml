@@ -1,0 +1,8 @@
+services:
+  web:
+    build: .
+    command: tail -f /dev/null  # これでコンテナが起動して、待機状態になります
+    volumes:
+      - ".:/kakeibo"
+    ports:
+      - "3001:3001"
