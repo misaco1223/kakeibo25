@@ -1,0 +1,21 @@
+<h1>カテゴリ一覧</h1>
+
+<div class="overflow-x-auto">
+    <table class="table">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th></th>
+          <th>カテゴリー名</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @categories.each do |category| %>
+          <tr class="bg-base-200">
+            <th><%= category.id%></th>
+            <td><%= category.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
