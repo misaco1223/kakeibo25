@@ -1,7 +1,7 @@
 class BudgetsController < ApplicationController
 
   def index
-    @budgets = Budget.includes(:categories)
+    @budgets = Budget.includes(:category)
   end
 
   def new

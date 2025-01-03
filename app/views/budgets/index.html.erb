@@ -5,7 +5,7 @@
       <!-- head -->
       <thead>
         <tr>
-          <th>登録番号</th>
+          <th></th>
           <th>カテゴリー</th>
           <th>予算</th>
           <th>残金</th>
@@ -15,8 +15,8 @@
         <% @budgets.each do |budget| %>
           <tr class="bg-base-200">
             <th><%= budget.id%></th>
-            <td><%= budget.categories.first.name %></td>
-            <td><%= budget.amount %></td>
+            <td><%= budget.category.name %></td>
+            <td><%= budget.amount %>円</td>
             <td>残金</td>
           </tr>
         <% end %>

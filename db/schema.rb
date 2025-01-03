@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_02_191813) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_03_065518) do
   create_table "budget_categories", force: :cascade do |t|
     t.integer "budget_id", null: false
     t.integer "category_id", null: false
@@ -26,6 +26,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_02_191813) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "category_id", null: false
+    t.index ["category_id"], name: "index_budgets_on_category_id"
     t.index ["money_file_id"], name: "index_budgets_on_money_file_id"
   end
 
@@ -85,6 +87,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_02_191813) do
 
   add_foreign_key "budget_categories", "budgets"
   add_foreign_key "budget_categories", "categories"
+  add_foreign_key "budgets", "categories"
   add_foreign_key "budgets", "money_files"
   add_foreign_key "money_files", "users"
   add_foreign_key "payment_data", "money_files"
