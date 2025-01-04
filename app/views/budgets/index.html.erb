@@ -1,27 +1,17 @@
 <h1>予算一覧</h1>
 
-<div class="overflow-x-auto">
-    <table class="table">
-      <!-- head -->
-      <thead>
-        <tr>
-          <th></th>
-          <th>カテゴリー</th>
-          <th>予算</th>
-          <th>支出合計</th>
-          <th>残金</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @budgets.each do |budget| %>
-          <tr class="bg-base-200">
-            <th><%= budget.id%></th>
-            <td><%= budget.category.name %></td>
-            <td><%= budget.amount %>円</td>
-            <td>支出合計</td>
-            <td>残金</td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+<% @budgets.each do |budget| %>
+  <div class="card bg-primary text-primary-content w-96">
+    <div class="card-body">
+      <h2 class="card-title"><%= budget.category.name %></h2>
+        <div>
+          <td><%= budget.amount %>円</td>
+          <td>支出合計</td>
+          <td>残金</td>
+        </div>
+      <div class="card-actions justify-end">
+        <button class="btn btn-primary">Check Now</button>
+      </div>
+    </div>
   </div>
+<% end %>
