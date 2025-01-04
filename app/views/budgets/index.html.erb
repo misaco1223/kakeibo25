@@ -1,7 +1,9 @@
-<h1>予算一覧</h1>
+<div class="navbar bg-base-100">
+  <a class="btn btn-ghost text-xl">予算一覧</a>
+</div>
 
-<% @budgets.each do |budget| %>
-  <div class="card bg-primary text-primary-content w-96">
+<div class="card bg-primary text-primary-content w-96">
+  <% @budgets.each do |budget| %>
     <div class="card-body">
       <h2 class="card-title"><%= budget.category.name %></h2>
         <div>
@@ -13,5 +15,5 @@
         <button class="btn btn-primary">Check Now</button>
       </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
+</div>
