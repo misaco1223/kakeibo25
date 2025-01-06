@@ -16,10 +16,12 @@
             alt="Movie" />
         </figure>
         <h2 class="card-title"><%= budget.category.name %></h2>
+        <p>ID:<%= budget.id %></p>
         <p>予算: <%= budget.amount %>円</p>
         <p>支出合計</p>
         <p>残金</p>
-        <%= link_to payment_data_path(budget), class: "btn btn-primary" do %>Check Now<% end %>
+        <p>ステータス</p>
+        <%= link_to payment_data_path(budget_id: budget.id), class: "btn btn-primary" do %>Check Now<% end %>
       </div>
     </div>
   </div>

@@ -8,55 +8,39 @@
 <div class="hero bg-base-200 min-h-screen">
   <div class="hero-content text-center">
     <label class="flex cursor-pointer gap-2">
-      <span class="label-text">カード</span>
-      <input type="checkbox" value="synthwave" class="toggle theme-controller" />
-      <span class="label-text">表</span>
+    <span class="label-text">カード</span>
+    <input type="checkbox" value="synthwave" class="toggle theme-controller" />
+    <span class="label-text">表</span>
     </label>
   </div>
 </div>
 
-<!-- Theme カードで表示 -->
-<div class="carousel w-full max-w-full mb-10" style="display: flex;">
-  <% @payments.each do |payment| %>
-  <div class="carousel-item pr-4 text-left flex-shrink-0 w-80 xs:max-w-xs mx-auto">
-    <div class="card glass w-96 max-w-xs mx-auto px-4 border border-gray-300 rounded-lg bg-accent">
-        <!-- div class="card card-side shadow-xl" style="margin-left: 1rem /* 16px */; margin-right: 1rem /* 16px */;" -->
-      <div class="card-body">
-        <figure class="text-left">
-            <img
-            src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-            alt="Movie" />
-        </figure>
-        <h2 class="card-title"><%= payment.title %></h2>
-        <p><%= payment.amount %>円</p>
-        <p><%= payment.description %></p>
-        <p><%= payment.shop&.name || "店舗情報なし" %></p>
-      </div>
-    </div>
-    </div>
-  </div>
-  <% end %>
-</div>
 
 <!-- Theme 表で表示 -->
 <div class="overflow-x-auto">
   <table class="table">
     <thead>
       <tr>
+        <th>日付</th>
         <th>タイトル</th>
         <th>詳細</th>
         <th>金額</th>
+        <th>支払い方法</th>
         <th>店舗名</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       <% total_amount = 0 %>
       <% @payments.each do |payment| %>
       <tr>
+        <th><%= payment.date.strftime('%Y-%m-%d') %></th>
         <th><%= payment.title %></th>
         <td><%= payment.description %></td>
         <td><%= payment.amount %>円</td>
+        <td><%= payment.payment_method&.name %></td>
         <td><%= payment.shop&.name || "" %></td>
+        <td><%= link_to "/", class: "btn btn-primary" do %>編集<% end %></td>
       </tr>
       <% total_amount += payment.amount %>
       <% end %>

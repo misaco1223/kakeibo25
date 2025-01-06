@@ -2,21 +2,22 @@
   <div class="navbar bg-base-100 fixed top-0 left-0 w-full z-50">
     <div class="flex items-center space-x-4">
       <!-- ロゴ -->
-      <h1> 予算を守る家計簿 </h1>
+      <a class="btn btn-ghost text-xl gray-900" href="/">予算を守る家計簿</a>
       <!-- 記録して振り返り、思考を育てる（モバイル非表示） -->
-      <h2 class="text-sm px-4 leading-8 text-gray-900 whitespace-nowrap hidden sm:block">~さらば、決められた予算を守れない私~</h2>
+      <h2 class="text-sm px-4 leading-8 text-gray-900 whitespace-nowrap hidden sm:block">~なぜ私は決められた予算を忘れてしまうのか~</h2>
     </div>
   </div>
 </header>
 
-<button class="bg-gray-900 hover:bg-gray-800 text-white rounded px-4 py-2">黒字 </button>
-<button class="btn">赤字</button>
+<!-- スペース入れたいだけ -->
+<div class="navbar"></div>
 
-<div>
+<div class="carousel w-full max-w-full mb-10" style="display: flex;">
   <% @files.each do |file| %>
-    <div class="card bg-secondary w-96 shadow-xl mt-10">
+  <div class="carousel-item pr-4 text-left flex-shrink-0 w-80 xs:max-w-xs mx-auto">
+    <div class="card bg-secondary w-96 flex shadow-xl mt-10 text-left" style="display: flex; text-left;">
       <div class="card-body">
-        <figure>
+        <figure class="text-left">
           <img
             src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
             alt="PiggyBank"
@@ -25,12 +26,21 @@
         </figure>
         <h2 class="card-title"><%= file.title %></h2>
         <p><%= file.description %></p>
+        <br>
         <div class="card-actions justify-end">
+          <p>ステータス</p>
           <%= button_to budgets_path(file), method: :get, class: "btn btn-primary" do %>
             Check Now
           <% end %>
         </div>
       </div>
     </div>
+  </div>
   <% end %>
 </div>
+
+<!-- スペース入れたいだけ -->
+<div class="navbar"></div>
+
+<button class="bg-gray-900 hover:bg-gray-800 text-white rounded px-4 py-2">黒字のみ表示</button>
+<button class="btn">赤字のみ表示</button>

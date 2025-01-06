@@ -24,6 +24,5 @@ PaymentDatum.create(
   budget: Budget.all.sample,
   payment_method: PaymentMethod.all.sample,
   date: Time.zone.now,
-  shop
 )
 end
