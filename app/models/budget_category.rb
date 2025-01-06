@@ -1,3 +1,0 @@
-class BudgetCategory < ApplicationRecord
-end
-  

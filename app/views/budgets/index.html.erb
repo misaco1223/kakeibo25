@@ -3,24 +3,25 @@
     <a href="#" class="btn btn-ghost text-xl">予算一覧</a>
   </div>
 </header>
-
-<div class="flex mx-4" style="display: flex;">
+<div class="h-20"></div>
+<div class="carousel w-full max-w-full mb-10" style="display: flex;">
   <% @budgets.each do |budget| %>
-    <div class="card card-side shadow-xl" style="margin-left: 1rem /* 16px */; margin-right: 1rem /* 16px */;">
-      <figure class="text-left">
-        <img
-          src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-          alt="Movie" />
-      </figure>
+  <div class="carousel-item pr-4 text-left flex-shrink-0 w-80 xs:max-w-xs mx-auto">
+    <div class="card glass w-full max-w-xs mx-auto px-4 border border-gray-300 rounded-lg">
+      <!-- div class="card card-side shadow-xl" style="margin-left: 1rem /* 16px */; margin-right: 1rem /* 16px */;" -->
       <div class="card-body">
+        <figure class="text-left">
+          <img
+            src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+            alt="Movie" />
+        </figure>
         <h2 class="card-title"><%= budget.category.name %></h2>
-        <th><%= budget.amount %>円</th>
-        <th>支出合計: ...</th>
-        <th>残金: ...</th>
-        <div class="card-actions justify-end">
-          <button class="btn btn-primary">Check Now</button>
-        </div>
+        <p>予算: <%= budget.amount %>円</p>
+        <p>支出合計</p>
+        <p>残金</p>
+        <%= link_to payment_data_path(budget), class: "btn btn-primary" do %>Check Now<% end %>
       </div>
     </div>
+  </div>
   <% end %>
 </div>

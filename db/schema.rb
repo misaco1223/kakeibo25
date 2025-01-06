@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_03_080309) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_06_083736) do
   create_table "budget_categories", force: :cascade do |t|
     t.integer "budget_id", null: false
     t.integer "category_id", null: false
@@ -39,21 +39,27 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_03_080309) do
   end
 
   create_table "money_files", force: :cascade do |t|
-    t.string "file_title"
     t.text "description"
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title", null: false
     t.index ["user_id"], name: "index_money_files_on_user_id"
   end
 
   create_table "payment_data", force: :cascade do |t|
-    t.integer "money_file_id", null: false
     t.integer "amount", null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["money_file_id"], name: "index_payment_data_on_money_file_id"
+    t.integer "budget_id", null: false
+    t.integer "payment_method_id", null: false
+    t.integer "shop_id"
+    t.string "title"
+    t.datetime "date", null: false
+    t.index ["budget_id"], name: "index_payment_data_on_budget_id"
+    t.index ["payment_method_id"], name: "index_payment_data_on_payment_method_id"
+    t.index ["shop_id"], name: "index_payment_data_on_shop_id"
   end
 
   create_table "payment_data_categories", force: :cascade do |t|
@@ -80,6 +86,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_03_080309) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "shops", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "address"
+    t.string "tel"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -91,7 +105,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_03_080309) do
   add_foreign_key "budgets", "categories"
   add_foreign_key "budgets", "money_files"
   add_foreign_key "money_files", "users"
-  add_foreign_key "payment_data", "money_files"
+  add_foreign_key "payment_data", "budgets"
+  add_foreign_key "payment_data", "payment_methods"
+  add_foreign_key "payment_data", "shops"
   add_foreign_key "payment_data_categories", "categories"
   add_foreign_key "payment_data_categories", "payment_data"
   add_foreign_key "payment_data_payment_methods", "payment_data"

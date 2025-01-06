@@ -1,5 +1,5 @@
 class PaymentDataController < ApplicationController
   def index
-    @payments = PaymentDatum.includes(:money_file)
+    @payments = PaymentDatum.where(budget_id: params[:id])
   end
 end
