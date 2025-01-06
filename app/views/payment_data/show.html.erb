@@ -1,0 +1,81 @@
+<header class="mb-4 bg-neutral">
+  <div class="navbar">
+    <a href="#" class="btn btn-ghost text-xl">出金一覧</a>
+  </div>
+</header>
+
+<div class="block mx-auto max-w-md">
+  <div class="card bg-white shadow-lg rounded-lg p-6">
+    <div class="card-body">
+      <h1 class="text-xl font-bold text-green-600"><%= @budget.category&.name %></h1>
+      <p class="text-gray-700 mb-2"><%= @budget.description %></p>
+      <p class="text-gray-800 font-semibold mb-2">予算は<%=@budget.amount %>円</p>
+      <p class="text-gray-800 font-semibold mb-2">支出金額は<%= @total_amount %>円</h1>
+      <h1 class="text-xl font-bold text-green-600"><%=@status%>です</h1>
+    </div>
+  </div>
+</div>
+
+<div class="navbar">
+  <%= link_to "#", method: :post, class: "btn btn-primary" do %>支出データを新規作成<% end %>
+  <%= link_to budget_path(@budget.money_file.id), class: "btn" do %>この家計簿の予算一覧へ戻る<% end %>
+</div>
+
+
+<!-- Heroセクション で ThemeController -->
+<div class="hero bg-base-200 min-h-screen">
+  <div class="hero-content text-center">
+    <p class="flex">支払い方法で絞り込み</p>
+    <span class="label-text">カード</span>
+    <label class="flex cursor-pointer gap-2">
+    <input type="checkbox" value="synthwave" class="toggle theme-controller" />
+    <span class="label-text">表</span><input type="checkbox" value="synthwave" class="toggle theme-controller" />
+    </label>
+  </div>
+</div>
+
+
+<!-- Theme 表で表示 -->
+<div class="overflow-x-auto">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>日付</th>
+        <th>タイトル</th>
+        <th>詳細</th>
+        <th>金額</th>
+        <th>支払い方法</th>
+        <th>店舗名</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @payments.each do |payment| %>
+      <tr>
+        <th><%= payment.date.strftime('%Y-%m-%d') %></th>
+        <th><%= payment.title %></th>
+        <td><%= payment.description %></td>
+        <td><%= payment.amount %>円</td>
+        <td><%= payment.payment_method&.name %></td>
+        <td><%= payment.shop&.name || "" %></td>
+        <td><%= link_to "/", class: "btn btn-primary" do %>編集<% end %></td>
+        <td><%= link_to "/", class: "btn" do %>削除<% end %></td>
+      </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="2">合計</th>
+        <td><%= @total_amount %>円</td>
+      </tr>
+      <tr>
+        <th colspan="2">予算</th>
+        <td><%= @budget_amount %>円</td>
+      </tr>
+      <tr>
+        <th colspan="2">残り予算</th>
+        <td><%= @remaining_amount %>円</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

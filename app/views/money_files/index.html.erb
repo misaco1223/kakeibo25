@@ -10,7 +10,10 @@
 </header>
 
 <!-- スペース入れたいだけ -->
-<div class="navbar"></div>
+<div class="navbar">
+  <%= button_to "#", method: :post, class: "btn btn-primary" do %>家計簿を新規作成<% end %>
+  <%= link_to money_files_path, class: "btn" do %>支出データを新規作成<% end %>
+</div>
 
 <div class="carousel w-full max-w-full mb-10" style="display: flex;">
   <% @files.each do |file| %>
@@ -28,10 +31,7 @@
         <p><%= file.description %></p>
         <br>
         <div class="card-actions justify-end">
-          <p>ステータス</p>
-          <%= button_to budgets_path(file), method: :get, class: "btn btn-primary" do %>
-            Check Now
-          <% end %>
+          <%= link_to budget_path(file), class: "btn btn-primary" do %>このファイルをCheck Now<% end %>
         </div>
       </div>
     </div>

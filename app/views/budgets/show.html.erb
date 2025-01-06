@@ -1,0 +1,35 @@
+<header class="mb-4 bg-neutral">
+  <div class="navbar">
+    <a href="#" class="btn btn-ghost text-xl"><%= @money_file.title %>の予算一覧</a>
+    <p class="block"><%= @money_file.description %></p>
+  </div>
+</header>
+
+<div class="navbar">
+  <%= button_to "#", method: :post, class: "btn btn-primary" do %>予算を新規作成<% end %>
+  <%= link_to money_files_path, class: "btn btn" do %>家計簿一覧へ戻る<% end %>
+</div>
+
+<div class="carousel w-full max-w-full mb-10" style="display: flex;">
+  <% @budgets_with_data.each do |data| %>
+    <% budget = data[:budget] %>
+    <div class="carousel-item pr-4 text-left flex-shrink-0 w-80 xs:max-w-xs mx-auto">
+      <div class="card glass w-full max-w-xs mx-auto px-4 border border-gray-300 rounded-lg">
+        <div class="card-body">
+          <figure class="text-left">
+            <img
+              src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+              alt="Movie" />
+          </figure>
+          <h2 class="card-title"><%= budget.category.name %></h2>
+          <p>ID:<%= budget.id %></p>
+          <p>予算: <%= budget.amount %>円</p>
+          <p>支出合計: <%= data[:total_amount] %>円</p>
+          <p>残金: <%= data[:remaining_amount] %>円</p>
+          <p>ステータス: <%= data[:remaining_amount] > 0 ? "黒字" : "赤字" %></p>
+          <%= link_to payment_datum_path(budget), class: "btn btn-primary" do %>支出データをCheck Now<% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
