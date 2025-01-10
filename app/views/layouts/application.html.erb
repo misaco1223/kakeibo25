@@ -10,11 +10,21 @@
     <%= yield :head %>
     <%= stylesheet_link_tag "tailwind", "data-turbolinks-track": "reload", media: "all" %>
     <%= stylesheet_link_tag "application", "data-turbolinks-track": "reload", media: "all" %>
-    <%= javascript_include_tag "application", "data-turbolinks-track": "reload" %>
+    <!-- %= javascript_include_tag "application", "data-turbolinks-track": "reload" % -->
     <!-- %= javascript_importmap_tags % -->
   </head>
 
-  <body>
+  <body class="bg-secondary">
+    <header class="mb-6">
+      <div class="navbar fixed top-0 left-0 w-full z-50 bg-accent">
+          <div class="flex items-center space-x-4">
+          <!-- ロゴ -->
+          <a class="btn btn-ghost text-xl gray-900" href="/">予算を守る家計簿</a>
+          <!-- 記録して振り返り、思考を育てる（モバイル非表示） -->
+          <h2 class="text-sm px-4 leading-8 text-gray-900 whitespace-nowrap hidden sm:block">~なぜ私は決められた予算を忘れてしまうのか~</h2>
+          </div>
+      </div>
+    </header>
     <%= yield %>
   </body>
 </html>

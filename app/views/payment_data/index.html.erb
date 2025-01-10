@@ -1,11 +1,12 @@
 <header class="mb-4 bg-neutral">
   <div class="navbar">
     <a href="#" class="btn btn-ghost text-xl">出金一覧</a>
+    <p class="block">支払いデータを管理する</p>
   </div>
 </header>
 
 <div class="block mx-auto max-w-md">
-  <div class="card bg-white shadow-lg rounded-lg p-6">
+  <div class="card bg-white shadow-lg rounded-lg p-6 border border-gray-300">
     <div class="card-body">
       <h1 class="text-xl font-bold text-green-600"><%= @budget.category&.name %></h1>
       <p class="text-gray-700 mb-2"><%= @budget.description %></p>
@@ -17,11 +18,11 @@
 </div>
 
 <div class="navbar">
-  <%= link_to "#", method: :post, class: "btn btn-primary" do %>支出データを新規作成<% end %>
-  <%= link_to budget_path(@budget.money_file.id), class: "btn" do %>この家計簿の予算一覧へ戻る<% end %>
+  <%= link_to new_money_file_budget_payment_datum_path, method: :post, class: "btn btn-primary" do %>支出データを新規作成<% end %>
+  <%= link_to money_file_budgets_path(@money_file.id, @budget.id), class: "btn" do %>この家計簿の予算一覧へ戻る<% end %>
 </div>
 
-
+<br>
 <!-- Heroセクション で ThemeController -->
 <div class="hero bg-base-200 min-h-screen">
   <div class="hero-content text-center">
@@ -55,7 +56,7 @@
         <th><%= payment.date.strftime('%Y-%m-%d') %></th>
         <th><%= payment.title %></th>
         <td><%= payment.description %></td>
-        <td><%= payment.amount %>円</td>
+        <th><%= payment.amount %>円</th>
         <td><%= payment.payment_method&.name %></td>
         <td><%= payment.shop&.name || "" %></td>
         <td><%= link_to "/", class: "btn btn-primary" do %>編集<% end %></td>
@@ -65,16 +66,16 @@
     </tbody>
     <tfoot>
       <tr>
-        <th colspan="2">合計</th>
-        <td><%= @total_amount %>円</td>
+        <td colspan="2">合計</td>
+        <th><%= @total_amount %>円</th>
       </tr>
       <tr>
-        <th colspan="2">予算</th>
-        <td><%= @budget_amount %>円</td>
+        <td colspan="2">予算</td>
+        <th><%= @budget.amount %>円</th>
       </tr>
       <tr>
-        <th colspan="2">残り予算</th>
-        <td><%= @remaining_amount %>円</td>
+        <td colspan="2">残り予算</td>
+        <th><%= @remaining_amount %>円</th>
       </tr>
     </tfoot>
   </table>

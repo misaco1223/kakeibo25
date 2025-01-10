@@ -1,0 +1,66 @@
+<header class="mb-4 bg-neutral">
+  <div class="navbar">
+    <a class="btn btn-ghost text-xl gray-900" href="#">支出データを追加</a>
+  </div>
+</header>
+
+<div class="container mx-auto mt-10 p-6 bg-white shadow-md max-w-lg">
+  <%= form_with model: [@budget, @payment_datum], url: money_file_budget_payment_data_path(@money_file.id, @budget.id), local: true, class: "space-y-4" do |form| %>
+    <br>
+    <!-- 日付入力 -->
+    <div>
+      <%= form.label :date, "日付 :", class: "block font-medium text-xl text-gray-700" %><br>
+      <%= form.date_field :date, rows: 3, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+
+    <br><br>
+    <!-- タイトル入力 -->
+    <div>
+      <%= form.label :title, "家計簿のタイトル :", class: "block text-xl text-gray-700" %><br>
+      <%= form.text_field :title, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+
+    <br><br>
+    <!-- 説明入力 -->
+    <div>
+      <%= form.label :description, "詳細 (任意) :", class: "block font-medium text-xl text-gray-700" %><br>
+      <%= form.text_area :description, rows: 3, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+
+    <br><br>
+    <!-- 金額入力 -->
+    <div>
+      <%= form.label :amount, "支払い金額 :", class: "block font-medium text-xl text-gray-700" %><br>
+      <%= form.number_field :amount, min: 0, step: 100, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+
+    <br><br>
+    <!-- 店舗名入力 -->
+    <div>
+      <%= form.label :shop_id, "店舗名:", class: "block text-xl text-gray-700" %><br>
+      <%= form.collection_select :shop_id, Shop.all, :id, :name, 
+      { prompt: "カテゴリーを選択してください" },
+      { class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" } %><br>
+      <br>
+      <a class="btn text-sm" href="#">新しい店舗を登録する</a>
+    </div>
+
+    <br><br>
+    <!-- 支払い方法入力 -->
+    <div>
+      <%= form.label :payment_method_id, "カテゴリー :", class: "block text-xl text-gray-700" %><br>
+      <%= form.collection_select :payment_method_id, PaymentMethod.all, :id, :name, 
+      { prompt: "カテゴリーを選択してください" },
+      { class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" } %><br>
+      <br>
+      <a class="btn text-sm" href="#">新しいカテゴリーを作成する</a>
+    </div>
+
+    <br><br>
+    <!-- 提出ボタン -->
+    <div class="text-center">
+      <%= form.submit "予算を作成", class: "btn btn-primary px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md" %>
+      <%= link_to "キャンセル", money_file_budget_payment_data_path, class: "btn text-blue-600 hover:text-blue-800" %>
+    </div>
+  <% end %>
+</div>

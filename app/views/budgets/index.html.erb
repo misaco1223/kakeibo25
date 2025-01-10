@@ -6,10 +6,11 @@
 </header>
 
 <div class="navbar">
-  <%= button_to "#", method: :post, class: "btn btn-primary" do %>予算を新規作成<% end %>
-  <%= link_to money_files_path, class: "btn btn" do %>家計簿一覧へ戻る<% end %>
+  <%= link_to new_money_file_budget_path, class: "btn btn-primary", method: :get do %>予算を新規作成<% end %>
+  <%= link_to money_file_budgets_path, class: "btn btn" do %>家計簿一覧へ戻る<% end %>
 </div>
 
+<br><br>
 <div class="carousel w-full max-w-full mb-10" style="display: flex;">
   <% @budgets_with_data.each do |data| %>
     <% budget = data[:budget] %>
@@ -22,12 +23,12 @@
               alt="Movie" />
           </figure>
           <h2 class="card-title"><%= budget.category.name %></h2>
-          <p>ID:<%= budget.id %></p>
+          <p>予算ID:<%= budget.id %></p>
           <p>予算: <%= budget.amount %>円</p>
           <p>支出合計: <%= data[:total_amount] %>円</p>
           <p>残金: <%= data[:remaining_amount] %>円</p>
           <p>ステータス: <%= data[:remaining_amount] > 0 ? "黒字" : "赤字" %></p>
-          <%= link_to payment_datum_path(budget), class: "btn btn-primary" do %>支出データをCheck Now<% end %>
+          <%= link_to money_file_budget_payment_data_path(@money_file.id, budget.id), class: "btn btn-primary" do %>支出データをCheck Now<% end %>
         </div>
       </div>
     </div>
