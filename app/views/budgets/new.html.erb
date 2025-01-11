@@ -35,7 +35,7 @@
     <!-- 提出ボタン -->
     <div class="text-center">
       <%= form.submit "予算を作成", class: "btn btn-primary px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md" %>
-      <%= link_to "キャンセル", money_files_path, class: "btn text-blue-600 hover:text-blue-800" %>
+      <%= link_to "キャンセル", money_file_path(@money_file), class: "btn text-blue-600 hover:text-blue-800" %>
     </div>
   <% end %>
 </div>

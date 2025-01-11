@@ -3,6 +3,23 @@ class MoneyFilesController < ApplicationController
     @files = MoneyFile.includes(:user)
   end
 
+  def show
+    @money_file = MoneyFile.find(params[:id])
+    @budgets = @money_file.budgets
+    @budgets_with_data = @budgets.map do |budget|
+      payments = Payment.where(budget_id: budget.id)
+      total_amount = payments.sum(&:amount) # その予算の支出合計
+      remaining_amount = budget.amount - total_amount  # 残金計算
+      category = budget.categories.pluck(:name).first
+      {
+        budget: budget,                # 予算データ
+        total_amount: total_amount,    # 支出合計
+        remaining_amount: remaining_amount, # 残金
+        category: category
+      }
+    end
+  end
+
   def new
     @money_file = MoneyFile.new
   end
@@ -17,6 +34,12 @@ class MoneyFilesController < ApplicationController
       render :new, status: :unprocessable_entity
       Rails.logger.info "Money File was not created."
     end
+  end
+
+  def destroy
+    @money_file = MoneyFile.find(params[:id])
+    @money_file.destroy
+    redirect_to money_files_path, notice: "家計簿を削除しました"
   end
 
   private

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_06_083736) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_10_113141) do
   create_table "budget_categories", force: :cascade do |t|
     t.integer "budget_id", null: false
     t.integer "category_id", null: false
@@ -26,90 +26,91 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_06_083736) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "category_id", null: false
-    t.index ["category_id"], name: "index_budgets_on_category_id"
     t.index ["money_file_id"], name: "index_budgets_on_money_file_id"
   end
 
   create_table "categories", force: :cascade do |t|
-    t.string "name"
+    t.integer "user_id", null: false
+    t.string "name", null: false
+    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_categories_on_name", unique: true
+    t.index ["user_id"], name: "index_categories_on_user_id"
   end
 
   create_table "money_files", force: :cascade do |t|
-    t.text "description"
     t.integer "user_id", null: false
+    t.string "title", null: false
+    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "title", null: false
     t.index ["user_id"], name: "index_money_files_on_user_id"
   end
 
-  create_table "payment_data", force: :cascade do |t|
-    t.integer "amount", null: false
-    t.text "description"
+  create_table "pay_methods", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "name", null: false
+    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_pay_methods_on_user_id"
+  end
+
+  create_table "payment_pay_methods", force: :cascade do |t|
+    t.integer "payment_id", null: false
+    t.integer "pay_method_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pay_method_id"], name: "index_payment_pay_methods_on_pay_method_id"
+    t.index ["payment_id"], name: "index_payment_pay_methods_on_payment_id"
+  end
+
+  create_table "payment_shops", force: :cascade do |t|
+    t.integer "payment_id", null: false
+    t.integer "shop_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["payment_id"], name: "index_payment_shops_on_payment_id"
+    t.index ["shop_id"], name: "index_payment_shops_on_shop_id"
+  end
+
+  create_table "payments", force: :cascade do |t|
     t.integer "budget_id", null: false
-    t.integer "payment_method_id", null: false
-    t.integer "shop_id"
-    t.string "title"
+    t.string "title", null: false
+    t.text "description"
+    t.integer "amount", null: false
     t.datetime "date", null: false
-    t.index ["budget_id"], name: "index_payment_data_on_budget_id"
-    t.index ["payment_method_id"], name: "index_payment_data_on_payment_method_id"
-    t.index ["shop_id"], name: "index_payment_data_on_shop_id"
-  end
-
-  create_table "payment_data_categories", force: :cascade do |t|
-    t.integer "payment_datum_id", null: false
-    t.integer "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["category_id"], name: "index_payment_data_categories_on_category_id"
-    t.index ["payment_datum_id"], name: "index_payment_data_categories_on_payment_datum_id"
-  end
-
-  create_table "payment_data_payment_methods", force: :cascade do |t|
-    t.integer "payment_datum_id", null: false
-    t.integer "payment_method_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["payment_datum_id"], name: "index_payment_data_payment_methods_on_payment_datum_id"
-    t.index ["payment_method_id"], name: "index_payment_data_payment_methods_on_payment_method_id"
-  end
-
-  create_table "payment_methods", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.index ["budget_id"], name: "index_payments_on_budget_id"
   end
 
   create_table "shops", force: :cascade do |t|
+    t.integer "user_id", null: false
     t.string "name", null: false
     t.string "address"
     t.string "tel"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_shops_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   add_foreign_key "budget_categories", "budgets"
   add_foreign_key "budget_categories", "categories"
-  add_foreign_key "budgets", "categories"
   add_foreign_key "budgets", "money_files"
+  add_foreign_key "categories", "users"
   add_foreign_key "money_files", "users"
-  add_foreign_key "payment_data", "budgets"
-  add_foreign_key "payment_data", "payment_methods"
-  add_foreign_key "payment_data", "shops"
-  add_foreign_key "payment_data_categories", "categories"
-  add_foreign_key "payment_data_categories", "payment_data"
-  add_foreign_key "payment_data_payment_methods", "payment_data"
-  add_foreign_key "payment_data_payment_methods", "payment_methods"
+  add_foreign_key "pay_methods", "users"
+  add_foreign_key "payment_pay_methods", "pay_methods"
+  add_foreign_key "payment_pay_methods", "payments"
+  add_foreign_key "payment_shops", "payments"
+  add_foreign_key "payment_shops", "shops"
+  add_foreign_key "payments", "budgets"
+  add_foreign_key "shops", "users"
 end

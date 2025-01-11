@@ -1,17 +1,12 @@
 class BudgetsController < ApplicationController
 
-  def index
-    @money_file = MoneyFile.find(params[:money_file_id])
-    @budgets = @money_file.budgets.includes(:category, :payment_data)
-    @budgets_with_data = @budgets.map do |budget|
-      total_amount = budget.payment_data.sum(&:amount) # その予算の支出合計
-      remaining_amount = budget.amount - total_amount  # 残金計算
-      {
-        budget: budget,                # 予算データ
-        total_amount: total_amount,    # 支出合計
-        remaining_amount: remaining_amount # 残金
-      }
-    end
+  def show
+    @budget = Budget.find(params[:id])
+    @money_file = @budget.money_file
+    @category = @budget.categories.pluck(:name).first
+    @payments = @budget.payments
+    @total_amount = Budget.total_amount(@payments)
+    @status = Budget.status(@budget, @payments)
   end
 
   def new
@@ -29,6 +24,13 @@ class BudgetsController < ApplicationController
       render :new, status: :unprocessable_entity
       Rails.logger.info "Money File was not created."
     end
+  end
+
+  def destroy
+    @budget = Budget.find(params[:id])
+    @money_file = @budget.money_file
+    @budget.destroy # dependent: :destroy で関連データも削除
+    redirect_to money_file_path(@money_file), notice: "予算が削除されました"
   end
 
   private

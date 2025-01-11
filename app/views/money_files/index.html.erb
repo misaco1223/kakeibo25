@@ -8,7 +8,7 @@
     <!-- スペース入れたいだけ -->
   <div class="navbar">
     <%= link_to new_money_file_path, class: "btn btn-primary", data: { turbo: false } do %>家計簿を新規作成<% end %>
-    <%= link_to money_files_path, class: "btn" do %>支出データを新規作成<% end %>
+    <%= link_to "#", class: "btn" do %>ユーザー情報へ<% end %>
   </div>
 
   <br><br>
@@ -28,7 +28,11 @@
             <p><%= file.description %></p>
             <br>
             <div class="card-actions justify-end">
-            <%= link_to money_file_budgets_path(file.id), class: "btn btn-primary" do %>このファイルをCheck Now<% end %>
+            <%= link_to money_file_path(file), class: "btn btn-primary" do %>このファイルをCheck Now<% end %>
+            </div>
+            <div class="card-actions justify-end">
+              <%= link_to "#", class: "btn" do %>編集<% end %>
+              <%= link_to money_file_path(file), method: :delete, data: { turbo_method: :delete }, class: "btn btn-danger" do %>削除<% end %>
             </div>
         </div>
         </div>

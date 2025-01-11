@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  resources :money_files do
-    resources :budgets do
-      resources :payment_data, only: %i[index show new create]
-    end
+  resources :money_files, only: %i[index show new create destroy]
+  resources :budgets do
+    resources :payments, only: %i[index show new create destroy]
   end
   resources :categories, only: %i[index show]
   
