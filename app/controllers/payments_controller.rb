@@ -36,6 +36,6 @@ class PaymentsController < ApplicationController
   private
   
   def payment_data_params
-    params.require(:payment).permit(:date, :title, :description, :amount, shop_ids: [], pay_method_ids: [])
+    params.require(:payment).permit(:date, :title, :description, :amount, :shop_id, :pay_method_id)
   end
 end

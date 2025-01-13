@@ -9,8 +9,8 @@
               src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
               alt="Movie" />
           </figure>
-          <h2 class="card-title"><%= data[:category] %></h2>
-          <p>予算ID:<%= budget.id %></p>
+          <h2 class="card-title"><%= data[:category_name] %></h2>
+          <p><%= budget.description || " "%></p>
           <p>予算: <%= budget.amount %>円</p>
           <p>支出合計: <%= data[:total_amount] %>円</p>
           <p>残金: <%= data[:remaining_amount] %>円</p>

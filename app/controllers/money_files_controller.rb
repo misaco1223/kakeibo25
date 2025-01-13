@@ -2,21 +2,22 @@ class MoneyFilesController < ApplicationController
   before_action :require_login
   def index
     @money_files = current_user.money_files
+    @user = current_user
   end
 
   def show
     @money_file = MoneyFile.find(params[:id])
-    @budgets = @money_file.budgets
+    @budgets = @money_file.budgets.includes(:category) 
     @budgets_with_data = @budgets.map do |budget|
       payments = Payment.where(budget_id: budget.id)
       total_amount = payments.sum(&:amount) # その予算の支出合計
       remaining_amount = budget.amount - total_amount  # 残金計算
-      category = budget.categories.pluck(:name).first
+      category_name = budget.category&.name || "未設定"
       {
         budget: budget,                # 予算データ
         total_amount: total_amount,    # 支出合計
         remaining_amount: remaining_amount, # 残金
-        category: category
+        category_name: category_name # カテゴリー
       }
     end
   end

@@ -2,8 +2,8 @@ class BudgetsController < ApplicationController
   def show
     @budget = Budget.find(params[:id])
     @money_file = @budget.money_file
-    @category = @budget.categories.pluck(:name).first
-    @payments = @budget.payments
+    @category = @budget.category.name
+    @payments = @budget.payments.order(date: :asc)
     @total_amount = Budget.total_amount(@payments)
     @status = Budget.status(@budget, @payments)
   end
@@ -35,6 +35,6 @@ class BudgetsController < ApplicationController
   private
 
   def budget_params
-    params.require(:budget).permit(:amount, :description, :money_file_id, category_id: [])
+    params.require(:budget).permit(:amount, :description, :money_file_id, :category_id)
   end
 end
