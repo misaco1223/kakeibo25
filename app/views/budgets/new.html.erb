@@ -5,7 +5,8 @@
 </header>
 
 <div class="container mx-auto mt-10 p-6 bg-white shadow-md max-w-lg">
-  <%= form_with model: [@money_file, @budget], local: true, class: "space-y-4" do |form| %>
+  <%= form_with model: @budget, local: true, class: "space-y-4" do |form| %>
+    <%= form.hidden_field :money_file_id, value: @money_file.id %>
     <br>
     <!-- タイトル入力 -->
     <div>

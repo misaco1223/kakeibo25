@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
+  get "sessions/new"
+  get "sessions/create"
+  get "sessions/destroy"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
+  resources :sessions, only: %i[new create destroy]
   resources :money_files, only: %i[index show new create destroy]
   resources :budgets do
     resources :payments, only: %i[index show new create destroy]
@@ -18,4 +21,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   get "/" => "money_files#index"
   # root "posts#index"
+
+  get "login" => "sessions#new", as: :login
+  get "logout" => "sessions#destroy", as: :logout
 end

@@ -1,6 +1,7 @@
 class MoneyFilesController < ApplicationController
+  before_action :require_login
   def index
-    @files = MoneyFile.includes(:user)
+    @money_files = current_user.money_files
   end
 
   def show
@@ -25,7 +26,6 @@ class MoneyFilesController < ApplicationController
   end
 
   def create
-   current_user = User.find(2)
    @money_file = current_user.money_files.build(money_file_params)
     if @money_file.save
       redirect_to money_files_path, notice: "家計簿が作成されました。"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_10_113141) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_11_102443) do
   create_table "budget_categories", force: :cascade do |t|
     t.integer "budget_id", null: false
     t.integer "category_id", null: false
@@ -99,6 +99,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_10_113141) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "email", null: false
+    t.string "crypted_password"
+    t.string "salt"
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "budget_categories", "budgets"

@@ -12,8 +12,9 @@
   </div>
 
   <br><br>
+  <% if @money_files.present? %>
   <div class="carousel w-full max-w-full mb-10" style="display: flex;">
-    <% @files.each do |file| %>
+    <% @money_files.each do |file| %>
     <div class="carousel-item pr-4 text-left flex-shrink-0 w-80 xs:max-w-xs mx-auto">
         <div class="card bg-secondary w-96 flex shadow-xl mt-10 text-left" style="display: flex; text-left;">
         <div class="card-body">
@@ -39,6 +40,9 @@
     </div>
     <% end %>
   </div>
+  <% else %>
+    <p> 家計簿の登録がありません</p>
+  <% end %>
 
     <!-- スペース入れたいだけ -->
   <div class="navbar"></div>

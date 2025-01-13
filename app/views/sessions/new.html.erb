@@ -1,0 +1,22 @@
+<header class="mb-6">
+  <div class="navbar fixed top-0 left-0 w-full z-50">
+    <a class="btn btn-ghost text-xl gray-900" href="#">ログイン</a>
+  </div>
+</header>
+
+<div class="container mx-auto mt-10 p-6 bg-white shadow-md max-w-lg">
+<%= form_with url: sessions_path, local: true do |form| %>
+  <div>
+    <%= form.label :email %><br>
+    <%= form.text_field :email %>
+  </div>
+
+  <br>
+  <div>
+    <%= form.label :password %><br>
+    <%= form.password_field :password %>
+  </div>
+
+  <br><br>
+  <%= form.submit "ログイン", class:"btn btn-primary" %>
+<% end %>
