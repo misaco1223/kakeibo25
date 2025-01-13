@@ -17,7 +17,7 @@
           <p>ステータス: <%= data[:remaining_amount] > 0 ? "黒字" : "赤字" %></p>
           <%= link_to budget_path(budget), class: "btn btn-primary" do %>支出データをCheck Now<% end %>
           <br>
-          <%= link_to "#", class: "btn" do %>編集<% end %>
+          <%= link_to edit_budget_path(budget), class: "btn" do %>編集<% end %>
           <%= link_to budget_path(budget), method: :delete, data: { turbo_method: :delete }, class: "btn" do %>削除<% end %>
         </div>
       </div>

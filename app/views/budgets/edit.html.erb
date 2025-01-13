@@ -1,0 +1,42 @@
+<header class="mb-4 bg-neutral">
+  <div class="navbar">
+    <a class="btn btn-ghost text-xl gray-900" href="#">予算を編集</a>
+  </div>
+</header>
+
+<div class="container mx-auto mt-10 p-6 bg-white shadow-md max-w-lg">
+  <%= form_with model: @budget, local: true, class: "space-y-4" do |form| %>
+    <%= form.hidden_field :money_file_id, value: @money_file.id %>
+    <br>
+    <!-- タイトル入力 -->
+    <div>
+      <%= form.label :category_id, "カテゴリー :", class: "block text-xl text-gray-700" %><br>
+      <%= form.collection_select :category_id, Category.all, :id, :name, 
+      { prompt: "カテゴリーを選択してください" },
+      { class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" } %><br>
+      <br>
+      <a class="btn text-sm" href="#">新しいカテゴリーを作成する</a>
+    </div>
+
+    <br><br>
+    <!-- 説明入力 -->
+    <div>
+      <%= form.label :description, "詳細 (任意) :", class: "block font-medium text-xl text-gray-700" %><br>
+      <%= form.text_area :description, rows: 3, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+
+    <br><br>
+    <!-- 金額入力 -->
+    <div>
+      <%= form.label :amount, "予算金額 :", class: "block font-medium text-xl text-gray-700" %><br>
+      <%= form.number_field :amount, min: 0, step: 100, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+
+    <br><br>
+    <!-- 提出ボタン -->
+    <div class="text-center">
+      <%= form.submit "予算を作成", class: "btn btn-primary px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md" %>
+      <%= link_to "キャンセル", money_file_path(@money_file), class: "btn text-blue-600 hover:text-blue-800" %>
+    </div>
+  <% end %>
+</div>

@@ -37,6 +37,21 @@ class MoneyFilesController < ApplicationController
     end
   end
 
+  def edit
+    @money_file = MoneyFile.find(params[:id])
+  end
+
+  def update
+    @money_file = MoneyFile.find(params[:id])
+    if @money_file.update(money_file_params)
+      redirect_to money_files_path, notice: "家計簿が更新されました。"
+      Rails.logger.info "Money File was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
+      Rails.logger.info "Money File was not updated."
+    end
+  end
+
   def destroy
     @money_file = MoneyFile.find(params[:id])
     @money_file.destroy

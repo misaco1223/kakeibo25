@@ -24,7 +24,22 @@ class BudgetsController < ApplicationController
     end
   end
 
+  def edit
+    @budget = Budget.find(params[:id])
+    @money_file = @budget.money_file
+  end
 
+  def update
+    @budget = Budget.find(params[:id])
+    if @budget.update(budget_params)
+      redirect_to money_file_path(@budget.money_file), notice: "予算が正常に更新されました。"
+      Rails.logger.info "Money File was successfully updated."  
+    else
+      render :edit, status: :unprocessable_entity
+      Rails.logger.info "Money File was not updated."
+    end
+  end
+  
   def destroy
     @budget = Budget.find(params[:id])
     @money_file = @budget.money_file

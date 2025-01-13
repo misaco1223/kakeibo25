@@ -7,7 +7,7 @@ class PaymentsController < ApplicationController
 
   def create
     @budget = Budget.find_by(id: params[:budget_id])
-    @payment = @budget.payments.build(payment_data_params)
+    @payment = @budget.payments.build(payments_params)
     if @payment.save
       # shop_ids が存在する場合のみ関連付け
       shop_ids = params[:payment][:shop_ids]&.reject(&:blank?)
@@ -25,6 +25,23 @@ class PaymentsController < ApplicationController
     end
   end
 
+  def edit
+    @budget = Budget.find(params[:budget_id])
+    @payment = @budget.payments.find(params[:id])
+  end
+
+  def update
+    @payment = Payment.find(params[:id])
+    @budget = @payment.budget
+    if @payment.update(payments_params)
+      redirect_to budget_path(@budget), notice: "支出が正常に更新されました。"
+      Rails.logger.info "Money File was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
+      Rails.logger.info "Money File was not updated."
+    end
+  end
+
   def destroy
     @budget = Budget.find(params[:budget_id])
     @payment = @budget.payments.find(params[:id])
@@ -35,7 +52,7 @@ class PaymentsController < ApplicationController
 
   private
   
-  def payment_data_params
+  def payments_params
     params.require(:payment).permit(:date, :title, :description, :amount, :shop_id, :pay_method_id)
   end
 end
