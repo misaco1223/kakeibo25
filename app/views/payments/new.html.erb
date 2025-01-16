@@ -60,7 +60,7 @@
     <!-- 提出ボタン -->
     <div class="text-center">
       <%= form.submit "支払いデータを作成", class: "btn btn-primary px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md" %>
-      <%= link_to "キャンセル", "#", class: "btn text-blue-600 hover:text-blue-800" %>
+      <%= link_to "キャンセル", budget_path(@budget), class: "btn text-blue-600 hover:text-blue-800" %>
     </div>
   <% end %>
 </div>

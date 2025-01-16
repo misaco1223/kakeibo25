@@ -1,21 +1,87 @@
-<h1>カテゴリ一覧</h1>
+<header>
+  <div class="navbar fixed top-0 left-0 w-full z-50">
+    <a class="btn btn-ghost text-xl" href="/">カテゴリー</a>
+  </div>
+</header>
 
 <div class="overflow-x-auto">
-    <table class="table">
-      <!-- head -->
-      <thead>
-        <tr>
-          <th></th>
-          <th>カテゴリー名</th>
+  <table class="table">
+    <!-- head -->
+    <thead>
+    <tr>
+      <th>カテゴリー名</th>
+      <td></td>
+    </tr>
+    </thead>
+    <tbody>
+    <% @categories.each do |category| %>
+       <tr class="block">
+        <td id="category-name"><%= category.name %></td>
+        <td>
+          <%= link_to "編集", "#", 
+            class: "btn",
+            id: "edit-category-link" ,
+            data: { category_id: category.id, category_name: category.name } %>
+        </td>
+        <td>
+          <%= form_with url: category_path(category), method: :delete, local: true do |form| %>
+            <%= form.submit "削除", class: "btn" %>
+          <% end %>
+        </td>
         </tr>
-      </thead>
-      <tbody>
-        <% @categories.each do |category| %>
-          <tr class="bg-base-200">
-            <th><%= category.id%></th>
-            <td><%= category.name %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div id="edit-category-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 300px; margin: 20px auto;">
+  <%= form_with model: @category, url: "", local: true, class: "space-y-4" do |category_form| %>
+    <%= category_form.hidden_field :user_id, value: current_user.id %>
+    <div>
+      <%= category_form.label :name, "カテゴリー名", class: "block text-gray-700" %>
+      <%= category_form.text_field :name, id: "category-name-field", class: "w-full", style: "border: 1px solid #ccc;" %>
+    </div>
+    <br>
+    <div class="text-center mt-4">
+      <%= category_form.submit "カテゴリーを作成", class: "btn btn-primary px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md" %>
+      <%= link_to "キャンセル", categories_path, class:"btn" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  document.querySelectorAll('.btn#edit-category-link').forEach(function(button) {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+
+      // ボタンの data-* 属性からカテゴリ情報を取得
+      const categoryId = e.target.dataset.categoryId;
+      const categoryName = e.target.dataset.categoryName;
+
+      // フォーム要素とフィールドを取得
+      const form = document.getElementById('edit-category-form');
+      const nameField = document.getElementById('category-name-field');
+      const categoryEditForm = form.querySelector('form');
+
+      // フォームの名前フィールドにデータを設定
+      nameField.value = categoryName;
+
+      // フォームのアクションURLを更新
+      categoryEditForm.action = `/categories/${categoryId}`;
+
+      // 現在の行を取得し、その下にフォームを移動
+      const row = e.target.closest('tr');
+      row.after(form);
+
+      // フォームを表示
+      form.style.display = 'block';
+    });
+  });
+
+  // キャンセルボタンが押されたときの処理
+  document.querySelector('#edit-category-form .btn').addEventListener('click', function(e) {
+    e.preventDefault();
+    const form = document.getElementById('edit-category-form');
+    form.style.display = 'none';
+  });
+</script>

@@ -1,5 +1,8 @@
 class SessionsController < ApplicationController
   def new
+    if current_user
+      redirect_to root_path, notice: "既にログインしています。"
+    end
   end
 
   def create
@@ -16,6 +19,6 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
-    redirect_to root_path, notice: "ログアウトしました"
+    redirect_to login_path, notice: "ログアウトしました"
   end
 end

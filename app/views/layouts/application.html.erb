@@ -15,14 +15,21 @@
   </head>
 
   <body class="bg-secondary">
-    <header class="mb-6">
-      <div class="navbar fixed top-0 left-0 w-full z-50 bg-accent">
-          <div class="flex items-center space-x-4">
-          <!-- ロゴ -->
-          <a class="btn btn-ghost text-xl gray-900" href="/">予算を守る家計簿</a>
-          <!-- 記録して振り返り、思考を育てる（モバイル非表示） -->
-          <h2 class="text-sm px-4 leading-8 text-gray-900 whitespace-nowrap hidden sm:block">~なぜ私は決められた予算を忘れてしまうのか~</h2>
-          </div>
+    <header style="margin-bottom: 1.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; background-color: #38b2ac; padding: 0.5rem 1rem;">
+        <!-- Navbar Left -->
+        <div style="flex: 1;">
+          <a href="/" style="font-size: 1.25rem; color: #1a202c; text-decoration: none; font-weight: bold;">予算を守る家計簿</a>
+        </div>
+        <!-- Navbar Right -->
+        <div style="flex: 1; text-align: right;">
+          <% if current_user.present? %>
+            <p style="display: inline-block; margin-right: 1rem; font-size: 0.875rem; color: #2d3748;">
+              ログイン中のユーザー：<%= current_user.name %>
+            </p>
+            <%= link_to "ログアウト", logout_path, style: "display: inline-block; padding: 0.5rem 1rem; background-color: #4299e1; color: #fff; border-radius: 0.25rem; text-decoration: none;" %>
+           <% end %>
+        </div>
       </div>
     </header>
     <%= yield %>
