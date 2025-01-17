@@ -2,7 +2,7 @@ class BudgetsController < ApplicationController
   def show
     @budget = Budget.find(params[:id])
     @money_file = @budget.money_file
-    @category = current_user.categories
+    @category = @budget.category
     @payments = @budget.payments.order(date: :asc)
     @total_amount = Budget.total_amount(@payments)
     @status = Budget.status(@budget, @payments)

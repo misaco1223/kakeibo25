@@ -19,7 +19,7 @@
 
 <div class="navbar">
   <%= link_to new_budget_payment_path(@budget), class: "btn btn-primary" do %>支出データを新規作成<% end %>
-  <%= link_to money_file_path(@money_file), class: "btn" do %>この家計簿の予算一覧へ戻る<% end %>
+  <%= link_to money_file_path(@money_file, current_user), class: "btn" do %>この家計簿の予算一覧へ戻る<% end %>
 </div>
 
 <br>

@@ -8,31 +8,28 @@
     <!-- スペース入れたいだけ -->
   <div class="navbar">
     <%= link_to new_money_file_path, class: "btn btn-primary", data: { turbo: false } do %>家計簿を新規作成<% end %>
-    <%= link_to "#", class: "btn" do %>ユーザー情報へ<% end %>
+    <%= link_to user_path(@user), class: "btn" do %>ユーザー情報へ<% end %>
     <%= link_to "カテゴリーを表示", categories_path, class: "btn" %>
   </div>
 
   <br><br>
   <% if @money_files.present? %>
-  <div class="carousel w-full max-w-full mb-10" style="display: flex;">
+  <div class="carousel" style="display: flex; overflow-x: auto; gap: 16px; padding: 16px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; margin-bottom: 40px; max-width: 100%;">
     <% @money_files.each do |file| %>
-    <div class="carousel-item pr-4 text-left flex-shrink-0 w-80 xs:max-w-xs mx-auto">
-        <div class="card bg-secondary w-96 flex shadow-xl mt-10 text-left" style="display: flex; text-left;">
+    <div class="carousel-item" style="flex: 0 0 auto; width: 320px; text-align: left; scroll-snap-align: center; border-radius: 8px; border: 1px solid #ccc;">
+        <div class="card" style="display: flex; text-left; ">
         <div class="card-body">
             <figure class="text-left">
             <img
                 src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
                 alt="PiggyBank"
-                width="100" height="100"
             />
             </figure>
-            <h2 class="card-title"><%= file.title %></h2>
+            <h2 class="card-title" style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;"><%= file.title %></h2>
             <p><%= file.description %></p>
             <br>
-            <div class="card-actions justify-end">
-            <%= link_to money_file_path(file), class: "btn btn-primary" do %>このファイルをCheck Now<% end %>
-            </div>
-            <div class="card-actions justify-end">
+            <div class="card-actions" style="display: flex; margin-top: auto;">
+              <%= link_to money_file_path(file), class: "btn btn-primary" do %>このファイルをCheck Now<% end %>
               <%= link_to edit_money_file_path(file), class: "btn" do %>編集<% end %>
               <%= link_to money_file_path(file), method: :delete, data: { turbo_method: :delete }, class: "btn btn-danger" do %>削除<% end %>
             </div>
@@ -45,9 +42,7 @@
     <p> 家計簿の登録がありません</p>
   <% end %>
 
-    <!-- スペース入れたいだけ -->
-  <div class="navbar"></div>
-
+    <!-- 
   <button class="bg-gray-900 hover:bg-gray-800 text-white rounded px-4 py-2">黒字のみ表示</button>
-  <button class="btn">赤字のみ表示</button>
+  <button class="btn">赤字のみ表示</button -->
 </body>

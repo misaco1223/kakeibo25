@@ -1,15 +1,15 @@
-<div class="carousel w-full max-w-full mb-10" style="display: flex;">
+<div class="carousel" style="display: flex; overflow-x: auto; gap: 16px; padding: 16px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; margin-bottom: 40px; max-width: 100%;">
   <% @budgets_with_data.each do |data| %>
     <% budget = data[:budget] %>
-    <div class="carousel-item pr-4 text-left flex-shrink-0 w-80 xs:max-w-xs mx-auto">
-      <div class="card glass w-full max-w-xs mx-auto px-4 border border-gray-300 rounded-lg">
+    <div class="carousel-item" style="flex: 0 0 auto; width: 320px; text-align: left; scroll-snap-align: center; border-radius: 8px; border: 1px solid #ccc;">
+      <div class="card" style="display: flex; text-left;">
         <div class="card-body">
           <figure class="text-left">
             <img
               src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
               alt="Movie" />
           </figure>
-          <h2 class="card-title"><%= data[:category_name] %></h2>
+          <h2 class="card-title" style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;"><%= data[:category_name] %></h2>
           <p><%= budget.description || " "%></p>
           <p>予算: <%= budget.amount %>円</p>
           <p>支出合計: <%= data[:total_amount] %>円</p>
@@ -17,8 +17,10 @@
           <p>ステータス: <%= data[:remaining_amount] > 0 ? "黒字" : "赤字" %></p>
           <%= link_to budget_path(budget), class: "btn btn-primary" do %>支出データをCheck Now<% end %>
           <br>
-          <%= link_to edit_budget_path(budget), class: "btn" do %>編集<% end %>
-          <%= link_to budget_path(budget), method: :delete, data: { turbo_method: :delete }, class: "btn" do %>削除<% end %>
+          <div class="card-actions" style="display: flex; margin-top: auto;"class="card-actions" style="display: flex; margin-top: auto;">
+            <%= link_to edit_budget_path(budget), class: "btn" do %>編集<% end %>
+            <%= link_to budget_path(budget), method: :delete, data: { turbo_method: :delete }, class: "btn" do %>削除<% end %>
+          </div>
         </div>
       </div>
     </div>

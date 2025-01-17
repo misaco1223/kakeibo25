@@ -1,0 +1,63 @@
+<header class="mb-4 bg-neutral", style="margin: 10px auto; max-width: 32rem; width: 100%;">
+  <div class="navbar">
+    <a class="btn btn-ghost text-xl gray-900">ユーザー情報</a>
+  </div>
+  <div class="navbar">
+    <%= link_to "編集", "#", class: "btn",id: "edit-user-link" ,data: { user: @user} %>
+    <%= form_with model: @user, url: user_path(@user), method: :delete, local: true do |form| %>
+      <%= form.submit "アカウントを削除する", class: "btn btn-danger" %>
+    <% end %>
+  </div>
+</header>
+
+<div class="container bg-white shadow-md", style="margin: 10px auto; padding: 24px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 35rem; width: 100%;">
+  <div class="block">
+    <label>名前</label>
+    <h1><%= @user.name %></h1>
+    <br>
+    <label>メールアドレス</label>
+    <p><%= @user.email %></p>
+    <br>
+    <label>パスワード</label>
+    <p>******</p>
+  </div>
+  <br><br>
+  <div class="block">
+    <%= link_to money_files_path, class: "btn btn-primary" do %>家計簿一覧へ戻る<% end %>
+  </div>
+</div>
+
+
+<div id="edit-user-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 300px; margin: 20px auto;">
+  <%= form_with model: @user, local: true, class: "space-y-4" do |user_form| %>
+    <div>
+      <%= user_form.label :name, "名前", class: "block text-gray-700" %>
+      <br>
+      <%= user_form.text_field :name, class: "w-full", style: "border: 1px solid #ccc;" %>
+    </div>
+    <br>
+    <div>
+      <%= user_form.label :email, "メールアドレス", class: "block text-gray-700" %>
+      <%= user_form.text_field :email, class: "w-full", style: "border: 1px solid #ccc;" %>
+    </div>
+    <br>
+    <div>
+      <%= user_form.label :password, "パスワード", class: "block text-gray-700" %>
+      <%= user_form.password_field :password, class: "w-full", style: "border: 1px solid #ccc;" %>
+    </div>
+    <br>
+    <div class="text-center mt-4">
+      <%= user_form.submit "ユーザーを更新", class: "btn btn-primary px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md" %>
+      <%= link_to "キャンセル", user_path(@user), class:"btn" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  document.getElementById('edit-user-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    var form = document.getElementById('edit-user-form');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  });
+</script>
+

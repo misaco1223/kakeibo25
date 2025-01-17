@@ -1,22 +1,25 @@
-<header class="mb-6">
+<header class="mb-6", style="margin: 10px auto; max-width: 32rem; width: 100%;">
   <div class="navbar fixed top-0 left-0 w-full z-50">
     <a class="btn btn-ghost text-xl gray-900" href="#">ログイン</a>
   </div>
 </header>
 
-<div class="container mx-auto mt-10 p-6 bg-white shadow-md max-w-lg">
+<div class="container bg-white shadow-md", style="margin: 10px auto; padding: 24px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 35rem; width: 100%;">
 <%= form_with url: sessions_path, local: true do |form| %>
   <div>
     <%= form.label :email %><br>
-    <%= form.text_field :email %>
+    <%= form.text_field :email, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
   </div>
 
   <br>
   <div>
     <%= form.label :password %><br>
-    <%= form.password_field :password %>
+    <%= form.password_field :password, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;"%>
   </div>
 
   <br><br>
   <%= form.submit "ログイン", class:"btn btn-primary" %>
 <% end %>
+
+<br>
+<a class="btn" href= "<%= new_user_path %>">新規ユーザー登録</a>

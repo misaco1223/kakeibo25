@@ -2,9 +2,12 @@
   <div class="navbar fixed top-0 left-0 w-full z-50">
     <a class="btn btn-ghost text-xl" href="/">カテゴリー</a>
   </div>
+  <div class="block">
+    <%= link_to money_files_path, class: "btn" do %>家計簿一覧へ戻る<% end %>
+  </div>
 </header>
 
-<div class="overflow-x-auto">
+<div class="overflow-x-auto" style="margin-top: 10px;" >
   <table class="table">
     <!-- head -->
     <thead>
