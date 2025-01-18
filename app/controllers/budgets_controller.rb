@@ -1,14 +1,34 @@
 class BudgetsController < ApplicationController
+  before_action :require_login
   def show
     @budget = Budget.find(params[:id])
     @money_file = @budget.money_file
     @user = @money_file.user
-    session[:id] = @user.id
     @category = @budget.category
     @payments = @budget.payments.order(date: :asc)
     @total_amount = Budget.total_amount(@payments)
     @status = Budget.status(@budget, @payments)
     @remaining_amount = Budget.remaining_amount(@budget, @payments)
+
+    # 支払い方法と店舗を取得
+    @pay_methods = PayMethod.where(id: @payments.pluck(:pay_method_id)).distinct
+    @shops = Shop.where(id: @payments.pluck(:shop_id)).distinct
+
+    # フィルタリング
+    if params[:date_filter].present?
+      @payments = @payments.where(date: params[:date_filter])
+      @filtered_total_amount = Budget.total_amount(@payments)
+    end
+
+    if params[:pay_method_filter].present?
+      @payments = @payments.where(pay_method_id: params[:pay_method_filter])
+      @filtered_total_amount = Budget.total_amount(@payments)
+    end
+
+    if params[:shop_filter].present?
+      @payments = @payments.where(shop_id: params[:shop_filter])
+      @filtered_total_amount = Budget.total_amount(@payments)
+    end
   end
 
   def new
