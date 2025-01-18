@@ -7,6 +7,14 @@ class PayMethodsController < ApplicationController
     def new
       @pay_method = PayMethod.new
     end
+
+    def show
+      @pay_method = PayMethod.find(params[:id])
+      money_files = current_user.money_files
+      @budgets = Budget.where(money_file_id: money_files.ids)
+      @payments = Payment.where(budget_id: @budgets.ids, pay_method_id: @pay_method.id).order(date: :asc)
+      @total_amount = @payments.sum(&:amount)
+    end
       
     def create
       @pay_method = current_user.pay_methods.new(pay_method_params)

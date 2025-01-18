@@ -1,0 +1,53 @@
+<header class="mb-4 bg-neutral">
+  <div class="navbar">
+    <a href="#" class="btn btn-ghost text-xl"><%= @shop.name %>での支出一覧</a>
+    <%= link_to "店舗の一覧に戻る", shops_path, class: "btn" %>
+  </div>
+</header>
+
+<div class="block mx-auto max-w-md">
+  <div class="card bg-white shadow-lg rounded-lg p-6 border border-gray-300">
+    <div class="card-body" style= "background-color: white; width: 300px; margin: 20px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); border: 1px solid #ccc; border-radius: 8px; ">
+      <p style="font-family:'Palatino Linotype';">支出合計: <%= @total_amount %>円</h1>
+    </div>
+  </div>
+</div>
+
+<div class="overflow-x-auto">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>家計簿</th>
+        <th>カテゴリー</th>  <!-- <td> -> <th>に修正 -->
+        <th>日付</th>
+        <th>タイトル</th>
+        <th>詳細</th>
+        <th>金額</th>
+        <th>支払い方法</th>
+        <th>店舗名</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @payments.each do |payment| %>
+      <tr>
+        <td><%= payment.budget.money_file&.title %></td>
+        <td><%= payment.budget.category&.name %></td>
+        <td><%= payment.date.strftime('%Y-%m-%d') %></td>  <!-- <th> -> <td>に修正 -->
+        <td><%= payment.title %></td>  <!-- <th> -> <td>に修正 -->
+        <td><%= payment.description %></td>
+        <td><%= payment.amount %>円</td>
+        <td><%= payment.pay_method&.name || "" %></td>
+        <td><%= payment.shop&.name || "" %></td>
+        <td><%= link_to "この支出データが含まれる予算に移動", budget_path(payment.budget), class: "btn" %></td>
+      </tr>
+    <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="2">合計</td>
+        <th><%= @total_amount %>円</th>
+      </tr>
+    </tfoot>
+  </table>
+</div>

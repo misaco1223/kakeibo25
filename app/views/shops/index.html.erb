@@ -16,25 +16,27 @@
       <td>住所</td>
       <td>連絡先</td>
       <td></td>
+      <td></td>
     </tr>
     </thead>
     <tbody>
     <% @shops.each do |shop| %>
-       <tr class="block">
+      <tr class="block">
         <td><%= shop.name %></td>
         <td><%= shop.address %></td>
         <td><%= shop.tel %></td>
-        <td>
+        <td style="display: flex;">
           <%= link_to "編集","#",
             class: "btn edit-shop-link",
             data: { shop_id: shop.id, shop_name: shop.name, shop_address: shop.address, shop_tel: shop.tel } %>
-        </td>
-        <td>
           <%= form_with url: shop_path(shop), method: :delete, local: true do |form| %>
             <%= form.submit "削除", class: "btn" %>
           <% end %>
         </td>
-        </tr>
+        <td>
+          <%= link_to "この店舗での支払いをCheckNow", shop_path(shop), class: "btn btn-primary" %>
+        </td>
+      </tr>
     <% end %>
     </tbody>
   </table>

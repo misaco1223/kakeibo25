@@ -18,19 +18,20 @@
     </thead>
     <tbody>
     <% @pay_methods.each do |pay_method| %>
-       <tr class="block">
+       <tr class="block;">
         <td><%= pay_method.name %></td>
-        <td>
+        <td style="display: flex;">
           <%= link_to "編集","#",
             class: "btn edit-paymethod-link",
             data: { paymethod_id: pay_method.id, paymethod_name: pay_method.name } %>
-        </td>
-        <td>
           <%= form_with url: pay_method_path(pay_method), method: :delete, local: true do |form| %>
             <%= form.submit "削除", class: "btn" %>
           <% end %>
         </td>
-        </tr>
+        <td>
+          <%= link_to "この支払い方法での支払いをCheckNow", pay_method_path(pay_method), class: "btn btn-primary" %>
+        </td>
+      </tr>
     <% end %>
     </tbody>
   </table>

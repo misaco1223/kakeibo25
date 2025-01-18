@@ -1,7 +1,16 @@
 class ShopsController < ApplicationController
+    before_action :require_login
     def index
       @shops = Shop.where(user_id: current_user.id)
       @shop = current_user.shops.new
+    end
+
+    def show
+      @shop = Shop.find(params[:id])
+      money_files = current_user.money_files
+      @budgets = Budget.where(money_file_id: money_files.ids)
+      @payments = Payment.where(budget_id: @budgets.ids, shop_id: @shop.id).order(date: :asc)
+      @total_amount = @payments.sum(&:amount)
     end
   
     def new
