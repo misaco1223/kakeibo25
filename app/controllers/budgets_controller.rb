@@ -2,6 +2,8 @@ class BudgetsController < ApplicationController
   def show
     @budget = Budget.find(params[:id])
     @money_file = @budget.money_file
+    @user = @money_file.user
+    session[:id] = @user.id
     @category = @budget.category
     @payments = @budget.payments.order(date: :asc)
     @total_amount = Budget.total_amount(@payments)
@@ -18,11 +20,10 @@ class BudgetsController < ApplicationController
   def create
     @budget = Budget.new(budget_params)
     if @budget.save
-      redirect_to money_file_path(@budget.money_file), notice: "予算が正常に作成されました。"
+      redirect_to money_file_path(@budget.money_file), success: "予算が作成されました。"
       Rails.logger.info "Money File was successfully created."
     else
       render :new, status: :unprocessable_entity
-      Rails.logger.info "Money File was not created."
     end
   end
 
@@ -34,11 +35,9 @@ class BudgetsController < ApplicationController
   def update
     @budget = Budget.find(params[:id])
     if @budget.update(budget_params)
-      redirect_to money_file_path(@budget.money_file), notice: "予算が正常に更新されました。"
-      Rails.logger.info "Money File was successfully updated."  
+      redirect_to money_file_path(@budget.money_file), success: "予算が更新されました。"
     else
       render :edit, status: :unprocessable_entity
-      Rails.logger.info "Money File was not updated."
     end
   end
   
@@ -46,7 +45,7 @@ class BudgetsController < ApplicationController
     @budget = Budget.find(params[:id])
     @money_file = @budget.money_file
     @budget.destroy # dependent: :destroy で関連データも削除
-    redirect_to money_file_path(@money_file), notice: "予算が削除されました"
+    redirect_to money_file_path(@money_file), success: "予算が削除されました"
   end
 
   private

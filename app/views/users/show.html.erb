@@ -4,7 +4,7 @@
   </div>
   <div class="navbar">
     <%= link_to "編集", "#", class: "btn",id: "edit-user-link" ,data: { user: @user} %>
-    <%= form_with model: @user, url: user_path(@user), method: :delete, local: true do |form| %>
+    <%= form_with model: @user, method: :delete, local: true do |form| %>
       <%= form.submit "アカウントを削除する", class: "btn btn-danger" %>
     <% end %>
   </div>

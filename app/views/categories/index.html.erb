@@ -3,7 +3,7 @@
     <a class="btn btn-ghost text-xl" href="/">カテゴリー</a>
   </div>
   <div class="block">
-    <%= link_to money_files_path, class: "btn" do %>家計簿一覧へ戻る<% end %>
+    <%= link_to "", class: "btn", id:"new-category-link" do %>カテゴリーを新規作成<% end %>
   </div>
 </header>
 
@@ -37,6 +37,7 @@
   </table>
 </div>
 
+<!-- カテゴリーの編集フォーム -->
 <div id="edit-category-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 300px; margin: 20px auto;">
   <%= form_with model: @category, url: "", local: true, class: "space-y-4" do |category_form| %>
     <%= category_form.hidden_field :user_id, value: current_user.id %>
@@ -86,5 +87,34 @@
     e.preventDefault();
     const form = document.getElementById('edit-category-form');
     form.style.display = 'none';
+  });
+</script>
+
+<!-- 新しいカテゴリー作成フォーム -->
+<div id="new-category-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 300px; margin: 20px auto;">
+  <%= form_with model: Category.new, url: categories_path, local: true, class: "space-y-4" do |category_form| %>
+    <%= category_form.hidden_field :user_id, value: current_user.id %>
+    <div>
+      <%= category_form.label :name, "カテゴリー名", class: "block text-gray-700" %>
+      <%= category_form.text_field :name, class: "w-full", style: "border: 1px solid #ccc;" %>
+    </div>
+    <br>
+    <div class="text-center mt-4">
+      <%= category_form.submit "カテゴリーを作成", class: "btn btn-primary px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md" %>
+      <%= link_to "キャンセル", categories_path, class:"btn" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  document.getElementById('new-category-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    var form = document.getElementById('new-category-form');
+
+    // ボタンの親要素を取得し、その下にフォームを移動
+    const buttonContainer = document.getElementById('new-category-link');
+    buttonContainer.after(form);
+
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
   });
 </script>

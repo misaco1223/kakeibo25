@@ -1,0 +1,160 @@
+<header>
+  <div class="navbar fixed top-0 left-0 w-full z-50">
+    <a class="btn btn-ghost text-xl" href="/shops">店舗</a>
+  </div>
+  <div class="block">
+    <%= link_to "", id:"new-shop-link", class: "btn" do %>新しい店舗を登録する<% end %>
+  </div>
+</header>
+
+<div class="overflow-x-auto" style="margin-top: 10px;" >
+  <table class="table">
+    <!-- head -->
+    <thead>
+    <tr>
+      <th>店舗名</th>
+      <td>住所</td>
+      <td>連絡先</td>
+      <td></td>
+    </tr>
+    </thead>
+    <tbody>
+    <% @shops.each do |shop| %>
+       <tr class="block">
+        <td><%= shop.name %></td>
+        <td><%= shop.address %></td>
+        <td><%= shop.tel %></td>
+        <td>
+          <%= link_to "編集","#",
+            class: "btn edit-shop-link",
+            data: { shop_id: shop.id, shop_name: shop.name, shop_address: shop.address, shop_tel: shop.tel } %>
+        </td>
+        <td>
+          <%= form_with url: shop_path(shop), method: :delete, local: true do |form| %>
+            <%= form.submit "削除", class: "btn" %>
+          <% end %>
+        </td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<!-- Shopの編集フォーム -->
+<div id="edit-shop-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 600px; margin: 20px auto; flex-direction: column; gap: 20px;">
+  <%= form_with model: @shop, url: "#", method: :patch, local: true, class: "space-y-4", style: "display: flex; flex-direction: column;" do |shop_form| %>
+    <%= shop_form.hidden_field :user_id, value: current_user.id %>
+    <div style="display: flex; gap: 20px; justify-content: space-between;">
+      <!-- 店舗名 -->
+      <div style="flex: 1;">
+        <%= shop_form.label :name, "店舗名", class: "block text-gray-700" %>
+        <%= shop_form.text_field :name, class: "w-full", style: "border: 1px solid #ccc; width: 100%;",id:"shop-name" %>
+      </div>
+
+      <!-- 住所 -->
+      <div style="flex: 2;">
+        <%= shop_form.label :address, "住所", class: "block text-gray-700" %>
+        <%= shop_form.text_field :address, class: "w-full", style: "border: 1px solid #ccc; width: 100%;", id:"shop-address" %>
+      </div>
+      
+      <!-- 電話番号 -->
+      <div style="flex: 1;">
+        <%= shop_form.label :tel, "電話番号", class: "block text-gray-700" %>
+        <%= shop_form.text_field :tel, class: "w-full", style: "border: 1px solid #ccc; width: 100%;", id:"shop-tel" %>
+      </div>
+    </div>
+    <br>
+    <div class="text-center mt-4">
+      <%= shop_form.submit "お店を更新", class: "btn btn-primary px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md" %>
+      <%= link_to "キャンセル", shops_path, class:"btn cancel-btn" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  document.querySelectorAll('.edit-shop-link').forEach(function(button) {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+
+      // ボタンの data-* 属性からカテゴリ情報を取得
+      const shopId = e.target.dataset.shopId;
+      const shopName = e.target.dataset.shopName;
+      const shopAddress = e.target.dataset.shopAddress;
+      const shopTel = e.target.dataset.shopTel;
+
+      // フォーム要素とフィールドを取得
+      const form = document.getElementById('edit-shop-form');
+      const nameField = document.getElementById('shop-name');
+      const addressField = document.getElementById('shop-address');
+      const telField = document.getElementById('shop-tel');
+      const shopEditForm = form.querySelector('form');
+
+      // フォームの名前フィールドにデータを設定
+      nameField.value = shopName;
+      addressField.value = shopAddress || "";
+      telField.value = shopTel || "";
+
+      // フォームのアクションURLを更新
+      shopEditForm.action = `/shops/${shopId}`;
+
+      // 現在の行を取得し、その下にフォームを移動
+      const row = e.target.closest('tr');
+      row.after(form);
+
+      // フォームを表示
+      form.style.display = 'block';
+    });
+  });
+
+  // キャンセルボタンが押されたときの処理
+  document.querySelector('#edit-shop-form .cancel-btn').addEventListener('click', function(e) {
+    e.preventDefault();
+    const form = document.getElementById('edit-shop-form');
+    form.style.display = 'none';
+  });
+</script>
+
+
+<!-- 新しいShop作成フォーム -->
+<div id="new-shop-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 600px; margin: 20px auto; flex-direction: column; gap: 20px;">
+  <%= form_with model: @shop, local: true, style: "display: flex; flex-direction: column;" do |shop_form| %>
+    <%= shop_form.hidden_field :user_id, value: current_user.id %>
+     <div style="display: flex; gap: 20px; justify-content: space-between;">
+      <!-- 店舗名 -->
+      <div style="flex: 1;">
+        <%= shop_form.label :name, "店舗名", class: "block text-gray-700" %>
+        <%= shop_form.text_field :name, class: "w-full", style: "border: 1px solid #ccc; width: 100%;" %>
+      </div>
+
+      <!-- 住所 -->
+      <div style="flex: 2;">
+        <%= shop_form.label :address, "住所", class: "block text-gray-700" %>
+        <%= shop_form.text_field :address, class: "w-full", style: "border: 1px solid #ccc; width: 100%;" %>
+      </div>
+      
+      <!-- 電話番号 -->
+      <div style="flex: 1;">
+        <%= shop_form.label :tel, "電話番号", class: "block text-gray-700" %>
+        <%= shop_form.text_field :tel, class: "w-full", style: "border: 1px solid #ccc; width: 100%;" %>
+      </div>
+    </div>
+    <br>
+    <div class="text-center mt-4">
+      <%= shop_form.submit "店舗を作成", class: "btn btn-primary px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md" %>
+      <%= link_to "キャンセル", shops_path, class:"btn" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  document.getElementById('new-shop-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    var form = document.getElementById('new-shop-form');
+
+    // ボタンの親要素を取得し、その下にフォームを移動
+    const buttonContainer = document.getElementById('new-shop-link');
+    buttonContainer.after(form);
+
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  });
+</script>

@@ -29,11 +29,9 @@ class MoneyFilesController < ApplicationController
   def create
    @money_file = current_user.money_files.build(money_file_params)
     if @money_file.save
-      redirect_to money_files_path, notice: "家計簿が作成されました。"
-      Rails.logger.info "Money File was successfully created."
+      redirect_to money_files_path, success: "家計簿が作成されました。"
     else
       render :new, status: :unprocessable_entity
-      Rails.logger.info "Money File was not created."
     end
   end
 
@@ -44,18 +42,16 @@ class MoneyFilesController < ApplicationController
   def update
     @money_file = MoneyFile.find(params[:id])
     if @money_file.update(money_file_params)
-      redirect_to money_files_path, notice: "家計簿が更新されました。"
-      Rails.logger.info "Money File was successfully updated."
+      redirect_to money_files_path, success: "家計簿が更新されました。"
     else
       render :edit, status: :unprocessable_entity
-      Rails.logger.info "Money File was not updated."
     end
   end
 
   def destroy
     @money_file = MoneyFile.find(params[:id])
     @money_file.destroy
-    redirect_to money_files_path, notice: "家計簿を削除しました"
+    redirect_to money_files_path, success: "家計簿を削除しました"
   end
 
   private

@@ -7,12 +7,12 @@ class UsersController < ApplicationController
    @user = User.new(user_params)
    if @user.save
     session[:user_id] = @user.id  # ユーザーIDをセッションに保存
-    redirect_to money_files_path(@user), notice: "アカウントを作成しました"
+    redirect_to money_files_path(@user), success: "アカウントを作成しました"
    end
  end
 
  def show
-    @user = current_user
+    @user = User.find(params[:id])
  end
 
  def edit
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
  def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      redirect_to user_path(@user), notice: "アカウント情報を更新しました"
+      redirect_to user_path(@user), success: "アカウント情報を更新しました"
     end
  end
  def destroy

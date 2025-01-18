@@ -17,11 +17,9 @@ class PaymentsController < ApplicationController
       pay_method_ids = params[:payment][:pay_method_ids]&.reject(&:blank?)
       @payment.pay_methods << PayMethod.where(id: pay_method_ids) if pay_method_ids.present?
 
-      redirect_to budget_path(@budget), notice: "支出が正常に登録されました。"
-      Rails.logger.info "Money File was successfully created."
+      redirect_to budget_path(@budget), success: "支払いデータが正常に登録されました。"
     else
       render :new, status: :unprocessable_entity
-      Rails.logger.info "Money File was not created."
     end
   end
 
@@ -34,11 +32,9 @@ class PaymentsController < ApplicationController
     @payment = Payment.find(params[:id])
     @budget = @payment.budget
     if @payment.update(payments_params)
-      redirect_to budget_path(@budget), notice: "支出が正常に更新されました。"
-      Rails.logger.info "Money File was successfully updated."
+      redirect_to budget_path(@budget), success: "支出が正常に更新されました。"
     else
       render :edit, status: :unprocessable_entity
-      Rails.logger.info "Money File was not updated."
     end
   end
 

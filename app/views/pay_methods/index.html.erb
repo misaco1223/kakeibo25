@@ -1,0 +1,126 @@
+<header>
+  <div class="navbar fixed top-0 left-0 w-full z-50">
+    <a class="btn btn-ghost text-xl" href="/shops">支払い方法</a>
+  </div>
+  <div class="block">
+    <%= link_to "", id:"new-paymethod-link", class: "btn" do %>新しい支払い方法を登録する<% end %>
+  </div>
+</header>
+
+<div class="overflow-x-auto" style="margin-top: 10px;" >
+  <table class="table">
+    <!-- head -->
+    <thead>
+    <tr>
+      <th>支払い方法</th>
+      <td></td>
+    </tr>
+    </thead>
+    <tbody>
+    <% @pay_methods.each do |pay_method| %>
+       <tr class="block">
+        <td><%= pay_method.name %></td>
+        <td>
+          <%= link_to "編集","#",
+            class: "btn edit-paymethod-link",
+            data: { paymethod_id: pay_method.id, paymethod_name: pay_method.name } %>
+        </td>
+        <td>
+          <%= form_with url: pay_method_path(pay_method), method: :delete, local: true do |form| %>
+            <%= form.submit "削除", class: "btn" %>
+          <% end %>
+        </td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<!-- Shopの編集フォーム -->
+<div id="edit-paymethod-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 600px; margin: 20px auto; flex-direction: column; gap: 20px;">
+  <%= form_with model: @pay_method, url: "#", method: :patch, local: true, class: "space-y-4", style: "display: flex; flex-direction: column;" do |paymethod_form| %>
+    <%= paymethod_form.hidden_field :user_id, value: current_user.id %>
+    <div style="display: flex; gap: 20px; justify-content: space-between;">
+      <!-- 店舗名 -->
+      <div style="flex: 1;">
+        <%= paymethod_form.label :name, "店舗名", class: "block text-gray-700" %>
+        <%= paymethod_form.text_field :name, class: "w-full", style: "border: 1px solid #ccc; width: 100%;",id:"paymethod-name" %>
+      </div>
+    </div>
+    <br>
+    <div class="text-center mt-4">
+      <%= paymethod_form.submit "支払い方法を更新", class: "btn btn-primary px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md" %>
+      <%= link_to "キャンセル", pay_methods_path, class:"btn cancel-btn" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  document.querySelectorAll('.edit-paymethod-link').forEach(function(button) {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+
+      // ボタンの data-* 属性からカテゴリ情報を取得
+      const paymethodId = e.target.dataset.paymethodId;
+      const paymethodName = e.target.dataset.paymethodName;
+
+      // フォーム要素とフィールドを取得
+      const form = document.getElementById('edit-paymethod-form');
+      const nameField = document.getElementById('paymethod-name');
+      const paymethodEditForm = form.querySelector('form');
+
+      // フォームの名前フィールドにデータを設定
+      nameField.value = paymethodName;
+
+      // フォームのアクションURLを更新
+      paymethodEditForm.action = `/pay_methods/${paymethodId}`;
+
+      // 現在の行を取得し、その下にフォームを移動
+      const row = e.target.closest('tr');
+      row.after(form);
+
+      // フォームを表示
+      form.style.display = 'block';
+    });
+  });
+
+  // キャンセルボタンが押されたときの処理
+  document.querySelector('#edit-paymethod-form .cancel-btn').addEventListener('click', function(e) {
+    e.preventDefault();
+    const form = document.getElementById('edit-paymethod-form');
+    form.style.display = 'none';
+  });
+</script>
+
+
+<!-- 新しいShop作成フォーム -->
+<div id="new-paymethod-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 600px; margin: 20px auto; flex-direction: column; gap: 20px;">
+  <%= form_with model: @pay_method, local: true, style: "display: flex; flex-direction: column;" do |paymethod_form| %>
+    <%= paymethod_form.hidden_field :user_id, value: current_user.id %>
+     <div style="display: flex; gap: 20px; justify-content: space-between;">
+      <!-- 店舗名 -->
+      <div style="flex: 1;">
+        <%= paymethod_form.label :name, "支払い方法名", class: "block text-gray-700" %>
+        <%= paymethod_form.text_field :name, class: "w-full", style: "border: 1px solid #ccc; width: 100%;" %>
+      </div>
+    </div>
+    <br>
+    <div class="text-center mt-4">
+      <%= paymethod_form.submit "支払い方法を作成", class: "btn btn-primary px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md" %>
+      <%= link_to "キャンセル", pay_methods_path, class:"btn" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  document.getElementById('new-paymethod-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    var form = document.getElementById('new-paymethod-form');
+
+    // ボタンの親要素を取得し、その下にフォームを移動
+    const buttonContainer = document.getElementById('new-paymethod-link');
+    buttonContainer.after(form);
+
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  });
+</script>
