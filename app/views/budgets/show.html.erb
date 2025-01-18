@@ -1,18 +1,24 @@
 <header class="mb-4 bg-neutral">
   <div class="navbar">
     <a href="#" class="btn btn-ghost text-xl">出金一覧</a>
-    <p class="block">支払いデータを管理する</p>
+    <p class="block">カテゴリー名: <%= @budget.category.name%></p>
   </div>
 </header>
 
 <div class="block mx-auto max-w-md">
   <div class="card bg-white shadow-lg rounded-lg p-6 border border-gray-300">
     <div class="card-body">
-      <h1 class="text-xl font-bold text-green-600"><%= @budget.category.name%></h1>
-      <p class="text-gray-700 mb-2">内容: <%= @budget.description %></p>
-      <p class="text-gray-800 font-semibold mb-2">予算は<%=@budget.amount %>円</p>
-      <p class="text-gray-800 font-semibold mb-2">支出金額は<%= @total_amount %>円</h1>
-      <h1 class="text-xl font-bold text-green-600"><%=@remaining_amount%>円の <%=@status%>です</h1>
+      <p class="text-gray-800 font-semibold mb-2">設定予算: <%=@budget.amount %>円</p>
+      <p class="text-gray-800 font-semibold mb-2">支出合計: <%= @total_amount %>円</h1>
+      <br>
+      ------------------
+      <div style="font-weight: bold; text-size:large;">
+        <% if @remaining_amount > 0 %>
+          <p style="color: black"><%= @remaining_amount %>円の <%= @status %>です</p>
+        <% else %>
+          <p style="color: red"><%= -@remaining_amount %>円の <%= @status %>です</p>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

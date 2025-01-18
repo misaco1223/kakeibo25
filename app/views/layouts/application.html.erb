@@ -15,7 +15,7 @@
   </head>
 
   <body class="bg-secondary">
-    <header style="margin-bottom: 1.5rem;">
+    <header>
       <div style="display: flex; justify-content: space-between; align-items: center; background-color: #38b2ac; padding: 0.5rem 1rem;">
         <!-- Navbar Left -->
         <div style="flex: 1;">
@@ -95,6 +95,7 @@
         </div>
       </div>
     </header>
+    <%= debug breadcrumbs %>
     <% if flash.present? %>
       <% flash.each do |message_type, message| %>
         <% if message_type.to_sym == :success %>

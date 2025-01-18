@@ -11,16 +11,24 @@
           </figure>
           <h2 class="card-title" style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;"><%= data[:category_name] %></h2>
           <p><%= budget.description || " "%></p>
-          <p>予算: <%= budget.amount %>円</p>
-          <p>支出合計: <%= data[:total_amount] %>円</p>
-          <p>残金: <%= data[:remaining_amount] %>円</p>
-          <p>ステータス: <%= data[:remaining_amount] > 0 ? "黒字" : "赤字" %></p>
-          <%= link_to budget_path(budget), class: "btn btn-primary" do %>支出データをCheck Now<% end %>
-          <br>
           <div class="card-actions" style="display: flex; margin-top: auto;"class="card-actions" style="display: flex; margin-top: auto;">
             <%= link_to edit_budget_path(budget), class: "btn" do %>編集<% end %>
             <%= link_to budget_path(budget), method: :delete, data: { turbo_method: :delete }, class: "btn" do %>削除<% end %>
           </div>
+          <br>
+          <div style="font-family:'Palatino Linotype';" >
+            <p>予算: <%= budget.amount %>円</p>
+            <p>支出合計: <%= data[:total_amount] %>円</p>
+            ------------------
+            <div style="font-weight: bold; text-size:large; font-family:'Palatino Linotype';">
+              <% if data[:remaining_amount] > 0 %>
+                <p style="color: black">あと<%= data[:remaining_amount] %>円残っています</p>
+              <% else %>
+                <p style="color: red"><%= - data[:remaining_amount] %>円の赤字です</p>
+              <% end %>
+            </div>
+          </div>
+          <%= link_to budget_path(budget), class: "btn btn-primary" do %>支出データをCheck Now<% end %>
         </div>
       </div>
     </div>
