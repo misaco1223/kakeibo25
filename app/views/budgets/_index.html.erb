@@ -5,9 +5,7 @@
       <div class="card" style="display: flex; text-left;">
         <div class="card-body">
           <figure class="text-left">
-            <img
-              src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-              alt="Movie" />
+            <%= image_tag budget.budget_image_url, class: "card-img-top", width: "300", height:"200" %>
           </figure>
           <h2 class="card-title" style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;"><%= data[:category_name] %></h2>
           <p><%= budget.description || " "%></p>

@@ -95,7 +95,6 @@
         </div>
       </div>
     </header>
-    <%= debug breadcrumbs %>
     <% if flash.present? %>
       <% flash.each do |message_type, message| %>
         <% if message_type.to_sym == :success %>
@@ -105,6 +104,7 @@
         <% end %>
       <% end %>
     <% end %>
+    <%= debug breadcrumbs %>
     <%= yield %>
   </body>
 </html>

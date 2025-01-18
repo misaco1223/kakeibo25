@@ -21,6 +21,14 @@
         <%= form.text_area :description, rows: 3, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
       </div>
 
+      <br><br>
+      <!-- 画像入力 -->
+      <div>
+        <%= form.label :money_file_image, "画像:", class: "block text-xl text-gray-700" %><br>
+        <%= form.file_field :money_file_image, class: "form-control mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500", accept: 'image/*' %>
+        <%= form.hidden_field :money_file_image_cache %>
+      </div>
+
       <!-- 提出ボタン -->
       <br><br>
       <div class="text-center">

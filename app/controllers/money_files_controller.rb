@@ -41,6 +41,12 @@ class MoneyFilesController < ApplicationController
 
   def update
     @money_file = MoneyFile.find(params[:id])
+
+    # 画像削除チェックボックスの処理
+    if params[:money_file][:remove_money_file_image] == "1"
+      @money_file.remove_money_file_image!
+    end
+
     if @money_file.update(money_file_params)
       redirect_to money_files_path, success: "家計簿が更新されました。"
     else
@@ -57,6 +63,6 @@ class MoneyFilesController < ApplicationController
   private
 
   def money_file_params
-    params.require(:money_file).permit(:title, :description)
+    params.require(:money_file).permit(:title, :description, :money_file_image, :money_file_cache, :remove_money_file_image)
   end
 end

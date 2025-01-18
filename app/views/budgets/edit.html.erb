@@ -8,7 +8,7 @@
   <%= form_with model: @budget, local: true, class: "space-y-4" do |form| %>
     <%= form.hidden_field :money_file_id, value: @money_file.id %>
     <br>
-    <!-- タイトル入力 -->
+    <!-- カテゴリー入力 -->
     <div>
       <%= form.label :category_id, "カテゴリー :", class: "block text-xl text-gray-700" %><br>
       <%= form.collection_select :category_id, Category.all, :id, :name, 
@@ -17,6 +17,23 @@
       <br>
       <a class="btn text-sm" href="#", id="new-category-link">新しいカテゴリーを作成する</a>
     </div>
+
+    <br><br>
+    <!-- 画像入力 -->
+    <div class="mb-3">
+      <%= form.label :budget_image, "画像:", class: "block text-xl text-gray-700" %>
+      <br>
+        <% if @budget.budget_image.present? %>
+          <!-- 現在登録されている画像を表示 -->
+          <%= image_tag @budget.budget_image_url, class: "card-img-top", width: "150", height: "100" %>
+          <!-- 画像削除用のチェックボックス -->
+          <%= form.label :remove_budget_image, "現在の画像を削除する", class: "block text-red-500 mt-2" %>
+          <%= form.check_box :remove_budget_image, class: "form-checkbox h-5 w-5 text-red-600" %>
+        <% end %>
+      <br><br>
+      <%= form.file_field :budget_image, class: "form-control mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500", accept: 'image/*' %>
+      <%= form.hidden_field :budget_image_cache %>
+   </div>
 
     <br><br>
     <!-- 説明入力 -->

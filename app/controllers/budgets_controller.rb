@@ -54,6 +54,12 @@ class BudgetsController < ApplicationController
 
   def update
     @budget = Budget.find(params[:id])
+
+    # 画像削除チェックボックスの処理
+    if params[:budget][:remove_budget_image] == "1"
+      @budget.remove_budget_image!
+    end
+
     if @budget.update(budget_params)
       redirect_to money_file_path(@budget.money_file), success: "予算が更新されました。"
     else
@@ -71,6 +77,6 @@ class BudgetsController < ApplicationController
   private
 
   def budget_params
-    params.require(:budget).permit(:amount, :description, :money_file_id, :category_id)
+    params.require(:budget).permit(:amount, :description, :money_file_id, :category_id, :budget_image, :budet_image_cache, :remove_budget_image)
   end
 end

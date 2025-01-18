@@ -1,4 +1,6 @@
 class Budget < ApplicationRecord
+  mount_uploader :budget_image, BudgetImageUploader
+  attr_accessor :remove_budget_image
   belongs_to :money_file
   has_many :payments, dependent: :destroy
   belongs_to :category, optional: true

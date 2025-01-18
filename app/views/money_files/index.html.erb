@@ -18,10 +18,7 @@
         <div class="card" style="display: flex; text-left; ">
         <div class="card-body">
             <figure class="text-left">
-            <img
-                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                alt="PiggyBank"
-            />
+              <%= image_tag file.money_file_image_url, class: "card-img-top", width: "300", height:"200" %>
             </figure>
             <h2 class="card-title" style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;"><%= file.title %></h2>
             <p><%= file.description %></p>
