@@ -8,10 +8,29 @@ class CategoriesController < ApplicationController
 
   def show
     @category = Category.find(params[:id])
-    money_files = current_user.money_files
-    @budgets = Budget.where(money_file_id: money_files.ids, category_id: @category.id)
+    @budgets = Budget.where(category_id: @category.id)
     @payments = Payment.where(budget_id: @budgets.ids).order(date: :asc)
     @total_amount = @payments.sum(&:amount)
+
+    # 支払い方法と店舗を取得
+    @pay_methods = PayMethod.where(id: @payments.pluck(:pay_method_id)).distinct
+    @shops = Shop.where(id: @payments.pluck(:shop_id)).distinct
+
+    # フィルタリング
+    if params[:date_filter].present?
+      @payments = @payments.where(date: params[:date_filter])
+      @filtered_total_amount = Budget.total_amount(@payments)
+    end
+
+    if params[:pay_method_filter].present?
+      @payments = @payments.where(pay_method_id: params[:pay_method_filter])
+      @filtered_total_amount = Budget.total_amount(@payments)
+    end
+
+    if params[:shop_filter].present?
+      @payments = @payments.where(shop_id: params[:shop_filter])
+      @filtered_total_amount = Budget.total_amount(@payments)
+    end
   end
 
   def new

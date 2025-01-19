@@ -1,7 +1,7 @@
 <header class="mb-4 bg-neutral">
   <div class="navbar">
     <a href="#" class="btn btn-ghost text-xl"><%= @pay_method.name %>での支出一覧</a>
-    <%= link_to "支払い方法の一覧に戻る", pay_methods_path, class: "btn" %>
+    <%= link_to "支払い方法の一覧に戻る", pay_methods_path, class: "btn", style:"margin-left:8px;" %>
   </div>
 </header>
 
@@ -14,7 +14,7 @@
 </div>
 
 <div class="overflow-x-auto">
-  <table class="table">
+  <table class="table", style="margin:10px;">
     <thead>
       <tr>
         <th>家計簿</th>
@@ -23,29 +23,29 @@
         <th>タイトル</th>
         <th>詳細</th>
         <th>金額</th>
-        <th>支払い方法</th>
         <th>店舗名</th>
-        <th></th>
       </tr>
     </thead>
     <tbody>
     <% @payments.each do |payment| %>
       <tr>
-        <td><%= payment.budget.money_file&.title %></td>
+        <td><%= link_to payment.budget.money_file&.title, money_file_path(payment.budget.money_file), class:"btn btn-ghost", style:"border: 1px solid #FFCC66;" %></td>
         <td><%= payment.budget.category&.name %></td>
         <td><%= payment.date.strftime('%Y-%m-%d') %></td>  <!-- <th> -> <td>に修正 -->
-        <td><%= payment.title %></td>  <!-- <th> -> <td>に修正 -->
+        <td><%= link_to payment.title, budget_path(payment.budget),class: "btn btn-ghost", style:"border: 1px solid #C0C0C0;" %></td>  <!-- <th> -> <td>に修正 -->
         <td><%= payment.description %></td>
         <td><%= payment.amount %>円</td>
-        <td><%= payment.pay_method&.name || "" %></td>
         <td><%= payment.shop&.name || "" %></td>
-        <td><%= link_to "この支出データが含まれる予算に移動", budget_path(payment.budget), class: "btn", style:"background-color:#FFCC66;" %></td>
       </tr>
     <% end %>
     </tbody>
     <tfoot>
       <tr>
-        <td colspan="2">合計</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td style="text-align:right">合計</td>
         <th><%= @total_amount %>円</th>
       </tr>
     </tfoot>

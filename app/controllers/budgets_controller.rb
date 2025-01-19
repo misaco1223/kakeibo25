@@ -50,6 +50,7 @@ class BudgetsController < ApplicationController
   def edit
     @budget = Budget.find(params[:id])
     @money_file = @budget.money_file
+    @categories = current_user.categories
   end
 
   def update

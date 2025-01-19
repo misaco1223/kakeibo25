@@ -10,7 +10,7 @@
     <!-- 店舗名入力 -->
     <div>
       <%= form.label :shop_id, "店舗名 :", class: "block text-xl text-gray-700" %><br>
-      <%= form.collection_select :shop_id, Shop.all, :id, :name, 
+      <%= form.collection_select :shop_id, @shops, :id, :name, 
       { prompt: "カテゴリーを選択してください" },
       { style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" } %> <a class="btn text-sm" href="#" id="new-shop-link">新しい店舗を登録する</a>
     </div>
@@ -19,7 +19,7 @@
     <!-- 支払い方法入力 -->
     <div>
       <%= form.label :pay_method_id, "支払い方法 :", class: "block text-xl text-gray-700" %><br>
-      <%= form.collection_select :pay_method_id, PayMethod.all, :id, :name, 
+      <%= form.collection_select :pay_method_id, @pay_methods, :id, :name, 
         { prompt: "支払い方法を選択してください" },
         { style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" } %> <a class="btn text-sm" href="#" id="new-paymethod-link">新しい支払い方法を登録する</a>
     </div>

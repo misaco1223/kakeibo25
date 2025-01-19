@@ -1,5 +1,5 @@
 <div class="overflow-x-auto">
-  <table class="table">
+  <table class="table", style="margin:10px;">
     <thead>
       <tr>
         <th>日付</th>
@@ -20,8 +20,8 @@
           <td><%= payment.amount %>円</td>
           <td><%= payment.pay_method&.name || "" %></td>
           <td><%= payment.shop&.name || "" %></td>
-          <td><%= link_to edit_budget_payment_path(@budget, payment), class: "btn", style:"background-color:#FFCC66;" do %>編集<% end %></td>
-          <td>
+          <td style="display:flex;">
+            <%= link_to edit_budget_payment_path(@budget, payment), class: "btn", style:"background-color:#FFCC66;" do %>編集<% end %>
             <%= form_with url: budget_payment_path(@budget, payment), method: :delete, local: true do %>
               <%= submit_tag "削除", class: "btn btn-danger" %>
             <% end %>
@@ -32,21 +32,17 @@
     <tfoot>
       <% if params[:date_filter].blank? && params[:pay_method_filter].blank? && params[:shop_filter].blank? %>
         <tr>
-          <td colspan="2">合計</td>
-          <th><%= @total_amount %>円</th>
-        </tr>
-        <tr>
-          <td colspan="2">予算</td>
-          <th><%= @budget.amount %>円</th>
-        </tr>
-        <tr>
-          <td colspan="2">残り予算</td>
-          <th><%= @remaining_amount %>円</th>
+          <td></td>
+          <td></td>
+          <td style="text-align:right">合計</td>
+          <td><%= @total_amount %>円</td>
         </tr>
       <% else %>
         <tr>
-          <td colspan="2">合計</td>
-          <th><%= @filtered_total_amount %>円</th>
+          <td></td>
+          <td></td>
+          <td style="text-align:right">合計</td>
+          <td><%= @filtered_total_amount %>円</td>
         </tr>
       <% end %>
     </tfoot>

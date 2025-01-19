@@ -28,6 +28,20 @@
     </div>
 
     <br><br>
+    <!-- パスワード確認入力 -->
+    <div>
+      <%= form.label :password_confirmation, "パスワード確認: ", class: "block font-medium text-xl text-gray-700" %><br>
+      <%= form.password_field :password_confirmation, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;"  %>
+    </div>
+
+    <br><br>
+    <!-- 利用規約に同意する -->
+    <div>
+      <%= form.check_box :agree_to_terms, class: "form-checkbox", style: "margin-right: 10px;" %>
+      <%= form.label :agree_to_terms, "利用規約に同意する", class: "text-xl text-gray-700" %>
+    </div>
+
+    <br><br>
     <!-- 提出ボタン -->
     <div class="text-center">
       <%= form.submit "新規ユーザーを作成", class: "btn", style:"background-color:#FFCC66;" %>

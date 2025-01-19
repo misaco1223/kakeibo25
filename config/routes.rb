@@ -29,4 +29,9 @@ Rails.application.routes.draw do
   get "logout" => "sessions#destroy", as: :logout
 
   post 'guest_login', to: 'sessions#guest_login', as: :guest_login
+
+  get "/tutorial" => "statistic_pages#tutorial", as: :tutorial
+  get "/service_terms" => "statistic_pages#service_terms", as: :service_terms
+  get "/privacy_policy" => "statistic_pages#privacy_policy", as: :privacy_policy
+  get "/contacts" => "statistic_pages#contacts", as: :contacts
 end

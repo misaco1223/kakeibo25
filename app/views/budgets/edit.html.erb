@@ -11,7 +11,7 @@
     <!-- カテゴリー入力 -->
     <div>
       <%= form.label :category_id, "カテゴリー :", class: "block text-xl text-gray-700" %><br>
-      <%= form.collection_select :category_id, Category.all, :id, :name, 
+      <%= form.collection_select :category_id, @categories, :id, :name, 
       { prompt: "カテゴリーを選択してください" },
       {  style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;"  } %><br>
       <br>
@@ -39,7 +39,7 @@
     <!-- 説明入力 -->
     <div>
       <%= form.label :description, "詳細 (任意) :", class: "block font-medium text-xl text-gray-700" %><br>
-      <%= form.text_area :description, rows: 3,  style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
+      <%= form.text_area :description, rows: 3,  style: "margin: 4px; padding: 10px 100px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
 
     <br><br>

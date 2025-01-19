@@ -2,35 +2,31 @@
   <div class="navbar fixed top-0 left-0 w-full z-50">
     <a class="btn btn-ghost text-xl" href="/shops">支払い方法</a>
   </div>
-  <div class="block">
-    <%= link_to "", id:"new-paymethod-link", class: "btn", style:"background-color:#FFCC66;" do %>新しい支払い方法を登録する<% end %>
+
+  <div class="navbar", style="margin-left: 8px;">
+    <%= link_to "", id:"new-paymethod-link", class: "btn btn-ghost", style:"border: 2px solid #FFCC66;" do %>新しい支払い方法を登録する<% end %>
   </div>
-</header>
 
 <div class="overflow-x-auto" style="margin-top: 10px;" >
-  <table class="table">
+  <table class="table", style="margin:10px; max-width:800px; width:100%;">
     <!-- head -->
     <thead>
     <tr>
       <th>支払い方法</th>
-      <th></th>
       <th></th>
     </tr>
     </thead>
     <tbody>
     <% @pay_methods.each do |pay_method| %>
        <tr class="block;">
-        <td><%= pay_method.name %></td>
+        <td><%= link_to pay_method.name, pay_method_path(pay_method), style:"text-decoration: underline;" %></td>
         <td style="display: flex;">
           <%= link_to "編集","#",
-            class: "btn edit-paymethod-link",
+            class: "btn btn-ghost", style:"border: 1px solid #C0C0C0;",
             data: { paymethod_id: pay_method.id, paymethod_name: pay_method.name } %>
           <%= form_with url: pay_method_path(pay_method), method: :delete, local: true do |form| %>
-            <%= form.submit "削除", class: "btn" %>
+            <%= form.submit "削除", class: "btn btn-ghost", style:"border: 1px solid #C0C0C0;" %>
           <% end %>
-        </td>
-        <td>
-          <%= link_to "この支払い方法での支払いをCheckNow", pay_method_path(pay_method), class: "btn", style:"background-color:#FFCC66;" %>
         </td>
       </tr>
     <% end %>

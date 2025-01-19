@@ -14,7 +14,8 @@
     <!-- %= javascript_importmap_tags % -->
   </head>
 
-  <body class="bg-secondary">
+  <body style="margin: 0; display: flex; flex-direction: column; min-height: 100vh; background-color:#FFFFEE;">
+    <div style="flex: 1; display: flex; flex-direction: column;">
     <header>
       <div style="display: flex; justify-content: space-between; align-items: center; background-image: url(<%= asset_path('header_image') %>); background-size:cover; background-position:center; padding: 0.5rem 1rem;">
         <!-- Navbar Left -->
@@ -76,8 +77,6 @@
                 z-index: 1000;
               ">
               <% if current_user %>
-                <li style="padding: 8px;"><a href="beginer" style="text-decoration: none; color: #333;">はじめての方へ</a></li>
-                -------
                 <li style="padding: 8px;"><a href="<%= money_files_path(current_user) %>" style="text-decoration: none; color: #333;">ホーム</a></li>
                 -------
                 <li style="padding: 8px;"><a href="<%= categories_path %>" style="text-decoration: none; color: #333;">カテゴリー</a></li>
@@ -87,30 +86,45 @@
                 <li style="padding: 8px;">
                   <a href="<%= user_path(current_user) %>" style="text-decoration: none; color: #333;">ユーザー情報</a>
                 </li>
-                -------
-                <li style="padding: 8px;"><a href="#" style="text-decoration: none; color: #333;">About</a></li>
+                <li style="padding: 8px;"><a href="/tutorial" style="text-decoration: none; color: #333;">操作ガイド</a></li>
               <% else %>
                 <li style="padding: 8px;">
                   <a href="<%= login_path %>" style="text-decoration: none; color: #333;">ログイン</a>
                 </li>
-                <li style="padding: 8px;"><a href="#" style="text-decoration: none; color: #333;">About</a></li>
+                -------
+                <li style="padding: 8px;"><a href="/tutorial" style="text-decoration: none; color: #333;">操作ガイド/a></li>
+                <li style="padding: 8px;">
+                  <a href="<%= new_user_path %>" style="text-decoration: none; color: #333;">ユーザー登録</a>
+                </li>
               <% end %>
             </ul>
           </div>
         </div>
       </div>
     </header>
-    <% if flash.present? %>
-      <% flash.each do |message_type, message| %>
-        <% if message_type.to_sym == :success %>
-          <div class="navbar", style= "background-color: lightgreen;" ><%= message %></div>
-        <% else %>
-          <div class="navbar" style= "background-color: pink;" ><%= message %></div>
+    
+    <main style="flex: 1;">
+      <% if flash.present? %>
+        <% flash.each do |message_type, message| %>
+          <% if message_type.to_sym == :success %>
+            <div class="navbar", style= "background-color: lightgreen;" ><%= message %></div>
+          <% else %>
+            <div class="navbar" style= "background-color: pink;" ><%= message %></div>
+          <% end %>
         <% end %>
       <% end %>
-    <% end %>
-    <%= debug breadcrumbs %>
-    <%= yield %>
+      <%= debug breadcrumbs %>
+      <%= yield %>
+    </main>
+
+    <footer style="background-color: white; text-align: center; padding: 1rem 0; border-top: 1px solid #ddd;">
+      <nav style="display: flex; justify-content: center; gap: 16px; margin-bottom: 0.5rem;">
+        <a style="color: #333; text-decoration: none;" href="/service_terms">利用規約</a>
+        <a style="color: #333; text-decoration: none;" href="/privacy_policy">プライバシーポリシー</a>
+        <a style="color: #333; text-decoration: none;" href="#">お問い合わせ</a>
+      </nav>
+      <p>© 2025. 予算を守る家計簿 </p>
+    </footer>
   </body>
 </html>
 
