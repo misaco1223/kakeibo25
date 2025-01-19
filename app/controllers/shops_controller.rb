@@ -20,7 +20,7 @@ class ShopsController < ApplicationController
     def create
       @shop = current_user.shops.new(shop_params)
       if @shop.save
-        redirect_to shops_path, success: "店舗を登録しました。"
+        redirect_to request.referer, success: "店舗を登録しました。"
       else
         flash.now[:danger] = "店舗を登録できません。"
         render :new, status: :unprocessable_entity
@@ -34,7 +34,7 @@ class ShopsController < ApplicationController
     def update
       @shop = current_user.shops.find(params[:id])
       if @shop.update(shop_params)
-        redirect_to shops_path, success: "店舗を更新しました。"
+        redirect_to request.referer, success: "店舗を更新しました。"
       else
         flash[:danger] = "店舗を更新できません。"
         render :edit, status: :unprocessable_entity

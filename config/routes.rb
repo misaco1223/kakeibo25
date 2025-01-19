@@ -27,4 +27,6 @@ Rails.application.routes.draw do
 
   get "login" => "sessions#new", as: :login
   get "logout" => "sessions#destroy", as: :logout
+
+  post 'guest_login', to: 'sessions#guest_login', as: :guest_login
 end

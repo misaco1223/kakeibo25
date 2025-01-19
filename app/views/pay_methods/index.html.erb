@@ -3,7 +3,7 @@
     <a class="btn btn-ghost text-xl" href="/shops">支払い方法</a>
   </div>
   <div class="block">
-    <%= link_to "", id:"new-paymethod-link", class: "btn" do %>新しい支払い方法を登録する<% end %>
+    <%= link_to "", id:"new-paymethod-link", class: "btn", style:"background-color:#FFCC66;" do %>新しい支払い方法を登録する<% end %>
   </div>
 </header>
 
@@ -13,7 +13,8 @@
     <thead>
     <tr>
       <th>支払い方法</th>
-      <td></td>
+      <th></th>
+      <th></th>
     </tr>
     </thead>
     <tbody>
@@ -29,7 +30,7 @@
           <% end %>
         </td>
         <td>
-          <%= link_to "この支払い方法での支払いをCheckNow", pay_method_path(pay_method), class: "btn btn-primary" %>
+          <%= link_to "この支払い方法での支払いをCheckNow", pay_method_path(pay_method), class: "btn", style:"background-color:#FFCC66;" %>
         </td>
       </tr>
     <% end %>
@@ -50,7 +51,7 @@
     </div>
     <br>
     <div class="text-center mt-4">
-      <%= paymethod_form.submit "支払い方法を更新", class: "btn btn-primary px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md" %>
+      <%= paymethod_form.submit "支払い方法を更新", class: "btn", style:"background-color:#FFCC66;" %>
       <%= link_to "キャンセル", pay_methods_path, class:"btn cancel-btn" %>
     </div>
   <% end %>
@@ -107,7 +108,7 @@
     </div>
     <br>
     <div class="text-center mt-4">
-      <%= paymethod_form.submit "支払い方法を作成", class: "btn btn-primary px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md" %>
+      <%= paymethod_form.submit "支払い方法を作成", class: "btn", style:"background-color:#FFCC66;" %>
       <%= link_to "キャンセル", pay_methods_path, class:"btn" %>
     </div>
   <% end %>

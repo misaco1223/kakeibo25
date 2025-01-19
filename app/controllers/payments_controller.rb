@@ -1,8 +1,10 @@
 class PaymentsController < ApplicationController
-
+  before_action :require_login
   def new
     @budget = Budget.find(params[:budget_id])
     @payment = @budget.payments.build
+    @shops = current_user.shops
+    @pay_methods = current_user.pay_methods
   end
 
   def create
@@ -26,6 +28,8 @@ class PaymentsController < ApplicationController
   def edit
     @budget = Budget.find(params[:budget_id])
     @payment = @budget.payments.find(params[:id])
+    @shop = current_user.shops
+    @pay_method = current_user.pay_methods
   end
 
   def update

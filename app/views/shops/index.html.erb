@@ -3,7 +3,7 @@
     <a class="btn btn-ghost text-xl" href="/shops">店舗</a>
   </div>
   <div class="block">
-    <%= link_to "", id:"new-shop-link", class: "btn" do %>新しい店舗を登録する<% end %>
+    <%= link_to "", id:"new-shop-link", class: "btn", style:"background-color:#FFCC66;" do %>新しい店舗を登録する<% end %>
   </div>
 </header>
 
@@ -34,7 +34,7 @@
           <% end %>
         </td>
         <td>
-          <%= link_to "この店舗での支払いをCheckNow", shop_path(shop), class: "btn btn-primary" %>
+          <%= link_to "この店舗での支払いをCheckNow", shop_path(shop), class: "btn", style:"background-color:#FFCC66;" %>
         </td>
       </tr>
     <% end %>
@@ -67,7 +67,7 @@
     </div>
     <br>
     <div class="text-center mt-4">
-      <%= shop_form.submit "お店を更新", class: "btn btn-primary px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md" %>
+      <%= shop_form.submit "お店を更新", class: "btn", style:"background-color:#FFCC66;" %>
       <%= link_to "キャンセル", shops_path, class:"btn cancel-btn" %>
     </div>
   <% end %>
@@ -142,7 +142,7 @@
     </div>
     <br>
     <div class="text-center mt-4">
-      <%= shop_form.submit "店舗を作成", class: "btn btn-primary px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md" %>
+      <%= shop_form.submit "店舗を作成", class: "btn", style:"background-color:#FFCC66;" %>
       <%= link_to "キャンセル", shops_path, class:"btn" %>
     </div>
   <% end %>

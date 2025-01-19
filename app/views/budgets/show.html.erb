@@ -24,15 +24,15 @@
 </div>
 
 <div class="navbar">
-  <%= link_to new_budget_payment_path(@budget), class: "btn btn-primary" do %>支出データを新規作成<% end %>
+  <%= link_to new_budget_payment_path(@budget), class: "btn", style:"background-color:#FFCC66;" do %>支出データを新規作成<% end %>
   <%= link_to money_file_path(@money_file), class: "btn" do %>この家計簿の予算一覧へ戻る<% end %>
 </div>
 
 <br>
 
 <!-- 絞り込みフォーム -->
-<div style="background-color: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); max-width: 700px; width:100%; margin-left: 20px;">
-<h1 style="padding:10px; font-weight: bold;">絞り込み欄</h1>
+<div style="padding: 15px; max-width: 700px; width:100%; margin-left: 20px; border: 1px solid #ccc; font-size:small;">
+<h1 style="font-weight: bold;">絞り込み欄</h1>
 <%= form_with url: budget_path(@budget), method: :get, local: true do %>
   <div class="row mb-4" style="display: flex;">
     <!-- 日付フィルタ -->
@@ -63,7 +63,7 @@
     </div>
 
     <div style="margin-top: 20px;"> 
-      <%= link_to "絞り込み条件をクリア", budget_path(@budget), class: "btn" %>
+      <%= link_to "絞り込み条件をクリア", budget_path(@budget), class: "btn", style:"font-size:small;" %>
     </div>
   </div>
 <% end %>

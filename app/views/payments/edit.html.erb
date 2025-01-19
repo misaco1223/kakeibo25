@@ -4,63 +4,129 @@
   </div>
 </header>
 
-<div class="container mx-auto mt-10 p-6 bg-white shadow-md max-w-lg">
+<div class="container", style="margin: 10px; padding: 24px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 35rem; width: 100%;">
   <%= form_with model: [@budget, @payment], local: true, class: "space-y-4" do |form| %>
     <br>
+    <!-- 店舗名入力 -->
+    <div>
+      <%= form.label :shop_id, "店舗名 :", class: "block text-xl text-gray-700" %><br>
+      <%= form.collection_select :shop_id, Shop.all, :id, :name, 
+      { prompt: "カテゴリーを選択してください" },
+      { style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" } %> <a class="btn text-sm" href="#" id="new-shop-link">新しい店舗を登録する</a>
+    </div>
+
+    <br><br>
+    <!-- 支払い方法入力 -->
+    <div>
+      <%= form.label :pay_method_id, "支払い方法 :", class: "block text-xl text-gray-700" %><br>
+      <%= form.collection_select :pay_method_id, PayMethod.all, :id, :name, 
+        { prompt: "支払い方法を選択してください" },
+        { style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" } %> <a class="btn text-sm" href="#" id="new-paymethod-link">新しい支払い方法を登録する</a>
+    </div>
+
+    <br><br>
     <!-- 日付入力 -->
     <div>
       <%= form.label :date, "日付(必須) :", class: "block font-medium text-xl text-gray-700" %><br>
-      <%= form.date_field :date, rows: 3, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+      <%= form.date_field :date, rows: 3, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
 
     <br><br>
     <!-- タイトル入力 -->
     <div>
       <%= form.label :title, "支払いデータのタイトル(必須):", class: "block text-xl text-gray-700" %><br>
-      <%= form.text_field :title, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+      <%= form.text_field :title, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;"%>
     </div>
 
     <br><br>
     <!-- 説明入力 -->
     <div>
       <%= form.label :description, "詳細 :", class: "block font-medium text-xl text-gray-700" %><br>
-      <%= form.text_area :description, rows: 3, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+      <%= form.text_area :description, rows: 3, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
 
     <br><br>
     <!-- 金額入力 -->
     <div>
       <%= form.label :amount, "支払い金額(必須) :", class: "block font-medium text-xl text-gray-700" %><br>
-      <%= form.number_field :amount, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
-    </div>
-
-    <br><br>
-    <!-- 店舗名入力 -->
-    <div>
-      <%= form.label :shop_id, "店舗名:", class: "block text-xl text-gray-700" %><br>
-      <%= form.collection_select :shop_id, Shop.all, :id, :name, 
-      { prompt: "カテゴリーを選択してください" },
-      { class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" } %><br>
-      <br>
-      <a class="btn text-sm" href="#">新しい店舗を登録する</a>
-    </div>
-
-    <br><br>
-    <!-- 支払い方法入力 -->
-    <div>
-      <%= form.label :pay_method_id, "支払い方法:", class: "block text-xl text-gray-700" %><br>
-      <%= form.collection_select :pay_method_id, PayMethod.all, :id, :name, 
-        { prompt: "支払い方法を選択してください" },
-        { class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" } %>
-      <br>
-      <a class="btn text-sm" href="#">新しい支払い方法を登録する</a>
+      <%= form.number_field :amount, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
 
     <br><br>
     <!-- 提出ボタン -->
     <div class="text-center">
-      <%= form.submit "支払いデータを作成", class: "btn btn-primary px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md" %>
-      <%= link_to "キャンセル", budget_path(@budget), class: "btn text-blue-600 hover:text-blue-800" %>
+      <%= form.submit "支払いデータを作成", class: "btn", style:"background-color:#FFCC66;" %>
+      <%= link_to "キャンセル", budget_path(@budget), class: "btn" %>
     </div>
   <% end %>
 </div>
+
+<!-- 新しいShop作成フォーム -->
+<div id="new-shop-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 300px; margin: 20px auto;">
+  <%= form_with model: Shop.new, local: true, class: "space-y-4" do |shop_form| %>
+    <%= shop_form.hidden_field :user_id, value: current_user.id %>
+    <div>
+      <%= shop_form.label :name, "店舗名", class: "block text-gray-700" %>
+      <%= shop_form.text_field :name, class: "w-full", style: "border: 1px solid #ccc;" %>
+    </div>
+    <br>
+    <div>
+      <%= shop_form.label :address, "住所", class: "block text-gray-700" %>
+      <%= shop_form.text_field :address, class: "w-full", style: "border: 1px solid #ccc;" %>
+    </div>
+    <br>
+    <div>
+      <%= shop_form.label :tel, "電話番号", class: "block text-gray-700" %>
+      <%= shop_form.text_field :tel, class: "w-full", style: "border: 1px solid #ccc;" %>
+    </div>
+    <br>
+    <div class="text-center mt-4">
+      <%= shop_form.submit "店舗を作成", class: "btn", style:"background-color:#FFCC66;" %>
+      <%= link_to "キャンセル", new_budget_payment_path(budget_id: @budget.id), class:"btn" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  document.getElementById('new-shop-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    var form = document.getElementById('new-shop-form');
+
+    // ボタンの親要素を取得し、その下にフォームを移動
+    const buttonContainer = document.getElementById('new-shop-link');
+    buttonContainer.after(form);
+
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  });
+</script>
+
+
+<!-- 新しいPayMethod作成フォーム -->
+<div id="new-paymethod-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 300px; margin: 20px auto;">
+  <%= form_with model: PayMethod.new, local: true, class: "space-y-4" do |paymethod_form| %>
+    <%= paymethod_form.hidden_field :user_id, value: current_user.id %>
+    <div>
+      <%= paymethod_form.label :name, "支払い方法", class: "block text-gray-700" %>
+      <%= paymethod_form.text_field :name, class: "w-full", style: "border: 1px solid #ccc;" %>
+    </div>
+    <br>
+    <div class="text-center mt-4">
+      <%= paymethod_form.submit "支払い方法を作成", class: "btn", style:"background-color:#FFCC66;" %>
+      <%= link_to "キャンセル", new_budget_payment_path(budget_id: @budget.id), class:"btn" %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  document.getElementById('new-paymethod-link').addEventListener('click', function(e) {
+    e.preventDefault();
+    var form = document.getElementById('new-paymethod-form');
+
+    // ボタンの親要素を取得し、その下にフォームを移動
+    const buttonContainer = document.getElementById('new-paymethod-link');
+    buttonContainer.after(form);
+
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  });
+</script>
+

@@ -16,7 +16,7 @@
 
   <body class="bg-secondary">
     <header>
-      <div style="display: flex; justify-content: space-between; align-items: center; background-color: #38b2ac; padding: 0.5rem 1rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; background-image: url(<%= asset_path('header_image') %>); background-size:cover; background-position:center; padding: 0.5rem 1rem;">
         <!-- Navbar Left -->
         <div style="flex: 1;">
           <a href="/" style="font-size: 1.25rem; color: #1a202c; text-decoration: none; font-weight: bold;">予算を守る家計簿</a>
@@ -27,7 +27,7 @@
             <p style="display: inline-block; margin-right: 1rem; font-size: 0.875rem; color: #2d3748;">
               ログイン中のユーザー：<%= current_user.name %>
             </p>
-            <%= link_to "ログアウト", logout_path, style: "display: inline-block; padding: 0.5rem 1rem; margin-right: 1rem; background-color: #4299e1; color: #fff; border-radius: 0.25rem; text-decoration: none;" %>
+            <%= link_to "ログアウト", logout_path, style: "display: inline-block; padding: 0.5rem 1rem; margin-right: 1rem; background-color:#FFCC66; border-radius: 0.25rem; text-decoration: none;" %>
           <% end %>
           <!-- ドロップダウンメニューボタン　-->
           <div class="dropdown"style="position: relative; display: inline-block;">
@@ -76,13 +76,18 @@
                 z-index: 1000;
               ">
               <% if current_user %>
-                <li style="padding: 8px;"><a href="<%= money_files_path(current_user) %>" style="text-decoration: none; color: #333;">家計簿</a></li>
-                <li style="padding: 8px;">
-                  <a href="<%= user_path(current_user) %>" style="text-decoration: none; color: #333;">ユーザー情報</a>
-                </li>
+                <li style="padding: 8px;"><a href="beginer" style="text-decoration: none; color: #333;">はじめての方へ</a></li>
+                -------
+                <li style="padding: 8px;"><a href="<%= money_files_path(current_user) %>" style="text-decoration: none; color: #333;">ホーム</a></li>
+                -------
                 <li style="padding: 8px;"><a href="<%= categories_path %>" style="text-decoration: none; color: #333;">カテゴリー</a></li>
                 <li style="padding: 8px;"><a href="<%= shops_path %>" style="text-decoration: none; color: #333;">店舗</a></li>
                 <li style="padding: 8px;"><a href="<%= pay_methods_path %>" style="text-decoration: none; color: #333;">支払い方法</a></li>
+                -------
+                <li style="padding: 8px;">
+                  <a href="<%= user_path(current_user) %>" style="text-decoration: none; color: #333;">ユーザー情報</a>
+                </li>
+                -------
                 <li style="padding: 8px;"><a href="#" style="text-decoration: none; color: #333;">About</a></li>
               <% else %>
                 <li style="padding: 8px;">

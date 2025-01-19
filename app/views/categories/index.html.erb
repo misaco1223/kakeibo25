@@ -3,7 +3,7 @@
     <a class="btn btn-ghost text-xl" href="/">カテゴリー</a>
   </div>
   <div class="block">
-    <%= link_to "", class: "btn", id:"new-category-link" do %>カテゴリーを新規作成<% end %>
+    <%= link_to "", class: "btn", id:"new-category-link", style:"background-color:#FFCC66;" do %>カテゴリーを新規作成<% end %>
   </div>
 </header>
 
@@ -13,23 +13,24 @@
     <thead>
     <tr>
       <th>カテゴリー名</th>
-      <td></td>
+      <th></th>
     </tr>
     </thead>
     <tbody>
     <% @categories.each do |category| %>
        <tr class="block">
         <td id="category-name"><%= category.name %></td>
-        <td>
+        <td style="display: flex;">
           <%= link_to "編集", "#", 
             class: "btn",
             id: "edit-category-link" ,
             data: { category_id: category.id, category_name: category.name } %>
-        </td>
-        <td>
           <%= form_with url: category_path(category), method: :delete, local: true do |form| %>
             <%= form.submit "削除", class: "btn" %>
           <% end %>
+        </td>
+        <td>
+          <%= link_to "このカテゴリーの予算と支払いをCheckNow", category_path(category), class: "btn", style:"background-color:#FFCC66;" %>
         </td>
         </tr>
     <% end %>
@@ -47,7 +48,7 @@
     </div>
     <br>
     <div class="text-center mt-4">
-      <%= category_form.submit "カテゴリーを作成", class: "btn btn-primary px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md" %>
+      <%= category_form.submit "カテゴリーを作成", class: "btn", style:"background-color:#FFCC66;" %>
       <%= link_to "キャンセル", categories_path, class:"btn" %>
     </div>
   <% end %>

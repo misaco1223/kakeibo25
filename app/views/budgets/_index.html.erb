@@ -2,18 +2,12 @@
   <% @budgets_with_data.each do |data| %>
     <% budget = data[:budget] %>
     <div class="carousel-item" style="flex: 0 0 auto; width: 320px; text-align: left; scroll-snap-align: center; border-radius: 8px; border: 1px solid #ccc;">
-      <div class="card" style="display: flex; text-left;">
+      <div class="card" style="display: flex; text-left; background-color: white;">
         <div class="card-body">
           <figure class="text-left">
             <%= image_tag budget.budget_image_url, class: "card-img-top", width: "300", height:"200" %>
           </figure>
-          <h2 class="card-title" style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;"><%= data[:category_name] %></h2>
-          <p><%= budget.description || " "%></p>
-          <div class="card-actions" style="display: flex; margin-top: auto;"class="card-actions" style="display: flex; margin-top: auto;">
-            <%= link_to edit_budget_path(budget), class: "btn" do %>編集<% end %>
-            <%= link_to budget_path(budget), method: :delete, data: { turbo_method: :delete }, class: "btn" do %>削除<% end %>
-          </div>
-          <br>
+          <h2 class="card-title" style="font-size: 1.25rem; font-weight: bold;"><%= data[:category_name] %></h2>
           <div style="font-family:'Palatino Linotype';" >
             <p>予算: <%= budget.amount %>円</p>
             <p>支出合計: <%= data[:total_amount] %>円</p>
@@ -26,7 +20,14 @@
               <% end %>
             </div>
           </div>
-          <%= link_to budget_path(budget), class: "btn btn-primary" do %>支出データをCheck Now<% end %>
+          <%= link_to budget_path(budget), class: "btn", style:"background-color:#FFCC66;" do %>支出データをCheck Now<% end %>
+          <br>
+          <p>【 詳細 】<br>
+             <%= budget.description || " "%></p>
+          <div class="card-actions" style="display: flex; margin-top: auto;"class="card-actions" style="display: flex; margin-top: auto;">
+            <%= link_to edit_budget_path(budget), class: "btn" do %>編集<% end %>
+            <%= link_to budget_path(budget), method: :delete, data: { turbo_method: :delete }, class: "btn" do %>削除<% end %>
+          </div>
         </div>
       </div>
     </div>

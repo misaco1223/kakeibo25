@@ -1,10 +1,10 @@
 <header class="mb-4 bg-neutral">
   <div class="navbar">
-    <a class="btn btn-ghost text-xl gray-900" href="#">新しい予算を作成</a>
+    <a class="btn btn-ghost text-xl gray-900" href="">新しい予算を作成</a>
   </div>
 </header>
 
-<div class="container mx-auto mt-10 p-6 bg-white shadow-md max-w-lg">
+<div class="container", style="margin: 10px; padding: 24px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 35rem; width: 100%;">
   <!-- 予算フォーム -->
   <%= form_with model: @budget, local: true, class: "space-y-4" do |form| %>
     <%= form.hidden_field :money_file_id, value: @money_file.id %>
@@ -12,11 +12,10 @@
     <!-- カテゴリー入力 -->
     <div>
       <%= form.label :category_id, "カテゴリー :", class: "block text-xl text-gray-700" %><br>
-      <%= form.collection_select :category_id, @categories, :id, :name, 
+      <%= form.collection_select :category_id, @categories, :id, :name,
       { prompt: "カテゴリーを選択してください" },
-      { class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" } %><br>
+      { style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" } %><br>
       
-      <br>
       <!-- 新しいカテゴリーリンク -->
       <a href="#" class="btn text-sm" id="new-category-link">新しいカテゴリーを作成する</a>
     </div>
@@ -25,7 +24,7 @@
     <!-- 画像入力 -->
     <div class="mb-3">
       <%= form.label :budget_image, "画像:", class: "block text-xl text-gray-700" %><br>
-      <%= form.file_field :budget_image, class: "form-control mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500", accept: 'image/*' %>
+      <%= form.file_field :budget_image, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;", accept: 'image/*' %>
       <%= form.hidden_field :budget_image_cache %>
    </div>
     
@@ -33,21 +32,21 @@
     <!-- 説明入力 -->
     <div>
       <%= form.label :description, "詳細 (任意) :", class: "block font-medium text-xl text-gray-700" %><br>
-      <%= form.text_area :description, rows: 3, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+      <%= form.text_area :description, rows: 3, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
     
     <br>
     <!-- 金額入力 -->
     <div>
       <%= form.label :amount, "予算金額 :", class: "block font-medium text-xl text-gray-700" %><br>
-      <%= form.number_field :amount, min: 0, step: 100, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
+      <%= form.number_field :amount, min: 0, step: 100, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
     
     <br><br>
     <!-- 提出ボタン -->
     <div class="text-center">
-      <%= form.submit "予算を作成", class: "btn btn-primary px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md" %>
-      <%= link_to "キャンセル", money_file_path(@money_file), class: "btn text-blue-600 hover:text-blue-800" %>
+      <%= form.submit "予算を作成", class: "btn", style:"background-color:#FFCC66;" %>
+      <%= link_to "キャンセル", money_file_path(@money_file), class: "btn" %>
     </div>
   <% end %>
 </div>
@@ -62,7 +61,7 @@
     </div>
     <br>
     <div class="text-center mt-4">
-      <%= category_form.submit "カテゴリーを作成", class: "btn btn-primary px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md" %>
+      <%= category_form.submit "カテゴリーを作成", class: "btn", style:"background-color:#FFCC66;" %>
       <%= link_to "キャンセル", new_budget_path(money_file_id: @money_file.id), class:"btn" %>
     </div>
   <% end %>
@@ -72,6 +71,9 @@
   document.getElementById('new-category-link').addEventListener('click', function(e) {
     e.preventDefault();
     var form = document.getElementById('new-category-form');
+    // ボタンの親要素を取得し、その下にフォームを移動
+    const buttonContainer = document.getElementById('new-category-link');
+    buttonContainer.after(form);
     form.style.display = form.style.display === 'none' ? 'block' : 'none';
   });
 </script>

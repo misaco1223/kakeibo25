@@ -6,7 +6,7 @@
 </header>
 
 <div class="navbar">
-  <%= link_to "予算を新規作成", new_budget_path(money_file_id: @money_file.id), class: "btn btn-primary" %>
+  <%= link_to "予算を新規作成", new_budget_path(money_file_id: @money_file.id), class: "btn", style:"background-color:#FFCC66;" %>
   <%= link_to money_files_path(@money_file), class: "btn" do %>家計簿一覧へ戻る<% end %>
 </div>
 

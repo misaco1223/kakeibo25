@@ -20,7 +20,7 @@
           <td><%= payment.amount %>円</td>
           <td><%= payment.pay_method&.name || "" %></td>
           <td><%= payment.shop&.name || "" %></td>
-          <td><%= link_to edit_budget_payment_path(@budget, payment), class: "btn btn-primary" do %>編集<% end %></td>
+          <td><%= link_to edit_budget_payment_path(@budget, payment), class: "btn", style:"background-color:#FFCC66;" do %>編集<% end %></td>
           <td>
             <%= form_with url: budget_payment_path(@budget, payment), method: :delete, local: true do %>
               <%= submit_tag "削除", class: "btn btn-danger" %>

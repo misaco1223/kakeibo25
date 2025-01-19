@@ -1,49 +1,47 @@
-<body class="bg-secondary">
-  <header class="mb-6">
-    <div class="navbar fixed top-0 left-0 w-full z-50">
-      <a class="btn btn-ghost text-xl gray-900" href="#">家計簿を編集</a>
+<header class="mb-4 bg-neutral", style="margin: 10px; max-width: 32rem; width: 100%;">
+<div class="navbar">
+    <a class="btn btn-ghost text-xl gray-900">家計簿を編集</a>
+</div>
+</header>
+
+<div class="container bg-white shadow-md", style="margin: 10px; padding: 24px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 35rem; width: 100%;">
+<%= form_with model: @money_file, local: true, class: "space-y-4" do |form| %>
+    <!-- タイトル入力 -->
+    <br>
+    <div>
+    <%= form.label :title, "家計簿のタイトル :", class: "block text-xl text-gray-700" %><br>
+    <%= form.text_field :title, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
-  </header>
 
-  <div class="container mx-auto mt-10 p-6 bg-white shadow-md max-w-lg">
-    <%= form_with model: @money_file, local: true, class: "space-y-4" do |form| %>
-      <!-- タイトル入力 -->
-      <br>
-      <div>
-        <%= form.label :title, "家計簿のタイトル :", class: "block text-xl text-gray-700" %><br>
-        <%= form.text_field :title, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
-      </div>
+    <!-- 説明入力 -->
+    <br><br>
+    <div>
+    <%= form.label :description, "詳細 (任意) :", class: "block text-xl text-gray-700" %><br>
+    <%= form.text_area :description, rows: 3, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
+    </div>
 
-      <!-- 説明入力 -->
-      <br><br>
-      <div>
-        <%= form.label :description, "詳細 (任意) :", class: "block text-xl text-gray-700" %><br>
-        <%= form.text_area :description, rows: 3, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
-      </div>
-
-      <br><br>
-      <!-- 画像入力 -->
-      <div>
-        <%= form.label :money_file_image, "画像:", class: "block text-xl text-gray-700" %>
+    <br><br>
+    <!-- 画像入力 -->
+    <div>
+    <%= form.label :money_file_image, "画像:", class: "block text-xl text-gray-700" %>
+    <br>
+    <% if @money_file.money_file_image.present? %>
+        <!-- 現在登録されている画像を表示 -->
+        <%= image_tag @money_file.money_file_image_url, class: "card-img-top", width: "150", height: "100" %>
+        <!-- 画像削除用のチェックボックス -->
+        <%= form.label :remove_money_file_image, "現在の画像を削除する", class: "block text-red-500 mt-2" %>
+        <%= form.check_box :remove_money_file_image, class: "form-checkbox h-5 w-5 text-red-600" %>
         <br>
-        <% if @money_file.money_file_image.present? %>
-          <!-- 現在登録されている画像を表示 -->
-          <%= image_tag @money_file.money_file_image_url, class: "card-img-top", width: "150", height: "100" %>
-          <!-- 画像削除用のチェックボックス -->
-          <%= form.label :remove_money_file_image, "現在の画像を削除する", class: "block text-red-500 mt-2" %>
-          <%= form.check_box :remove_money_file_image, class: "form-checkbox h-5 w-5 text-red-600" %>
-        <% end %>
-        <br><br>
-        <%= form.file_field :money_file_image, class: "form-control mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500", accept: 'image/*' %>
-        <%= form.hidden_field :money_file_image_cache %>
-      </div>
-
-      <!-- 提出ボタン -->
-      <br><br>
-      <div class="text-center">
-        <%= form.submit "家計簿を更新", class: "btn btn-primary px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md" %>
-        <%= link_to "キャンセル", money_files_path, class: "btn" %>
-      </div>
     <% end %>
-  </div>
-</body>
+    <%= form.file_field :money_file_image, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;", accept: 'image/*' %>
+    <%= form.hidden_field :money_file_image_cache %>
+    </div>
+
+    <!-- 提出ボタン -->
+    <br><br>
+    <div class="text-center">
+    <%= form.submit "家計簿を更新", class: "btn", style:"background-color:#FFCC66;" %>
+    <%= link_to "キャンセル", money_files_path, class: "btn" %>
+    </div>
+<% end %>
+</div>
