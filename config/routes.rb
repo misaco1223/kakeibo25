@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   resources :shops, only: %i[index show new create edit update destroy]
   resources :pay_methods, only: %i[index show new create edit update destroy]
   resources :payments, only: [:new, :create]
+  resources :money_files do
+    post :change_month, on: :member
+  end
   
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

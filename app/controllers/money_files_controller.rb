@@ -1,13 +1,23 @@
 class MoneyFilesController < ApplicationController
   before_action :require_login
+  before_action :set_year_month, only: [:show, :change_month]
   def index
     @money_files = current_user.money_files
     @user = current_user
+
+    current_time = Time.now
+    if (Time.parse("05:00")...Time.parse("10:00")).cover?(current_time)
+    @greeting = "おはようございます"
+    elsif (Time.parse("10:00")...Time.parse("17:00")).cover?(current_time)
+    @greeting = "こんにちは"
+    else
+    @greeting = "こんばんは"
+    end
   end
 
   def show
     @money_file = MoneyFile.find(params[:id])
-    @budgets = @money_file.budgets.includes(:category) 
+    @budgets = Budget.where(year_month: session[:year_month], money_file_id: @money_file.id).includes(:category)
     @budgets_with_data = @budgets.map do |budget|
       payments = Payment.where(budget_id: budget.id)
       total_amount = payments.sum(&:amount) # その予算の支出合計
@@ -20,6 +30,21 @@ class MoneyFilesController < ApplicationController
         category_name: category_name # カテゴリー
       }
     end
+  end
+
+  def change_month
+    current_month = session[:year_month].present? ? Date.strptime(session[:year_month], "%Y-%m") : Date.today
+    new_month = case params[:direction]
+                when "prev"
+                  current_month.prev_month
+                when "next"
+                  current_month.next_month
+                else
+                  current_month
+                end
+
+    session[:year_month] = new_month.strftime("%Y-%m")
+    redirect_to money_file_path(params[:money_file_id])
   end
 
   def new
@@ -64,5 +89,9 @@ class MoneyFilesController < ApplicationController
 
   def money_file_params
     params.require(:money_file).permit(:title, :description, :money_file_image, :money_file_cache, :remove_money_file_image)
+  end
+
+  def set_year_month
+    session[:year_month] ||= Date.today.strftime("%Y-%m")
   end
 end

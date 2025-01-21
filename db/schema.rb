@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_18_083818) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_21_104241) do
   create_table "budgets", force: :cascade do |t|
     t.integer "money_file_id", null: false
     t.integer "amount", null: false
@@ -19,6 +19,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_18_083818) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "budget_image"
+    t.string "year_month"
     t.index ["category_id"], name: "index_budgets_on_category_id"
     t.index ["money_file_id"], name: "index_budgets_on_money_file_id"
   end

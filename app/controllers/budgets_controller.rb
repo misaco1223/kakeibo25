@@ -35,14 +35,28 @@ class BudgetsController < ApplicationController
     @money_file = MoneyFile.find(params[:money_file_id])
     @budget = @money_file.budgets.new
     @categories = current_user.categories
+    Rails.logger.info "Categories: #{@categories.inspect}" 
   end
 
   def create
-    @budget = Budget.new(budget_params)
+    # monthを許可するように追加
+    budget_params = params.require(:budget).permit(:amount, :description, :money_file_id, :category_id, :budget_image, :budget_image_cache, :remove_budget_image, :year_month)
+
+    # monthが送信されている場合、ゼロ埋めしてyear_monthに結合
+    if params[:budget][:month].present?
+      month = params[:budget][:month].rjust(2, '0')  # 1桁の場合、ゼロ埋め
+      year_month = "#{params[:budget][:year_month]}-#{month}"
+    else
+      year_month = params[:budget][:year_month]
+    end
+
+    # 新しいBudgetオブジェクトを作成
+    @budget = Budget.new(budget_params.merge(year_month: year_month))
+
     if @budget.save
       redirect_to money_file_path(@budget.money_file), success: "予算が作成されました。"
-      Rails.logger.info "Money File was successfully created."
     else
+      flash.now[:danger] = "予算を登録できません。"
       render :new, status: :unprocessable_entity
     end
   end
@@ -78,6 +92,6 @@ class BudgetsController < ApplicationController
   private
 
   def budget_params
-    params.require(:budget).permit(:amount, :description, :money_file_id, :category_id, :budget_image, :budet_image_cache, :remove_budget_image)
+    params.require(:budget).permit(:amount, :description, :money_file_id, :category_id, :budget_image, :budget_image_cache, :remove_budget_image, :year_month, :month)
   end
 end

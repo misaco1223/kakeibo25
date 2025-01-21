@@ -1,6 +1,7 @@
 <header>
-  <div class="mb-4 bg-neutral", style="margin: 10px; max-width: 32rem; width: 100%;">
+  <div class="mb-4 bg-neutral", style="margin: 10px; max-width: 32rem; width: 100%; display:flex;">
     <a class="btn btn-ghost text-xl gray-900" href="/">家計簿ファイル一覧</a>
+    <p style="margin-top:10px"><%= @greeting %>、<%= current_user.name %>さん</p>
   </div>
 </header>
 
@@ -8,7 +9,7 @@
   <%= link_to new_money_file_path, class: "btn", style:"background-color:#FFCC66;", data: { turbo: false } do %>ファイルを新規作成<% end %>
 </div>
 
-<br><br>
+<br>
 <% if @money_files.present? %>
   <div class="carousel" style="display: flex; overflow-x: auto; gap: 16px; padding: 16px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; margin-bottom: 40px; max-width: 100%;">
     <% @money_files.each do |file| %>

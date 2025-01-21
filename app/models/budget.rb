@@ -5,6 +5,9 @@ class Budget < ApplicationRecord
   has_many :payments, dependent: :destroy
   belongs_to :category, optional: true
 
+  validates :year_month, presence: true
+  validates :year_month, format: { with: /\A\d{4}-\d{2}\z/, message: "はYYYY-MM形式で入力してください" }
+
   def self.total_amount(payments) # 支出合計
     payments.sum(&:amount)
   end

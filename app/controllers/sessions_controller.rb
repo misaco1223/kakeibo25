@@ -31,6 +31,7 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
+    session[:year_month] = nil
     redirect_to login_path, success: "ログアウトしました"
   end
 end
