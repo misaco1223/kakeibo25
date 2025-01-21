@@ -15,6 +15,20 @@ class PayMethodsController < ApplicationController
       @budgets = Budget.where(money_file_id: money_files.ids)
       @payments = Payment.where(budget_id: @budgets.ids, pay_method_id: @pay_method.id).order(date: :asc)
       @total_amount = @payments.sum(&:amount)
+
+      # 店舗を取得
+      @shops = Shop.where(id: @payments.pluck(:shop_id)).distinct
+
+    # フィルタリング
+    if params[:date_filter].present?
+      @payments = @payments.where(date: params[:date_filter])
+      @filtered_total_amount = Budget.total_amount(@payments)
+    end
+
+    if params[:shop_filter].present?
+      @payments = @payments.where(shop_id: params[:shop_filter])
+      @filtered_total_amount = Budget.total_amount(@payments)
+    end
     end
       
     def create

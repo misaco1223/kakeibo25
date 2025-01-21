@@ -84,15 +84,16 @@
                 <li style="padding: 8px;"><a href="<%= pay_methods_path %>" style="text-decoration: none; color: #333;">支払い方法</a></li>
                 -------
                 <li style="padding: 8px;">
-                  <a href="<%= user_path(current_user) %>" style="text-decoration: none; color: #333;">ユーザー情報</a>
+                  <a href="<%= user_path(current_user) %>" style="text-decoration: none; color: #333;">ユーザー情報 </a>
                 </li>
-                <li style="padding: 8px;"><a href="/tutorial" style="text-decoration: none; color: #333;">操作ガイド</a></li>
+                <li style="padding: 8px;"><a href="/tutorial" style="text-decoration: none; color: #333;">操作ガイド </a>
+                </li>
               <% else %>
                 <li style="padding: 8px;">
                   <a href="<%= login_path %>" style="text-decoration: none; color: #333;">ログイン</a>
                 </li>
                 -------
-                <li style="padding: 8px;"><a href="/tutorial" style="text-decoration: none; color: #333;">操作ガイド/a></li>
+                <li style="padding: 8px;"><a href="/tutorial" style="text-decoration: none; color: #333;">操作ガイド</a></li>
                 <li style="padding: 8px;">
                   <a href="<%= new_user_path %>" style="text-decoration: none; color: #333;">ユーザー登録</a>
                 </li>

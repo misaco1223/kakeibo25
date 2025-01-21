@@ -1,0 +1,190 @@
+<header>
+  <div class="mb-4 bg-neutral", style="margin: 10px; max-width: 1400px; width: 100%;">
+    <a class="btn btn-ghost text-xl gray-900" href="">操作ガイド</a>
+    <br><br>
+    <p style="margin-left:10px;">
+      予算を守る家計簿は
+      <br> <strong>「毎月決まった金額に消費を抑えたい！」と思いつつ、なんだかんだ予算オーバーをしてしまうあなた</strong> の家計を支えたい。
+      <br>カテゴリーごとに予算を決めて、<strong>「予算を守る！」</strong>という強い意識を持ち続けながら、お金を管理していきましょう。</p>
+</header>
+
+<br><br>
+<div style="padding: 15px; margin: 10px; max-width: 100%;">
+  <div class="topics" style="margin-bottom:50px;">
+    <a class="btn btn-ghost text-xl gray-900" href="">基本操作</a>
+
+    <!-- 家計簿ファイル -->
+    <div class="card" style="max-width: 1400px; width:100%; padding: 15px; text-left; background-color: white; margin-bottom:10px; border-radius: 8px; border: 1px solid #ccc; ">
+      <div class="card-body" style="display: flex; flex-direction:row;">
+        <figure class="text-left" style="flex:1; margin-right:10px;">
+          <%= image_tag "tutorial_money_files", class: "card-img-top"%>
+        </figure>
+        <div style="flex:1;">
+          <h2 class="card-title" style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;">
+            その１: 新しく家計簿ファイルを作りましょう
+          </h2>
+          <p> ここでいう「ファイル」は「どのお財布から出すか」という考え方に近いです。<br>
+            個人の財布、家族の財布、仕事の財布.. のように自由にファイルを作ってみてください
+          </p>
+          <br>
+          <p>左の画像は、ホーム画面です。ここで家計簿の一覧を確認できます。<br>
+            登録した家計簿は右にスクロールして見ることができます。<br>
+            予算の確認や支出データの確認は、必ずこのホーム画面を起点として移動します。</p>
+          <br>
+          <div class="card-actions" style="display: flex; margin-top: auto;">
+            <%= link_to new_money_file_path, class: "btn", style:"background-color:#FFCC66;" do %>早速、ファイルを作ってみる<% end %>
+            <br>
+            <p>ファイルを作成したら、次は予算の登録に移ります。<br>
+            「このファイルをCheck Now」ボタンを押して「カテゴリー別予算一覧」画面へ進みみましょう。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- カテゴリー別予算 -->
+    <div class="card" style="max-width: 1400px; width:100%; padding: 15px; text-left; background-color: white; margin-bottom:10px; border-radius: 8px; border: 1px solid #ccc; ">
+      <div class="card-body" style="display: flex; flex-direction:row;">
+        <figure class="text-left" style="flex:1; margin-right:10px;">
+          <%= image_tag "tutorial_budgets", class: "card-img-top" %>
+        </figure>
+        <div style="flex:1;">
+          <h2 class="card-title" style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;">
+            その2: カテゴリーと予算をしましょう
+          </h2>
+          <p> カテゴリーと予算は、お財布の中のポケットと、そこに入れる金額を意味します。<br>
+          例えば「食費は30000円」と登録する際、「食費」がカテゴリー、「30000円」がその予算になります。</p>
+          <p>カテゴリーは、予算を作成するときに一緒に作成することができます。</p>
+          <br>
+          <p>左の画像は、「カテゴリー別予算一覧」の画面です。ここで登録した予算の一覧を確認できます。<br>
+            登録した予算は右にスクロールして見ることができます。<p>
+            <br>
+          <p>「あれ..医療費が赤字...これはしゃーない。。」<br>
+            万が一のための予算を設定しておくことも大事ですね。<br></p>
+          <br>
+          <div class="card-actions" style="display: flex; margin-top: auto;">
+            <p>予算を作成したら、次は支出データの登録に移ります。<br>
+            「支出データをCheck Now」ボタンを押して進みましょう。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 支出データ -->
+    <div class="card" style="max-width: 1400px; width:100%; padding: 15px; text-left; background-color: white; margin-bottom:10px; border-radius: 8px; border: 1px solid #ccc; ">
+      <div class="card-body" style="display: flex; flex-direction:row;">
+        <figure class="text-left" style="flex:1; margin-right:10px;">
+          <%= image_tag "tutorial_payments", class: "card-img-top" %>
+        </figure>
+        <div style="flex:1;">
+          <h2 class="card-title" style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;">
+            その3: 支出データをこまめに入力しましょう
+          </h2>
+          <p> ここでは支出データを管理していきます。</p>
+          <br>
+          <p> ここで入力したデータに基づいて、予算があといくら残っているかが確認できます。<br>
+          支出データには、店舗や支払い方法も併せて登録することができます。</p>
+          <br>
+          <strong>ここまで基本操作のおさらいです。</strong>
+          <p>「家計簿ファイルを登録」→「予算を作成」→「支出データを登録」</p>
+          <br>
+          <p>簡単ですね。それでは素敵な家計生活をお送りください！ See you again!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="others">
+    <a class="btn btn-ghost text-xl gray-900" href="">その他の操作</a>
+
+     <!-- カテゴリ -->
+    <div class="card" style="max-width: 1400px; width:100%; padding: 15px; text-left; background-color: white; margin-bottom:10px; border-radius: 8px; border: 1px solid #ccc; ">
+      <div class="card-body" style="display: flex; flex-direction:row;">
+        <div style="flex:1; margin-right:10px;">
+          <figure style="display: flex; flex-direction: column; gap: 10px;" >
+            <p>カテゴリーの一覧画面</p>
+            <%= image_tag "tutorial_categories", class: "card-img-top"%>
+            <br>
+            <p>カテゴリーがついている支出データ一覧</p>
+            <%= image_tag "tutorial_category", class: "card-img-top"%>
+          </figure>
+        </div>
+        <div style="flex:1;">
+          <h2 class="card-title" style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;">
+            登録したカテゴリーを管理しよう
+          </h2>
+          <p> 予算を登録するときに、「食費」や「医療費」などのカテゴリーを登録したと思います。<br>
+          登録済みのカテゴリーは、ナビバーの「カテゴリー」画面で管理することができます。
+          </p>
+          <br>
+          <p>左の画像が「カテゴリー」画面です。<br>
+            カテゴリーの名前をクリックすると、ファイルの垣根を超えて、あなたが登録した全ての「カテゴリー」支出データ一覧を確認することもできます。(画像2枚目)<br>
+          </p>
+          <br>
+          <div class="card-actions" style="display: flex; margin-top: auto;">
+            <%= link_to categories_path, class: "btn", style:"background-color:#FFCC66;" do %>登録したカテゴリーを管理する<% end %>
+            <br>
+            <p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 店舗 -->
+    <div class="card" style="max-width: 1400px; width:100%; padding: 15px; text-left; background-color: white; margin-bottom:10px; border-radius: 8px; border: 1px solid #ccc; ">
+      <div class="card-body" style="display: flex; flex-direction:row;">
+        <div style="flex:1; margin-right:10px;">
+          <figure style="display: flex; flex-direction: column; gap: 10px;" >
+            <%= image_tag "tutorial_shops", class: "card-img-top"%>
+          </figure>
+        </div>
+        <div style="flex:1;">
+          <h2 class="card-title" style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;">
+            登録した店舗を管理しよう
+          </h2>
+          <p>
+          登録済みの店舗は、ナビバーの「店舗」画面で管理することができます。
+          </p>
+          <br>
+          <p>左の画像が「店舗」の画面です。<br>
+            店舗の名前をクリックすると、ファイルや予算の垣根を超えて、あなたが登録した全ての「店舗」支出データを確認することができます。<br>
+          </p>
+          <br>
+          <div class="card-actions" style="display: flex; margin-top: auto;">
+            <%= link_to shops_path, class: "btn", style:"background-color:#FFCC66;" do %>登録した店舗を管理する<% end %>
+            <br>
+            <p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 支払い方法 -->
+    <div class="card" style="max-width: 1400px; width:100%; padding: 15px; text-left; background-color: white; margin-bottom:10px; border-radius: 8px; border: 1px solid #ccc; ">
+      <div class="card-body" style="display: flex; flex-direction:row;">
+        <div style="flex:1; margin-right:10px;">
+          <figure style="display: flex; flex-direction: column; gap: 10px;" >
+            <%= image_tag "tutorial_pay_methods", class: "card-img-top"%>
+          </figure>
+        </div>
+        <div style="flex:1;">
+          <h2 class="card-title" style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;">
+            登録した支払い方法を管理しよう
+          </h2>
+          <p>
+          登録済みの支払い方法は、ナビバーの「支払い方法」画面で管理することができます。
+          </p>
+          <br>
+          <p>左の画像が「支払い方法」の画面です。<br>
+            支払い方法の名前をクリックすると、ファイルや予算の垣根を超えて、あなたが登録した全ての「支払い方法」支出データを確認することができます。<br>
+          </p>
+          <br>
+          <div class="card-actions" style="display: flex; margin-top: auto;">
+            <%= link_to pay_methods_path, class: "btn", style:"background-color:#FFCC66;" do %>登録した支払い方法を管理する<% end %>
+            <br>
+            <p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
