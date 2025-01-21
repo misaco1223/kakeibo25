@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  get "sessions/new"
-  get "sessions/create"
-  get "sessions/destroy"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   resources :sessions, only: %i[new create destroy]
   resources :users, only: %i[index show new create edit update destroy]
@@ -12,6 +9,7 @@ Rails.application.routes.draw do
   resources :categories, only: %i[index show new create edit update destroy]
   resources :shops, only: %i[index show new create edit update destroy]
   resources :pay_methods, only: %i[index show new create edit update destroy]
+  resources :payments, only: [:new, :create]
   
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
@@ -22,7 +20,7 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   # Defines the root path route ("/")
-  get "/" => "money_files#index"
+  get "/" => "money_files#index", as: :root
   # root "posts#index"
 
   get "login" => "sessions#new", as: :login

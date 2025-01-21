@@ -5,14 +5,33 @@
 </header>
 
 <div class="container", style="margin: 10px; padding: 24px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 35rem; width: 100%;" >
+<div data-controller="dynamic-budget">
   <%= form_with model: [@budget, @payment], local: true, class: "space-y-4" do |form| %>
+    <br><br>
+    <!-- 家計簿ファイルと予算を入力 -->
+    <div>
+      <%= form.label :budget_id, "この支出データの登録先 :", class: "block text-gray-700" %><br>
+      <% if @budget %>
+        <p><%= @money_file.title %>ファイルの<%= @budget.category&.name %>カテゴリーに登録します</p>
+        <%= form.hidden_field :budget_id, value: @budget.id %>
+      <% else %>
+        <%= form.collection_select :budget_id, @budgets, :id, 
+        lambda { |budget| "#{budget.money_file.title} - #{budget.category.name}" }, 
+        { prompt: "選択してください" },
+        { style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" } %>
+      <% end %>
+    </div>
+
     <br>
     <!-- 店舗名入力 -->
     <div>
       <%= form.label :shop_id, "店舗名 :", class: "block text-xl text-gray-700" %><br>
       <%= form.collection_select :shop_id, @shops, :id, :name, 
       { prompt: "店舗を選択してください" },
-      { style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" } %> <a class="btn text-sm" href="#" id="new-shop-link">新しい店舗を登録する</a>
+      { style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" } %> 
+      <% if @budget %>
+        <a class="btn text-sm" href="#" id="new-shop-link">新しい店舗を登録する</a>
+      <% end %>
     </div>
 
     <br><br>
@@ -21,9 +40,12 @@
       <%= form.label :pay_method_id, "支払い方法 :", class: "block text-xl text-gray-700" %><br>
       <%= form.collection_select :pay_method_id, @pay_methods, :id, :name, 
         { prompt: "支払い方法を選択してください" },
-        { style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" } %> <a class="btn text-sm" href="#" id="new-paymethod-link">新しい支払い方法を登録する</a>
+        { style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" } %>
+        <% if @budget %>
+          <a class="btn text-sm" href="#" id="new-paymethod-link">新しい支払い方法を登録する</a>
+        <% end %>
     </div>
-
+    
     <br><br>
     <!-- 日付入力 -->
     <div>
@@ -56,9 +78,14 @@
     <!-- 提出ボタン -->
     <div class="text-center">
       <%= form.submit "支払いデータを作成", class: "btn", style:"background-color:#FFCC66;" %>
-      <%= link_to "キャンセル", budget_path(@budget), class: "btn" %>
+      <% if @budget %>
+        <%= link_to "キャンセル", budget_path(@budget), class: "btn" %>
+      <% else %>
+        <%= link_to "キャンセル", money_files_path, class: "btn" %>
+      <% end %>
     </div>
   <% end %>
+</div>
 </div>
 
 <!-- 新しいShop作成フォーム -->
@@ -82,7 +109,11 @@
     <br>
     <div class="text-center mt-4">
       <%= shop_form.submit "店舗を作成", class: "btn", style:"background-color:#FFCC66;" %>
-      <%= link_to "キャンセル", new_budget_payment_path(budget_id: @budget.id), class:"btn" %>
+      <% if @budget %>
+        <%= link_to "キャンセル", new_budget_payment_path(budget_id: @budget.id), class:"btn" %>
+      <% else %>
+        <%= link_to "キャンセル", money_files_path, class: "btn" %>
+      <% end %>
     </div>
   <% end %>
 </div>
@@ -112,7 +143,11 @@
     <br>
     <div class="text-center mt-4">
       <%= paymethod_form.submit "支払い方法を作成", class: "btn", style:"background-color:#FFCC66;" %>
-      <%= link_to "キャンセル", "#", class: "btn", style: "background-color:#FF6666;", onclick: "hideForm(); return false;" %>
+      <% if @budget %>
+        <%= link_to "キャンセル", new_budget_payment_path(budget_id: @budget.id), class:"btn" %>
+      <% else %>
+        <%= link_to "キャンセル", money_files_path, class: "btn" %>
+      <% end %>
     </div>
   <% end %>
 </div>

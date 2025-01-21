@@ -1,15 +1,24 @@
 class PaymentsController < ApplicationController
   before_action :require_login
   def new
-    @budget = Budget.find(params[:budget_id])
-    @payment = @budget.payments.build
+    if params[:budget_id].present?
+      @budget = Budget.find(params[:budget_id])
+      @money_file = @budget.money_file
+      @payment = @budget.payments.build
+    else
+      @budget = nil
+      @money_files = current_user.money_files
+      @budgets = Budget.includes(:category).where(money_file_id: @money_files.pluck(:id))
+      @payment = Payment.new
+    end
+  
     @shops = current_user.shops
     @pay_methods = current_user.pay_methods
   end
 
   def create
-    @budget = Budget.find_by(id: params[:budget_id])
-    @payment = @budget.payments.build(payments_params)
+    @budget = Budget.find_by(id: params[:payment][:budget_id])
+    @payment = Payment.build(payments_params)
     if @payment.save
       # shop_ids が存在する場合のみ関連付け
       shop_ids = params[:payment][:shop_ids]&.reject(&:blank?)
@@ -53,6 +62,6 @@ class PaymentsController < ApplicationController
   private
   
   def payments_params
-    params.require(:payment).permit(:date, :title, :description, :amount, :shop_id, :pay_method_id)
+    params.require(:payment).permit(:date, :title, :description, :amount, :shop_id, :pay_method_id, :budget_id)
   end
 end

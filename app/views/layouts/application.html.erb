@@ -28,7 +28,7 @@
             <p style="display: inline-block; margin-right: 1rem; font-size: 0.875rem; color: #2d3748;">
               ログイン中のユーザー：<%= current_user.name %>
             </p>
-            <%= link_to "ログアウト", logout_path, style: "display: inline-block; padding: 0.5rem 1rem; margin-right: 1rem; background-color:#FFCC66; border-radius: 0.25rem; text-decoration: none;" %>
+            <%= link_to "ログアウト", logout_path, style: "display: inline-block; padding: 0.5rem 0.5rem; margin-right: 1rem; background-color:#FFCC66; border-radius: 0.25rem; text-decoration: none;" %>
           <% end %>
           <!-- ドロップダウンメニューボタン　-->
           <div class="dropdown"style="position: relative; display: inline-block;">
@@ -78,6 +78,8 @@
               ">
               <% if current_user %>
                 <li style="padding: 8px;"><a href="<%= money_files_path(current_user) %>" style="text-decoration: none; color: #333;">ホーム</a></li>
+                -------
+                <li style="padding: 8px;"><a href="<%= new_payment_path %>" style="text-decoration: none; color: #333;">支出データ登録</a></li>
                 -------
                 <li style="padding: 8px;"><a href="<%= categories_path %>" style="text-decoration: none; color: #333;">カテゴリー</a></li>
                 <li style="padding: 8px;"><a href="<%= shops_path %>" style="text-decoration: none; color: #333;">店舗</a></li>

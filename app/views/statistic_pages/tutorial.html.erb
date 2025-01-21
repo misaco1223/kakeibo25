@@ -49,7 +49,7 @@
         </figure>
         <div style="flex:1;">
           <h2 class="card-title" style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;">
-            その2: カテゴリーと予算をしましょう
+            その2: カテゴリーと予算を設定しましょう
           </h2>
           <p> カテゴリーと予算は、お財布の中のポケットと、そこに入れる金額を意味します。<br>
           例えば「食費は30000円」と登録する際、「食費」がカテゴリー、「30000円」がその予算になります。</p>
@@ -77,16 +77,25 @@
         </figure>
         <div style="flex:1;">
           <h2 class="card-title" style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;">
-            その3: 支出データをこまめに入力しましょう
+            その3: 支出データをこまめに登録しましょう
           </h2>
           <p> ここでは支出データを管理していきます。</p>
           <br>
-          <p> ここで入力したデータに基づいて、予算があといくら残っているかが確認できます。<br>
-          支出データには、店舗や支払い方法も併せて登録することができます。</p>
+          <p> 左の画像は、「支出データ一覧」の画面です。<br>
+          支出データには、店舗や支払い方法を併せて登録することができます。<br>
+          右上の絞り込み欄では、日付・支払い方法・店舗から絞り込みを行うことができます</p>
           <br>
+          <div class="card-actions" style="display: flex; margin-top: auto;">
+            <%= link_to new_payment_path, class: "btn", style:"background-color:#FFCC66;" do %>早速、支出データを作ってみる<% end %>
+            <p><br>※ あらかじめ家計簿ファイルと予算の登録が必要です。</p>
+            <week>
+            <br>
+            <p>支出の登録はこの「支出データ一覧」の「支出データを新規作成」ボタンから登録するか<br>
+            ナビゲーションバーの「支出を登録する」ボタンから登録できます。</p>
+          </div>
+          <br><br>
           <strong>ここまで基本操作のおさらいです。</strong>
           <p>「家計簿ファイルを登録」→「予算を作成」→「支出データを登録」</p>
-          <br>
           <p>簡単ですね。それでは素敵な家計生活をお送りください！ See you again!</p>
         </div>
       </div>
