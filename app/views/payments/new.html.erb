@@ -1,8 +1,6 @@
-<header class="mb-4 bg-neutral">
-  <div class="navbar">
-    <a class="btn btn-ghost text-xl gray-900" href="">新しい支出データを作成</a>
-  </div>
-</header>
+<div class="navbar">
+  <a class="btn btn-ghost text-xl gray-900" href="">新しい支出データを作成</a>
+</div>
 
 <div class="container", style="margin: 10px; padding: 24px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 35rem; width: 100%;" >
 <div data-controller="dynamic-budget">
@@ -10,9 +8,9 @@
 
     <!-- 家計簿ファイルと予算を入力 -->
     <div>
-      <%= form.label :budget_id, "この支出データの登録先 :", class: "block text-gray-700" %><br>
+      <%= form.label :budget_id, "この支出データの登録先 :", class: "block text-gray-700" %>
       <% if @budget %>
-        <p><%= @money_file.title %>ファイルの<%= @budget.year_month %>の<%= @budget.category&.name %>カテゴリーに登録します</p>
+        <p><%= @money_file.title %>ファイルの<%= @budget.year_month.gsub('-', '年') + '月' %>の<%= @budget.category&.name %>カテゴリーに登録します</p>
         <%= form.hidden_field :budget_id, value: @budget.id %>
       <% else %>
         <%= form.collection_select :budget_id, @budgets, :id, 
@@ -22,57 +20,57 @@
       <% end %>
     </div>
 
-    <br><br>
+    <br>
     <!-- 店舗名入力 -->
     <div>
-      <%= form.label :shop_id, "店舗名 :", class: "block text-gray-700" %><br>
+      <%= form.label :shop_id, "店舗名 :", class: "block text-gray-700" %>
       <%= form.collection_select :shop_id, @shops, :id, :name, 
       { prompt: "店舗を選択してください" },
       { style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" } %> 
-      <a class="btn text-sm" href="#" id="new-shop-link">新しい店舗を登録する</a>
+      <a class="btn text-sm btn-ghost" href="#" id="new-shop-link">新しい店舗を登録する</a>
     </div>
 
-    <br><br>
+    <br>
     <!-- 支払い方法入力 -->
     <div>
-      <%= form.label :pay_method_id, "支払い方法 :", class: "block text-gray-700" %><br>
+      <%= form.label :pay_method_id, "支払い方法 :", class: "block text-gray-700" %>
       <%= form.collection_select :pay_method_id, @pay_methods, :id, :name, 
         { prompt: "支払い方法を選択してください" },
         { style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" } %>
-      <a class="btn text-sm" href="#" id="new-paymethod-link">新しい支払い方法を登録する</a>
+      <a class="btn text-sm btn-ghost" href="#" id="new-paymethod-link">新しい支払い方法を登録する</a>
     </div>
     
-    <br><br>
+    <br>
     <!-- 日付入力 -->
     <div>
-      <%= form.label :date, "日付(必須) :", class: "block font-medium text-gray-700" %><br>
+      <%= form.label :date, "日付(必須) :", class: "block font-medium text-gray-700" %>
       <%= form.date_field :date, rows: 3, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
 
-    <br><br>
+    <br>
     <!-- タイトル入力 -->
     <div>
-      <%= form.label :title, "支払いデータのタイトル(必須):", class: "block text-gray-700" %><br>
+      <%= form.label :title, "支払いデータのタイトル(必須):", class: "block text-gray-700" %>
       <%= form.text_field :title, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
 
-    <br><br>
+    <br>
     <!-- 説明入力 -->
     <div>
-      <%= form.label :description, "詳細 :", class: "block font-medium text-gray-700" %><br>
+      <%= form.label :description, "詳細 :", class: "block font-medium text-gray-700" %>
       <%= form.text_area :description, rows: 3, style: "margin: 4px; padding: 15px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
 
-    <br><br>
+    <br>
     <!-- 金額入力 -->
     <div>
-      <%= form.label :amount, "支払い金額(必須) :", class: "block font-medium text-gray-700" %><br>
+      <%= form.label :amount, "支払い金額(必須) :", class: "block font-medium text-gray-700" %>
       <%= form.number_field :amount, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
 
-    <br><br>
+    <br>
     <!-- 提出ボタン -->
-    <div class="text-center">
+    <div>
       <%= form.submit "支払いデータを作成", class: "btn", style:"background-color:#FFCC66;" %>
       <% if @budget %>
         <%= link_to "キャンセル", budget_path(@budget), class: "btn" %>
