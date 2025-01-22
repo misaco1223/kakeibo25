@@ -1,9 +1,7 @@
-<header>
-  <div class="mb-4 bg-neutral", style="margin: 10px; max-width: 32rem; width: 100%; display:flex;">
-    <a class="btn btn-ghost text-xl gray-900" href="/">家計簿ファイル一覧</a>
-    <p style="margin-top:10px"><%= @greeting %>、<%= current_user.name %>さん</p>
-  </div>
-</header>
+<div class="mb-4", style="margin: 10px; max-width: 32rem; width: 100%; display:flex;">
+  <a class="btn btn-ghost text-xl gray-900" href="/">家計簿ファイル一覧</a>
+  <p style="margin-top:15px"><%= @greeting %>、<%= current_user.name %>さん</p>
+</div>
 
 <div class="navbar", style="margin-left: 8px;">
   <%= link_to new_money_file_path, class: "btn", style:"background-color:#FFCC66;", data: { turbo: false } do %>ファイルを新規作成<% end %>
