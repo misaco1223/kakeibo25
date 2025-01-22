@@ -1,12 +1,10 @@
-<header class="mb-4 bg-neutral">
-  <div class="navbar">
-    <a href="#" class="btn btn-ghost text-xl"><%= @category.name %>の支出一覧</a>
-    <%= link_to "カテゴリーの一覧に戻る", categories_path, class: "btn", style:"margin-left:8px;" %>
-  </div>
-</header>
+<div class="navbar">
+  <a href="#" class="btn btn-ghost text-xl"><%= @category.name %>の支出一覧</a>
+  <%= link_to "カテゴリーの一覧に戻る", categories_path, class: "btn", style:"margin-left:8px;" %>
+</div>
 
-<div class="top-container" style="display:flex; flex-direction:row; margin:10px; margin-right:100px;">
-  <div class="block mx-auto max-w-md" style="flex:1">
+<div class="top-container" style="display:flex; flex-direction:row;">
+  <div class="mx-auto max-w-md" style="flex:1">
     <div class="card">
       <div class="card-body" style= "background-color: white; width: 300px; margin: 20px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); border: 1px solid #ccc; border-radius: 8px; ">
         <p style="font-family:'Palatino Linotype';">支出合計: <%= @total_amount %>円</h1>
@@ -14,13 +12,13 @@
     </div>
   </div>
 
-  <div class="block mx-auto max-w-md" style="flex:1">
+  <div class= "mx-auto" style="flex:1">
     <!-- 絞り込みフォーム -->
     <div style="flex:1;">
-      <div style="padding: 15px; max-width: 700px; width:100%; margin-left:-80px; border: 1px solid #ccc; font-size:small;">
+      <div style="padding: 15px; max-width: 700px; width:100%; border: 1px solid #ccc; font-size:small;">
         <h1 style="font-weight: bold;">絞り込み欄</h1>
         <%= form_with url: category_path(@category), method: :get, local: true do %>
-          <div class="row mb-4" style="display: flex;">
+          <div class="row mb-4" style="display: flex; margin-top:4px;">
 
             <!-- 日付フィルタ -->
             <div class="col-md-4" style="flex: 1; margin-right: 10px; max-width: 180px;">

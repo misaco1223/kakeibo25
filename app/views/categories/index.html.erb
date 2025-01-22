@@ -1,14 +1,13 @@
-<header>
-  <div class="navbar fixed top-0 left-0 w-full z-50">
-    <a class="btn btn-ghost text-xl" href="/">カテゴリー</a>
-  </div>
+<div class="navbar">
+  <a class="btn btn-ghost text-xl" href="/">カテゴリー</a>
+</div>
 
-  <div class="navbar", style="margin-left: 8px;">
-    <%= link_to "", class: "btn btn-ghost", id:"new-category-link", style:"border: 2px solid #FFCC66;" do %>カテゴリーを新規作成<% end %>
-  </div>
+<div class="navbar", style="margin-left: 8px;">
+  <%= link_to "", class: "btn btn-ghost", id:"new-category-link", style:"border: 2px solid #FFCC66;" do %>カテゴリーを新規作成<% end %>
+</div>
 
-<div class="overflow-x-auto" style="margin-top: 10px;" >
-  <table class="table", style="margin:10px; max-width:500px; width:100%;">
+<div class="overflow-x-auto">
+  <table class="table", style="margin:10px;">
     <!-- head -->
     <thead>
     <tr>
@@ -18,7 +17,7 @@
     </thead>
     <tbody>
     <% @categories.each do |category| %>
-      <tr class="block">
+      <tr>
         <td id="category-name"><%= link_to category.name,category_path(category), style:"text-decoration: underline;" %></td>
         <td style="display: flex;">
           <%= link_to "編集", "#", 
@@ -98,7 +97,7 @@
     </div>
     <br>
     <div class="text-center mt-4">
-      <%= category_form.submit "カテゴリーを作成", class: "btn btn-primary px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md" %>
+      <%= category_form.submit "カテゴリーを作成", class: "btn", style:"background-color:#FFCC66;" %>
       <%= link_to "キャンセル", categories_path, class:"btn" %>
     </div>
   <% end %>

@@ -21,6 +21,7 @@ class SessionsController < ApplicationController
     # ゲストユーザーを検索するか、存在しない場合は作成する
     user = User.find_or_create_by!(email: "guest@example.com") do |guest_user|
       guest_user.password = SecureRandom.urlsafe_base64
+      guest_user.password_confirmation = guest_user.password 
       guest_user.name = "ゲストユーザー"
     end
 

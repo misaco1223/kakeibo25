@@ -1,47 +1,44 @@
-<header class="mb-4 bg-neutral", style="margin: 10px auto; max-width: 32rem; width: 100%;">
-  <div class="navbar">
-    <a class="btn btn-ghost text-xl gray-900">新規ユーザーを登録</a>
-  </div>
-</header>
+<div class="navbar", style="margin: 10px auto; max-width: 32rem; width: 100%;">
+  <a class="btn btn-ghost text-xl gray-900">新規ユーザーを登録</a>
+</div>
 
-<div class="container bg-white shadow-md", style="margin: 10px auto; padding: 24px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 35rem; width: 100%;">
+<div class="container bg-white shadow-md", style="margin: 10px auto; padding: 24px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 35rem; width: 100%;">
   <%= form_with model: @user, local: true, class: "space-y-4" do |form| %>
-    <br>
     <!-- 名前入力 -->
     <div>
-      <%= form.label :name, "名前(ニックネーム可) :", class: "block font-medium text-xl text-gray-700" %><br>
+      <%= form.label :name, "名前(ニックネーム可) :", class: "block font-medium  text-gray-700" %>
       <%= form.text_field :name, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
 
-    <br><br>
+    <br>
     <!-- メールアドレス入力 -->
     <div>
-      <%= form.label :email, "メールアドレス :", class: "block text-xl text-gray-700" %><br>
+      <%= form.label :email, "メールアドレス :", class: "block text-gray-700" %>
       <%= form.text_field :email, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
 
-    <br><br>
+    <br>
     <!-- パスワード入力 -->
     <div>
-      <%= form.label :password, "パスワード(6字以上の半角英数字) :", class: "block font-medium text-xl text-gray-700" %><br>
+      <%= form.label :password, "パスワード(6字以上の半角英数字) :", class: "block font-medium text-gray-700" %>
       <%= form.password_field :password, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
 
-    <br><br>
+    <br>
     <!-- パスワード確認入力 -->
     <div>
-      <%= form.label :password_confirmation, "パスワード確認: ", class: "block font-medium text-xl text-gray-700" %><br>
+      <%= form.label :password_confirmation, "パスワード確認: ", class: "block font-medium text-gray-700" %>
       <%= form.password_field :password_confirmation, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;"  %>
     </div>
 
-    <br><br>
+    <br>
     <!-- 利用規約に同意する -->
     <div>
-      <%= form.check_box :agree_to_terms, class: "form-checkbox", style: "margin-right: 10px;" %>
-      <%= form.label :agree_to_terms, "利用規約に同意する", class: "text-xl text-gray-700" %>
+      <%= form.check_box :agree_to_terms, {class: "form-checkbox", style: "margin-right: 10px;" }, true, false %>
+      <%= form.label :agree_to_terms, "利用規約に同意する", class: "text-gray-700" %>
     </div>
 
-    <br><br>
+    <br>
     <!-- 提出ボタン -->
     <div class="text-center">
       <%= form.submit "新規ユーザーを作成", class: "btn", style:"background-color:#FFCC66;" %>

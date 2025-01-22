@@ -1,11 +1,10 @@
-<header>
-  <div class="navbar fixed top-0 left-0 w-full z-50">
-    <a class="btn btn-ghost text-xl" href="/shops">店舗</a>
-  </div>
+<div>
+  <a class="btn btn-ghost text-xl" href="/shops">店舗</a>
+</div>
 
-  <div class="navbar", style="margin-left: 8px;">
-    <%= link_to "", id:"new-shop-link", class: "btn btn-ghost", style:"border: 2px solid #FFCC66;" do %>新しい店舗を登録する<% end %>
-  </div>
+<div class="navbar", style="margin-left: 8px;">
+  <%= link_to "", id:"new-shop-link", class: "btn btn-ghost", style:"border: 2px solid #FFCC66;" do %>新しい店舗を登録する<% end %>
+</div>
 
 <div class="overflow-x-auto" style="margin-top: 10px;" >
   <table class="table", style="margin:10px; max-width:800px; width:100%;">
@@ -20,7 +19,7 @@
     </thead>
     <tbody>
     <% @shops.each do |shop| %>
-      <tr class="block">
+      <tr>
         <td><%= link_to shop.name, shop_path(shop), style:"text-decoration: underline;" %></td>
         <td><%= shop.address %></td>
         <td><%= shop.tel %></td>
