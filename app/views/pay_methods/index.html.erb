@@ -1,11 +1,10 @@
-<header>
-  <div class="navbar fixed top-0 left-0 w-full z-50">
-    <a class="btn btn-ghost text-xl" href="/shops">支払い方法</a>
-  </div>
+<div>
+  <a class="btn btn-ghost text-xl" href="/shops">支払い方法</a>
+</div>
 
-  <div class="navbar", style="margin-left: 8px;">
-    <%= link_to "", id:"new-paymethod-link", class: "btn btn-ghost", style:"border: 2px solid #FFCC66;" do %>新しい支払い方法を登録する<% end %>
-  </div>
+<div class="navbar", style="margin-left: 8px;">
+  <%= link_to "", id:"new-paymethod-link", class: "btn btn-ghost", style:"border: 2px solid #FFCC66;" do %>新しい支払い方法を登録する<% end %>
+</div>
 
 <div class="overflow-x-auto" style="margin-top: 10px;" >
   <table class="table", style="margin:10px; max-width:800px; width:100%;">
@@ -18,7 +17,7 @@
     </thead>
     <tbody>
     <% @pay_methods.each do |pay_method| %>
-       <tr class="block;">
+       <tr>
         <td><%= link_to pay_method.name, pay_method_path(pay_method), style:"text-decoration: underline;" %></td>
         <td style="display: flex;">
           <%= link_to "編集","#",
