@@ -86,9 +86,9 @@ class MoneyFilesController < ApplicationController
   end
 
   def timeline
-    money_files = current_user.money_files
-    @budgets = Budget.where(money_file_id: money_files.pluck(:id))
-    @payments = Payment.where(budget_id: @budgets.pluck(:id)).order(date: :asc)
+    @budgets = Budget.where(money_file_id: MoneyFile.where(user_id: current_user.id).pluck(:id))
+    @budget_ids = Budget.where(money_file_id: MoneyFile.where(user_id: current_user.id).pluck(:id)).pluck(:id)
+    @payments = Payment.where(budget_id: @budget_ids).order(date: :asc).page(params[:page])
     @total_amount = @payments.sum(&:amount)
     @categories = Category.where(id: @budgets.pluck(:category_id)).distinct
     @pay_methods = PayMethod.where(id: @payments.pluck(:pay_method_id)).distinct
@@ -97,22 +97,23 @@ class MoneyFilesController < ApplicationController
     # フィルタリング
     if params[:year_month_filter].present?
       filtered_budgets = @budgets.where(year_month: params[:year_month_filter])
-      @payments = Payment.where(budget_id: filtered_budgets.pluck(:id)).order(date: :asc)
+      @payments = Payment.where(budget_id: filtered_budgets.pluck(:id)).order(date: :asc).page(params[:page])
       @filtered_total_amount = Budget.total_amount(@payments)
     end
 
     if params[:category_filter].present?
-      @payments = @payments.where(category_id: params[:category_filter]).order(date: :asc)
+      filtered_budgets = @budgets.where(category_id: params[:category_filter])
+      @payments = @payments.where(budget_id: filtered_budgets.pluck(:id)).order(date: :asc).page(params[:page])
       @filtered_total_amount = Budget.total_amount(@payments)
     end
   
     if params[:pay_method_filter].present?
-      @payments = @payments.where(pay_method_id: params[:pay_method_filter]).order(date: :asc)
+      @payments = @payments.where(pay_method_id: params[:pay_method_filter]).order(date: :asc).page(params[:page])
       @filtered_total_amount = Budget.total_amount(@payments)
     end
   
     if params[:shop_filter].present?
-      @payments = @payments.where(shop_id: params[:shop_filter]).order(date: :asc)
+      @payments = @payments.where(shop_id: params[:shop_filter]).order(date: :asc).page(params[:page])
       @filtered_total_amount = Budget.total_amount(@payments)
     end    
   end

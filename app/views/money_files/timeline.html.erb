@@ -1,7 +1,7 @@
 
 <header>
   <div class="navbar">
-    <a href="" class="btn btn-ghost text-xl">全ての登録されている支出データ一覧</a>
+    <a href="" class="btn btn-ghost text-xl">登録されている支出データ一覧</a>
   </div>
 </header>
 <!-- 絞り込みフォーム -->
@@ -25,7 +25,7 @@
 
     <!-- カテゴリーフィルタ -->
     <div class="col-md-4" style="flex: 1; margin-right: 10px; max-width: 200px;">
-        <%= label_tag :category_filter, "支払い方法", style: "display: block; margin-bottom: 5px;" %>
+        <%= label_tag :category_filter, "カテゴリー", style: "display: block; margin-bottom: 5px;" %>
         <%= select_tag :category_filter, options_for_select(
             [['選択してください', '']] + @categories.map { |category| [category.name, category.id] },
             params[:category_filter]
@@ -63,9 +63,9 @@
   <table class="table", style="margin:10px;">
     <thead>
       <tr>
-        <th>家計簿</th>
-        <th>カテゴリー</th> 
         <th>日付</th>
+        <th>家計簿</th>
+        <th>カテゴリー</th>
         <th>タイトル</th>
         <th>詳細</th>
         <th>金額</th>
@@ -76,9 +76,9 @@
     <tbody>
       <% @payments.each do |payment| %>
         <tr>
+          <td><%= payment.date.strftime('%Y-%m-%d') %></td> 
           <td><%=link_to payment.budget.money_file&.title, money_file_path(payment.budget.money_file), class:"btn btn-ghost", style:"border: 1px solid #FFCC66;"%></td>
           <td><%=link_to payment.budget.category&.name, category_path(payment.budget.category), class:"btn btn-ghost", style:"border: 1px solid #FFCC66;"%></td>
-          <td><%= payment.date.strftime('%Y-%m-%d') %></td>  <!-- <th> -> <td>に修正 -->
           <td><%= link_to payment.title, budget_path(payment.budget),class: "btn btn-ghost", style:"border: 1px solid #C0C0C0;" %></td>
           <td><%= payment.description %></td>
           <td><%= payment.amount %>円</td>
@@ -110,3 +110,4 @@
     </tfoot>
   </table>
 </div>
+<%= paginate @payments %>
