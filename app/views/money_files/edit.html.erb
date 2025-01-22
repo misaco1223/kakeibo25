@@ -1,22 +1,20 @@
-<header class="mb-4 bg-neutral", style="margin: 10px; max-width: 32rem; width: 100%;">
-<div class="navbar">
-    <a class="btn btn-ghost text-xl gray-900">家計簿を編集</a>
+<div class="navbar", style="margin: 10px; max-width: 32rem; width: 100%;">
+  <a class="btn btn-ghost text-xl gray-900">ファイルを編集</a>
 </div>
-</header>
 
 <div class="container bg-white shadow-md", style="margin: 10px; padding: 24px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 35rem; width: 100%;">
 <%= form_with model: @money_file, local: true, class: "space-y-4" do |form| %>
     <!-- タイトル入力 -->
     <br>
     <div>
-    <%= form.label :title, "家計簿のタイトル :", class: "block text-xl text-gray-700" %><br>
+    <%= form.label :title, "ファイルのタイトル :", class: "block text-gray-700" %>
     <%= form.text_field :title, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
 
     <!-- 説明入力 -->
     <br><br>
     <div>
-    <%= form.label :description, "詳細 (任意) :", class: "block text-xl text-gray-700" %><br>
+    <%= form.label :description, "詳細 (任意) :", class: "block text-gray-700" %>
     <%= form.text_area :description, rows: 3, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
 
@@ -39,7 +37,7 @@
 
     <!-- 提出ボタン -->
     <br><br>
-    <div class="text-center">
+    <div>
     <%= form.submit "家計簿を更新", class: "btn", style:"background-color:#FFCC66;" %>
     <%= link_to "キャンセル", money_files_path, class: "btn" %>
     </div>
