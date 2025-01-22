@@ -1,23 +1,148 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="cupcake">
   <head>
     <title><%= content_for(:title) || "Kakeibo250103" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= yield :head %>
-
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
+    <%= stylesheet_link_tag "tailwind", "data-turbolinks-track": "reload", media: "all" %>
+    <%= stylesheet_link_tag "application", "data-turbolinks-track": "reload", media: "all" %>
+    <%= javascript_include_tag "application", "data-turbolinks-track": "reload" %>
+    <!-- %= javascript_importmap_tags % -->
   </head>
 
-  <body>
-    <%= yield %>
+  <body style="margin: 0; display: flex; flex-direction: column; min-height: 100vh; background-color:#FFFFEE;">
+    <div style="flex: 1; display: flex; flex-direction: column;">
+    <header>
+      <div style="display: flex; justify-content: space-between; align-items: center; background-image: url(<%= asset_path('header_image') %>); background-size:cover; background-position:center; padding: 0.5rem 1rem;">
+        <!-- Navbar Left -->
+        <div style="flex: 1;">
+          <a href="/" style="font-size: 1.25rem; color: #1a202c; text-decoration: none; font-weight: bold;">予算を守る家計簿</a>
+        </div>
+        <!-- Navbar Right -->
+        <div style="flex: 1; text-align: right; display: flex; align-items: center; justify-content: flex-end;">
+          <% if current_user.present? %>
+            <p style="display: inline-block; margin-right: 1rem; font-size: 0.875rem; color: #2d3748;">
+              ログイン中のユーザー：<%= current_user.name %>
+            </p>
+            <%= link_to "ログアウト", logout_path, style: "display: inline-block; padding: 0.5rem 0.5rem; margin-right: 1rem; background-color:#FFCC66; border-radius: 0.25rem; text-decoration: none;" %>
+          <% end %>
+          <!-- ドロップダウンメニューボタン　-->
+          <div class="dropdown"style="position: relative; display: inline-block;">
+            <div
+              tabindex="0"
+              role="button"
+              onclick="toggleDropdown(event)"
+              style="
+                background: none;
+                border: none;
+                cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+              ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h7" />
+              </svg>
+            </div>
+
+            <ul
+              id="dropdownMenu"
+              style="
+                display: none;
+                position: absolute;
+                top: 100%px;
+                right: 0;
+                background: #fff;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                padding: 8px;
+                list-style: none;
+                border-radius: 4px;
+                width: 150px;
+                z-index: 1000;
+              ">
+              <% if current_user %>
+                <li style="padding: 8px;"><a href="<%= money_files_path(current_user) %>" style="text-decoration: none; color: #333;">ホーム</a></li>
+                -------
+                <li style="padding: 8px;"><a href="<%= new_payment_path %>" style="text-decoration: none; color: #333;">支出データ登録</a></li>
+                <li style="padding: 8px;"><a href="/timeline" style="text-decoration: none; color: #333;">タイムライン</a></li>
+                -------
+                <li style="padding: 8px;"><a href="<%= categories_path %>" style="text-decoration: none; color: #333;">カテゴリー</a></li>
+                <li style="padding: 8px;"><a href="<%= shops_path %>" style="text-decoration: none; color: #333;">店舗</a></li>
+                <li style="padding: 8px;"><a href="<%= pay_methods_path %>" style="text-decoration: none; color: #333;">支払い方法</a></li>
+                -------
+                <li style="padding: 8px;">
+                  <a href="<%= user_path(current_user) %>" style="text-decoration: none; color: #333;">ユーザー情報 </a>
+                </li>
+                <li style="padding: 8px;"><a href="/tutorial" style="text-decoration: none; color: #333;">操作ガイド </a>
+                </li>
+              <% else %>
+                <li style="padding: 8px;">
+                  <a href="<%= login_path %>" style="text-decoration: none; color: #333;">ログイン</a>
+                </li>
+                -------
+                <li style="padding: 8px;"><a href="/tutorial" style="text-decoration: none; color: #333;">操作ガイド</a></li>
+                <li style="padding: 8px;">
+                  <a href="<%= new_user_path %>" style="text-decoration: none; color: #333;">ユーザー登録</a>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+    <main style="flex: 1;">
+      <% if flash.present? %>
+        <% flash.each do |message_type, message| %>
+          <% if message_type.to_sym == :success %>
+            <div class="navbar", style= "background-color: lightgreen;" ><%= message %></div>
+          <% else %>
+            <div class="navbar" style= "background-color: pink;" ><%= message %></div>
+          <% end %>
+        <% end %>
+      <% end %>
+      <%= debug breadcrumbs %>
+      <%= yield %>
+    </main>
+
+    <footer style="background-color: white; text-align: center; padding: 1rem 0; border-top: 1px solid #ddd;">
+      <nav style="display: flex; justify-content: center; gap: 16px; margin-bottom: 0.5rem;">
+        <a style="color: #333; text-decoration: none;" href="/service_terms">利用規約</a>
+        <a style="color: #333; text-decoration: none;" href="/privacy_policy">プライバシーポリシー</a>
+        <a style="color: #333; text-decoration: none;" href="#">お問い合わせ</a>
+      </nav>
+      <p>© 2025. 予算を守る家計簿 </p>
+    </footer>
   </body>
 </html>
+
+<script>
+  function toggleDropdown(event) {
+    const dropdown = document.getElementById('dropdownMenu');
+    const isHidden = dropdown.style.display === 'none' || dropdown.style.display === '';
+    dropdown.style.display = isHidden ? 'block' : 'none';
+    event.stopPropagation(); // 他のクリックイベントが反応しないようにする
+  }
+
+  // ページ外をクリックすると閉じる
+  document.addEventListener('click', () => {
+    const dropdown = document.getElementById('dropdownMenu');
+    dropdown.style.display = 'none';
+  });
+</script>

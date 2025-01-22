@@ -1,0 +1,108 @@
+<header class="mb-4 bg-neutral">
+  <div class="navbar">
+    <a href="#" class="btn btn-ghost text-xl"><%= @category.name %>の支出一覧</a>
+    <%= link_to "カテゴリーの一覧に戻る", categories_path, class: "btn", style:"margin-left:8px;" %>
+  </div>
+</header>
+
+<div class="top-container" style="display:flex; flex-direction:row; margin:10px; margin-right:100px;">
+  <div class="block mx-auto max-w-md" style="flex:1">
+    <div class="card">
+      <div class="card-body" style= "background-color: white; width: 300px; margin: 20px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); border: 1px solid #ccc; border-radius: 8px; ">
+        <p style="font-family:'Palatino Linotype';">支出合計: <%= @total_amount %>円</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="block mx-auto max-w-md" style="flex:1">
+    <!-- 絞り込みフォーム -->
+    <div style="flex:1;">
+      <div style="padding: 15px; max-width: 700px; width:100%; margin-left:-80px; border: 1px solid #ccc; font-size:small;">
+        <h1 style="font-weight: bold;">絞り込み欄</h1>
+        <%= form_with url: category_path(@category), method: :get, local: true do %>
+          <div class="row mb-4" style="display: flex;">
+
+            <!-- 日付フィルタ -->
+            <div class="col-md-4" style="flex: 1; margin-right: 10px; max-width: 180px;">
+              <%= label_tag :date_filter, "日付", style: "display: block; margin-bottom: 5px;" %>
+              <%= select_tag :date_filter, options_for_select(
+                    [['選択してください', '']] + @payments.distinct.pluck(:date).map { |date| [date.strftime('%Y-%m-%d'), date.strftime('%Y-%m-%d')] },
+                    params[:date_filter]
+                  ), class: 'form-control', onchange: 'this.form.submit();', style: "width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;" %>
+            </div>
+
+            <!-- 支払い方法フィルタ -->
+            <div class="col-md-4" style="flex: 1; margin-right: 10px; max-width: 180px;">
+              <%= label_tag :pay_method_filter, "支払い方法", style: "display: block; margin-bottom: 5px;" %>
+              <%= select_tag :pay_method_filter, options_for_select(
+                    [['選択してください', '']] + @pay_methods.map { |method| [method.name, method.id] },
+                    params[:pay_method_filter]
+                  ), class: 'form-control', onchange: 'this.form.submit();', style: "width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;" %>
+            </div>
+
+            <!-- 店舗フィルタ -->
+            <div class="col-md-4" style="flex: 1; margin-right: 10px; max-width: 180px;">
+              <%= label_tag :shop_filter, "店舗", style: "display: block; margin-bottom: 5px;" %>
+              <%= select_tag :shop_filter, options_for_select(
+                    [['選択してください', '']] + @shops.map { |shop| [shop.name, shop.id] },
+                    params[:shop_filter]
+                  ), class: 'form-control', onchange: 'this.form.submit();', style: "width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;" %>
+            </div>
+
+            <div style="margin-top: 20px;"> 
+              <%= link_to "絞り込み条件をクリア", category_path(@category), class: "btn", style:"font-size:small;" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overflow-x-auto">
+  <table class="table", style="margin:10px; width:100%;">
+    <thead>
+      <tr>
+        <th>家計簿</th>
+        <th>日付</th>
+        <th>タイトル</th>
+        <th>詳細</th>
+        <th>金額</th>
+        <th>支払い方法</th>
+        <th>店舗名</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @payments.each do |payment| %>
+      <tr>
+        <td><%=link_to payment.budget.money_file&.title, money_file_path(payment.budget.money_file), class:"btn btn-ghost", style:"border: 1px solid #FFCC66;"%></td>
+        <td><%= payment.date.strftime('%Y-%m-%d') %></td>  <!-- <th> -> <td>に修正 -->
+        <td><%= link_to payment.title, budget_path(payment.budget),class: "btn btn-ghost", style:"border: 1px solid #C0C0C0;" %></td>
+        <td><%= payment.description %></td>
+        <td><%= payment.amount %>円</td>
+        <td><%= payment.pay_method&.name || "" %></td>
+        <td><%= payment.shop&.name || "" %></td>
+      </tr>
+    <% end %>
+    </tbody>
+    <tfoot>
+      <% if params[:date_filter].blank? && params[:pay_method_filter].blank? && params[:shop_filter].blank? %>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="text-align:right">合計</td>
+          <td><%= @total_amount %>円</td>
+        </tr>
+      <% else %>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="text-align:right">合計</td>
+          <td><%= @filtered_total_amount %>円</td>
+        </tr>
+      <% end %>
+    </tfoot>
+  </table>
+</div>

@@ -1,0 +1,81 @@
+<header>
+  <div class="navbar">
+    <a href="" class="btn btn-ghost text-xl">支出データ一覧</a>
+    <%= link_to money_file_path(@money_file), class: "btn btn-ghost" do %>
+      from <%= @money_file.title %>ファイルの <%= @budget.category.name%>カテゴリー
+    <% end %>
+  </div>
+</header>
+
+<div class="navbar" style="margin: 0px 10px;">
+  <%= link_to new_budget_payment_path(@budget), class: "btn", style:"background-color:#FFCC66;" do %>支出データを新規作成<% end %>
+</div>
+
+<div class="top-container" style="display:flex; flex-direction:row; margin:10px; margin-right:100px;">
+  <div class="block mx-auto max-w-md" style="flex:1">
+    <div class="card" style="background-color:white; padding: 0px 20px; max-width: 400px; width:100%; height: 200px; margin-left: 20px; border: 1px solid #ccc; display:flex; flex-direction: row; align-items: center;">
+      <div class="card-body" style="flex: 1; padding: 8px; text-align:center;">
+        <a href="" class="btn btn-ghost text-xl">支払い状況</a>
+        <p class="text-gray-800 font-semibold mb-2">設定予算: <%=@budget.amount %>円</p>
+        <p class="text-gray-800 font-semibold mb-2">支出合計: <%= @total_amount %>円</h1>
+        <br>
+        ------------------
+        <div style="font-weight: bold; text-size:large;">
+          <% if @remaining_amount > 0 %>
+            <p style="color: black"><%= @remaining_amount %>円の <%= @status %>です</p>
+          <% else %>
+            <p style="color: red"><%= -@remaining_amount %>円の <%= @status %>です</p>
+          <% end %>
+        </div>
+      </div>
+      <div class= "card-body" style="flex: 1; padding:8px;">
+        <%= image_tag @budget.budget_image_url, class: "card-img-top", style: "width: 100%; height: 100px; object-fit: cover;" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- 絞り込みフォーム -->
+  <div style="flex:1; margin-top:70px;">
+    <div style="padding: 15px; max-width: 700px; width:100%; margin-left:-80px; border: 1px solid #ccc; font-size:small;">
+    <h1 style="font-weight: bold;">絞り込み欄</h1>
+    <%= form_with url: budget_path(@budget), method: :get, local: true do %>
+      <div class="row mb-4" style="display: flex;">
+        <!-- 日付フィルタ -->
+        <div class="col-md-4" style="flex: 1; margin-right: 10px; max-width: 180px;">
+          <%= label_tag :date_filter, "日付", style: "display: block; margin-bottom: 5px;" %>
+          <%= select_tag :date_filter, options_for_select(
+                [['選択してください', '']] + @payments.distinct.pluck(:date).map { |date| [date.strftime('%Y-%m-%d'), date.strftime('%Y-%m-%d')] },
+                params[:date_filter]
+              ), class: 'form-control', onchange: 'this.form.submit();', style: "width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;" %>
+        </div>
+
+        <!-- 支払い方法フィルタ -->
+        <div class="col-md-4" style="flex: 1; margin-right: 10px; max-width: 180px;">
+          <%= label_tag :pay_method_filter, "支払い方法", style: "display: block; margin-bottom: 5px;" %>
+          <%= select_tag :pay_method_filter, options_for_select(
+                [['選択してください', '']] + @pay_methods.map { |method| [method.name, method.id] },
+                params[:pay_method_filter]
+              ), class: 'form-control', onchange: 'this.form.submit();', style: "width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;" %>
+        </div>
+
+        <!-- 店舗フィルタ -->
+        <div class="col-md-4" style="flex: 1; margin-right: 10px; max-width: 180px;">
+          <%= label_tag :shop_filter, "店舗", style: "display: block; margin-bottom: 5px;" %>
+          <%= select_tag :shop_filter, options_for_select(
+                [['選択してください', '']] + @shops.map { |shop| [shop.name, shop.id] },
+                params[:shop_filter]
+              ), class: 'form-control', onchange: 'this.form.submit();', style: "width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;" %>
+        </div>
+
+        <div style="margin-top: 20px;"> 
+          <%= link_to "絞り込み条件をクリア", budget_path(@budget), class: "btn", style:"font-size:small;" %>
+        </div>
+      </div>
+    <% end %>
+    </div>
+   </div>
+</div>
+
+<br>
+<!-- Paymentのindexをレンダー -->
+<%= render "payments/index" %>

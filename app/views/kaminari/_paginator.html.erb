@@ -1,0 +1,26 @@
+<%= paginator.render do -%>
+  <ul class="flex justify-center space-x-2">
+    <!-- "First" Button -->
+    <%= first_page_tag unless current_page.first? %>
+
+    <!-- "Previous" Button -->
+    <%= prev_page_tag unless current_page.first? %>
+
+    <!-- Page Numbers -->
+    <% each_page do |page| -%>
+      <% if page.left_outer? || page.right_outer? || page.inside_window? -%>
+        <%= page_tag(page) %>
+      <% elsif !page.was_truncated? -%>
+        <%= gap_tag(class: 'px-4 py-2 text-gray-500') %>
+      <% end -%>
+    <% end -%>
+
+    <!-- "Next" Button -->
+    <%= next_page_tag unless current_page.last? %>
+
+    <!-- "Last" Button -->
+    <%= last_page_tag unless current_page.last? %>
+  </ul>
+<% end -%>
+
+

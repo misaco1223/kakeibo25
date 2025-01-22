@@ -1,0 +1,41 @@
+<header>
+  <div class="mb-4 bg-neutral", style="margin: 10px; max-width: 32rem; width: 100%; display:flex;">
+    <a class="btn btn-ghost text-xl gray-900" href="/">家計簿ファイル一覧</a>
+    <p style="margin-top:10px"><%= @greeting %>、<%= current_user.name %>さん</p>
+  </div>
+</header>
+
+<div class="navbar", style="margin-left: 8px;">
+  <%= link_to new_money_file_path, class: "btn", style:"background-color:#FFCC66;", data: { turbo: false } do %>ファイルを新規作成<% end %>
+</div>
+
+<br>
+<% if @money_files.present? %>
+  <div class="carousel" style="display: flex; overflow-x: auto; gap: 16px; padding: 16px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; margin-bottom: 40px; max-width: 100%;">
+    <% @money_files.each do |file| %>
+      <div class="carousel-item" style="flex: 0 0 auto; width: 320px; text-align: left; scroll-snap-align: center; border-radius: 8px; border: 1px solid #ccc;">
+        <div class="card" style="display: flex; text-left; background-color: white;">
+          <div class="card-body">
+            <figure class="text-left">
+                <%= image_tag file.money_file_image_url, class: "card-img-top", width: "300", height:"200" %>
+            </figure>
+            <h2 class="card-title" style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;"><%= file.title %></h2>
+            <p><%= file.description %></p>
+            <br>
+            <div class="card-actions" style="display: flex; margin-top: auto;">
+              <%= link_to money_file_path(file), class: "btn", style:"background-color:#FFCC66;" do %>このファイルをCheck Now<% end %>
+              <%= link_to edit_money_file_path(file), class: "btn" do %>編集<% end %>
+              <%= link_to money_file_path(file), method: :delete, data: { turbo_method: :delete }, class: "btn" do %>削除<% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p> 家計簿の登録がありません</p>
+<% end %>
+
+<!-- 
+<button class="bg-gray-900 hover:bg-gray-800 text-white rounded px-4 py-2">黒字のみ表示</button>
+<button class="btn">赤字のみ表示</button -->

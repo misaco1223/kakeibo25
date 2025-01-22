@@ -1,0 +1,50 @@
+<div class="overflow-x-auto">
+  <table class="table", style="margin:10px;">
+    <thead>
+      <tr>
+        <th>日付</th>
+        <th>タイトル</th>
+        <th>詳細</th>
+        <th>金額</th>
+        <th>支払い方法</th>
+        <th>店舗名</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @payments.each do |payment| %>
+        <tr>
+          <td><%= payment.date.strftime('%Y-%m-%d') %></td>
+          <td><%= payment.title %></td>
+          <td><%= payment.description %></td>
+          <td><%= payment.amount %>円</td>
+          <td><%= payment.pay_method&.name || "" %></td>
+          <td><%= payment.shop&.name || "" %></td>
+          <td style="display:flex;">
+            <%= link_to edit_budget_payment_path(@budget, payment), class: "btn", style:"background-color:#FFCC66;" do %>編集<% end %>
+            <%= form_with url: budget_payment_path(@budget, payment), method: :delete, local: true do %>
+              <%= submit_tag "削除", class: "btn btn-danger" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <% if params[:date_filter].blank? && params[:pay_method_filter].blank? && params[:shop_filter].blank? %>
+        <tr>
+          <td></td>
+          <td></td>
+          <td style="text-align:right">合計</td>
+          <td><%= @total_amount %>円</td>
+        </tr>
+      <% else %>
+        <tr>
+          <td></td>
+          <td></td>
+          <td style="text-align:right">合計</td>
+          <td><%= @filtered_total_amount %>円</td>
+        </tr>
+      <% end %>
+    </tfoot>
+  </table>
+</div>
