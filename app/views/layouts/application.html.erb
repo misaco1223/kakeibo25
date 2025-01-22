@@ -106,20 +106,6 @@
         </div>
       </div>
     </header>
-    
-    <main style="flex: 1;">
-      <% if flash.present? %>
-        <% flash.each do |message_type, message| %>
-          <% if message_type.to_sym == :success %>
-            <div class="navbar", style= "background-color: lightgreen;" ><%= message %></div>
-          <% else %>
-            <div class="navbar" style= "background-color: pink;" ><%= message %></div>
-          <% end %>
-        <% end %>
-      <% end %>
-      <%= debug breadcrumbs %>
-      <%= yield %>
-    </main>
 
     <footer style="background-color: white; text-align: center; padding: 1rem 0; border-top: 1px solid #ddd;">
       <nav style="display: flex; justify-content: center; gap: 16px; margin-bottom: 0.5rem;">
