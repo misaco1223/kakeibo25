@@ -1,28 +1,23 @@
-<header class="mb-4 bg-neutral">
-  <div class="navbar">
-    <a class="btn btn-ghost text-xl gray-900" href="#">予算を編集</a>
-  </div>
-</header>
+<div class="navbar">
+  <a class="btn btn-ghost text-xl gray-900" href="#">予算を編集</a>
+</div>
 
 <div class="container", style="margin: 10px; padding: 24px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 35rem; width: 100%;">
   <%= form_with model: @budget, local: true, class: "space-y-4" do |form| %>
     <%= form.hidden_field :money_file_id, value: @money_file.id %>
-    <br>
     <!-- カテゴリー入力 -->
     <div>
-      <%= form.label :category_id, "カテゴリー :", class: "block text-xl text-gray-700" %><br>
+      <%= form.label :category_id, "カテゴリー :", class: "block text-xl text-gray-700" %>
       <%= form.collection_select :category_id, @categories, :id, :name, 
       { prompt: "カテゴリーを選択してください" },
-      {  style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;"  } %><br>
-      <br>
-      <a class="btn text-sm" href="#", id="new-category-link">新しいカテゴリーを作成する</a>
+      {  style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;"  } %>
+      <a class="btn text-sm btn-ghost" href="#", id="new-category-link">新しいカテゴリーを作成する</a>
     </div>
 
-    <br><br>
+    <br>
     <!-- 画像入力 -->
     <div class="mb-3">
       <%= form.label :budget_image, "画像:", class: "block text-xl text-gray-700" %>
-      <br>
         <% if @budget.budget_image.present? %>
           <!-- 現在登録されている画像を表示 -->
           <%= image_tag @budget.budget_image_url, class: "card-img-top", width: "150", height: "100" %>
@@ -35,23 +30,23 @@
       <%= form.hidden_field :budget_image_cache %>
    </div>
 
-    <br><br>
+    <br>
     <!-- 説明入力 -->
     <div>
-      <%= form.label :description, "詳細 (任意) :", class: "block font-medium text-xl text-gray-700" %><br>
-      <%= form.text_area :description, rows: 3,  style: "margin: 4px; padding: 10px 100px; border-radius: 8px; border: 1px solid #ccc;" %>
+      <%= form.label :description, "詳細 (任意) :", class: "block font-medium text-xl text-gray-700" %>
+      <%= form.text_area :description, rows: 3,  style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
 
-    <br><br>
+    <br>
     <!-- 金額入力 -->
     <div>
-      <%= form.label :amount, "予算金額 :", class: "block font-medium text-xl text-gray-700" %><br>
+      <%= form.label :amount, "予算金額 :", class: "block font-medium text-xl text-gray-700" %>
       <%= form.number_field :amount, min: 0, step: 100, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;"  %>
     </div>
 
-    <br><br>
+    <br>
     <!-- 提出ボタン -->
-    <div class="text-center">
+    <div>
       <%= form.submit "予算を作成", class: "btn", style:"background-color:#FFCC66;" %>
       <%= link_to "キャンセル", money_file_path(@money_file), class: "btn" %>
     </div>

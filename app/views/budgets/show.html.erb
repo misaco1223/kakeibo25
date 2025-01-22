@@ -16,8 +16,8 @@
     <div class="card" style="background-color:white; padding: 0px 20px; max-width: 400px; width:100%; height: 200px; margin-left: 20px; border: 1px solid #ccc; display:flex; flex-direction: row; align-items: center;">
       <div class="card-body" style="flex: 1; padding: 8px; text-align:center;">
         <a href="" class="btn btn-ghost text-xl">支払い状況</a>
-        <p class="text-gray-800 font-semibold mb-2">設定予算: <%=@budget.amount %>円</p>
-        <p class="text-gray-800 font-semibold mb-2">支出合計: <%= @total_amount %>円</h1>
+        <p >設定予算: <%=@budget.amount %>円</p>
+        <p >支出合計: <%= @total_amount %>円</h1>
         <br>
         ------------------
         <div style="font-weight: bold; text-size:large;">
@@ -35,8 +35,8 @@
   </div>
 
   <!-- 絞り込みフォーム -->
-  <div style="flex:1; margin-top:70px;">
-    <div style="padding: 15px; max-width: 700px; width:100%; margin-left:-80px; border: 1px solid #ccc; font-size:small;">
+  <div style="flex:1; margin-top:60px;">
+    <div style="padding: 15px; max-width: 700px; width:100%; margin-left:80px; border: 1px solid #ccc; font-size:small;">
     <h1 style="font-weight: bold;">絞り込み欄</h1>
     <%= form_with url: budget_path(@budget), method: :get, local: true do %>
       <div class="row mb-4" style="display: flex;">
