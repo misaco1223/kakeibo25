@@ -29,4 +29,7 @@ test:
 # ensure the database is located in a persisted volume.
 production:
   <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
   # database: path/to/persistent/storage/production.sqlite3
