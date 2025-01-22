@@ -85,6 +85,38 @@ class MoneyFilesController < ApplicationController
     redirect_to money_files_path, success: "家計簿を削除しました"
   end
 
+  def timeline
+    money_files = current_user.money_files
+    @budgets = Budget.where(money_file_id: money_files.pluck(:id))
+    @payments = Payment.where(budget_id: @budgets.pluck(:id)).order(date: :asc)
+    @total_amount = @payments.sum(&:amount)
+    @categories = Category.where(id: @budgets.pluck(:category_id)).distinct
+    @pay_methods = PayMethod.where(id: @payments.pluck(:pay_method_id)).distinct
+    @shops = Shop.where(id: @payments.pluck(:shop_id)).distinct
+   
+    # フィルタリング
+    if params[:year_month_filter].present?
+      filtered_budgets = @budgets.where(year_month: params[:year_month_filter])
+      @payments = Payment.where(budget_id: filtered_budgets.pluck(:id)).order(date: :asc)
+      @filtered_total_amount = Budget.total_amount(@payments)
+    end
+
+    if params[:category_filter].present?
+      @payments = @payments.where(category_id: params[:category_filter]).order(date: :asc)
+      @filtered_total_amount = Budget.total_amount(@payments)
+    end
+  
+    if params[:pay_method_filter].present?
+      @payments = @payments.where(pay_method_id: params[:pay_method_filter]).order(date: :asc)
+      @filtered_total_amount = Budget.total_amount(@payments)
+    end
+  
+    if params[:shop_filter].present?
+      @payments = @payments.where(shop_id: params[:shop_filter]).order(date: :asc)
+      @filtered_total_amount = Budget.total_amount(@payments)
+    end    
+  end
+
   private
 
   def money_file_params

@@ -35,4 +35,6 @@ Rails.application.routes.draw do
   get "/service_terms" => "statistic_pages#service_terms", as: :service_terms
   get "/privacy_policy" => "statistic_pages#privacy_policy", as: :privacy_policy
   get "/contacts" => "statistic_pages#contacts", as: :contacts
+
+  get "/timeline" => "money_files#timeline", as: :timeline
 end
