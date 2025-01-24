@@ -1,20 +1,21 @@
-<div class="navbar">
-  <a class="btn btn-ghost text-xl gray-900" href="">新しい予算を作成</a>
+<div class="navbar max-w-[32rem] w-full">
+  <a class="btn btn-ghost text-xl gray-900">新しい予算を作成</a>
 </div>
 
-<div class="container", style="margin: 10px; padding: 24px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 35rem; width: 100%;">
+
+<div class="container bg-white shadow-md", style="padding:24px; border-radius:8px; max-width:400px;">
   <!-- 予算フォーム -->
   <%= form_with model: @budget, local: true, class: "space-y-4" do |form| %>
-    <!-- 家計簿のタイトルを表示する -->
+    <!-- 家計簿ファイルを表示する -->
     <div>
-      <p>家計簿の<%= @money_file.title %>ファイルに登録します</p>
+      <p><i class="fa-regular fa-folder"></i> <%= @money_file.title %></p>
       <%= form.hidden_field :money_file_id, value: params[:money_file_id] %>
     </div>
     
     <br>
     <!-- 年月 -->
     <div>
-      <%= form.label :year_month, "何月の予算にしますか :", class: "block text-gray-700" %>
+      <%= form.label :year_month, "何月の予算にしますか(必須) :", class: "block text-gray-700" %>
       <%= form.select :year_month, options_for_select(
         (Date.today.year-5..Date.today.year+5).to_a.map { |year| ["#{year}年", year] }, 
         selected: session[:year_month]&.split("-")&.first
@@ -34,34 +35,34 @@
     <br>
     <!-- カテゴリー入力 -->
     <div>
-      <%= form.label :category_id, "カテゴリー :", class: "block text-gray-700" %>
+      <%= form.label :category_id, "カテゴリー(必須) :", class: "block text-gray-700" %>
       <%= form.collection_select :category_id, @categories, :id, :name,
       { prompt: "カテゴリーを選択してください" },
       { style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" } %>
       
       <!-- 新しいカテゴリーリンク -->
-      <a href="#" class="btn btn-ghost text-sm" id="new-category-link">新しいカテゴリーを作成する</a>
+      <a href="#" class="btn btn-ghost text-sm" id="new-category-link">新しいカテゴリーを作成する<i class="fa-solid fa-plus"></i></a>
     </div>
 
     <br>
     <!-- 画像入力 -->
-    <div class="mb-3">
+    <div>
       <%= form.label :budget_image, "画像:", class: "block text-gray-700" %>
-      <%= form.file_field :budget_image, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;", accept: 'image/*' %>
+      <%= form.file_field :money_file_image, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc; max-width:300px;" , accept: 'image/*' %>
       <%= form.hidden_field :budget_image_cache %>
    </div>
     
     <br>
     <!-- 説明入力 -->
     <div>
-      <%= form.label :description, "詳細 (任意) :", class: "block font-medium text-gray-700" %>
+      <%= form.label :description, "詳細 :", class: "block font-medium text-gray-700" %>
       <%= form.text_area :description, rows: 3, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
     
     <br>
     <!-- 金額入力 -->
     <div>
-      <%= form.label :amount, "予算金額 :", class: "block font-medium text-gray-700" %>
+      <%= form.label :amount, "予算金額(必須) :", class: "block font-medium text-gray-700" %>
       <%= form.number_field :amount, min: 0, step: 100, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
     

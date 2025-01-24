@@ -7,14 +7,14 @@
 
     <!-- タイトル入力 -->
     <div>
-    <%= form.label :title, "ファイルのタイトル :", class: "block text-gray-700" %>
+    <%= form.label :title, "ファイルのタイトル(必須) :", class: "block text-gray-700" %>
     <%= form.text_field :title, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;"  %>
     </div>
 
     <!-- 説明入力 -->
     <br>
     <div>
-    <%= form.label :description, "詳細 (任意) :", class: "block text-gray-700" %>
+    <%= form.label :description, "詳細 :", class: "block text-gray-700" %>
     <%= form.text_area :description, rows: 3, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;"  %>
     </div>
 

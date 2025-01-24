@@ -1,35 +1,40 @@
-<div class="carousel" style="display: flex; overflow-x: auto; gap: 16px; padding: 16px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; margin-bottom: 40px; max-width: 100%;">
-  <% @budgets_with_data.each do |data| %>
-    <% budget = data[:budget] %>
-    <div class="carousel-item" style="flex: 0 0 auto; width: 320px; text-align: left; scroll-snap-align: center; border-radius: 8px; border: 1px solid #ccc;">
-      <div class="card" style="display: flex; text-left; background-color: white;">
-        <div class="card-body">
-          <figure class="text-left">
-            <%= image_tag budget.budget_image_url, class: "card-img-top", width: "300", height:"200" %>
-          </figure>
-          <h2 class="card-title" style="font-size: 1.25rem; font-weight: bold;"><%= data[:category_name] %></h2>
-          <div style="font-family:'Palatino Linotype';" >
-            <p>予算: <%= budget.amount %>円</p>
-            <p>支出合計: <%= data[:total_amount] %>円</p>
-            ------------------
-            <div style="font-weight: bold; text-size:large; font-family:'Palatino Linotype';">
-              <% if data[:remaining_amount] > 0 %>
-                <p style="color: black">あと<%= data[:remaining_amount] %>円残っています</p>
-              <% else %>
-                <p style="color: red"><%= - data[:remaining_amount] %>円の赤字です</p>
-              <% end %>
+<% if @budgets.present? %>
+  <div class="carousel relative z-0 flex overflow-x-auto px-4 py-4 rounded-lg" style="gap:16px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;">
+    <% @budgets_with_data.each do |data| %>
+      <% budget = data[:budget] %>
+      <div class="carousel-item flex-none text-left scroll-snap-center rounded-lg border border-gray-300" style="width:300px; border-radius: 16px;">
+        <div class="card bg-white">
+          <div class="card-body p-4">
+            <figure class="text-left">
+                <%= image_tag budget.budget_image_url, class: "card-img-top", width: "300", height:"200" %>
+            </figure>
+            <h2 class="card-title text-xl font-bold mb-2"><%= data[:category_name] %></h2>
+            <div class="card-actions">
+              <p>予算: <%= budget.amount %>円</p>
+              <p>支出合計: <%= data[:total_amount] %>円</p>
+              ------------------
+              <div class="font-bold">
+                <% if data[:remaining_amount] > 0 %>
+                  <p style="color: black">あと<%= data[:remaining_amount] %>円残っています</p>
+                <% else %>
+                  <p style="color: red"><%= - data[:remaining_amount] %>円の赤字です</p>
+                <% end %>
+              </div>
             </div>
-          </div>
-          <%= link_to budget_path(budget), class: "btn", style:"background-color:#FFCC66;" do %>支出データをCheck Now<% end %>
-          <br>
-          <p>【 詳細 】<br>
-             <%= budget.description || " "%></p>
-          <div class="card-actions" style="display: flex; margin-top: auto;"class="card-actions" style="display: flex; margin-top: auto;">
-            <%= link_to edit_budget_path(budget), class: "btn" do %>編集<% end %>
-            <%= link_to budget_path(budget), method: :delete, data: { turbo_method: :delete }, class: "btn" do %>削除<% end %>
+            <%= link_to budget_path(budget), class: "btn", style:"background-color:#FFCC66;" do %>支出データをCheck Now<% end %>
+            <br>
+            <p>【 予算の詳細 】<br>
+              <%= budget.description || " "%>
+            </p>
+            <div class="card-actions" style="display: flex; margin-top: auto;"class="card-actions" style="display: flex; margin-top: auto;">
+              <%= link_to edit_budget_path(budget), class: "btn" do %><i class="fa-solid fa-pen-to-square"></i>編集<% end %>
+              <%= link_to budget_path(budget), method: :delete, data: { turbo_method: :delete }, class: "btn btn-outline btn-error text-gray-800" do %><i class="fa-solid fa-trash"></i>削除<% end %>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  <% end %>
-</div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="ml-4 text-gray-700"> 予算の登録がありません</p>
+<% end %>
