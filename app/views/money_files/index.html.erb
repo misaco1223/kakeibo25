@@ -1,6 +1,9 @@
-<div class="mb-4", style="margin: 10px; max-width: 32rem; width: 100%; display:flex;">
-  <a class="btn btn-ghost text-xl gray-900" href="/">家計簿ファイル一覧</a>
-  <p style="margin-top:15px"><%= @greeting %>、<%= current_user.name %>さん</p>
+<div class="mx-w-md w-full mx-4">
+  <div>
+    <a class="btn btn-ghost text-xl gray-900" href="/">家計簿ファイル一覧</a>
+    <br>
+    <p class="sm:ml-4 text-gray-700" style="margin-left:16px;"><%= @greeting %>、<%= current_user.name %>さん</p>
+  </div>
 </div>
 
 <div class="navbar", style="margin-left: 8px;">
@@ -9,7 +12,7 @@
 
 <br>
 <% if @money_files.present? %>
-  <div class="carousel" style="display: flex; overflow-x: auto; gap: 16px; padding: 16px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; margin-bottom: 40px; max-width: 100%;">
+  <div class="carousel relative z-0" style="display: flex; overflow-x: auto; gap: 16px; padding: 16px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; margin-bottom: 40px; max-width: 100%;">
     <% @money_files.each do |file| %>
       <div class="carousel-item" style="flex: 0 0 auto; width: 320px; text-align: left; scroll-snap-align: center; border-radius: 8px; border: 1px solid #ccc;">
         <div class="card" style="display: flex; text-left; background-color: white;">

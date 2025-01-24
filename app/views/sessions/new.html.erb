@@ -3,7 +3,7 @@
 </div>
 
 <div class="container bg-white shadow-md", style="margin: 10px auto; padding: 24px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 35rem; width: 100%;">
-<%= form_with url: sessions_path, local: true do |form| %>
+  <%= form_with url: sessions_path, local: true do |form| %>
   <div>
     <%= form.label :メールアドレス %><br>
     <%= form.text_field :email, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
@@ -17,11 +17,11 @@
 
   <br><br>
   <%= form.submit "ログイン", class:"btn", style:"background-color:#FFCC66;" %>
-<% end %>
+  <% end %>
 
-<br>
-<div style="display: flex;">
-  <a class="btn" href= "<%= new_user_path %>">新規ユーザー登録</a>
-  <%= button_to "ゲストユーザーでログイン", guest_login_path, class: "btn btn-primary", style:"margin-left:10px;" %>
-</div>
+  <br>
+  <div style="display: flex;">
+    <a class="btn" href= "<%= new_user_path %>">新規ユーザー登録</a>
+    <%= button_to "ゲストユーザーでログイン", guest_login_path, class: "btn btn-primary", style:"margin-left:10px;" %>
+  </div>
 </div>
