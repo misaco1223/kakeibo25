@@ -8,7 +8,7 @@
   <%= form_with model: @budget, local: true, class: "space-y-4" do |form| %>
     <!-- 家計簿ファイルを表示する -->
     <div>
-      <p><i class="fa-regular fa-folder"></i> <%= @money_file.title %></p>
+      <p><i class="fa-regular fa-folder"></i> <%= @money_file.title %>ファイルへ保存</p>
       <%= form.hidden_field :money_file_id, value: params[:money_file_id] %>
     </div>
     

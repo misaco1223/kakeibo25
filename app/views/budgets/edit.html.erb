@@ -6,6 +6,13 @@
   <%= form_with model: @budget, local: true, class: "space-y-4" do |form| %>
     <%= form.hidden_field :money_file_id, value: @money_file.id %>
 
+    <!-- 家計簿ファイルを表示する -->
+    <div>
+      <p><i class="fa-regular fa-folder"></i> <%= @money_file.title %>ファイル</p>
+      <%= form.hidden_field :money_file_id, value: params[:money_file_id] %>
+    </div>
+
+    <br>
     <!--予算の設定月-->
     <div>
       <%= form.label :year_month, "何月の予算にしますか(必須) :", class: "block text-gray-700" %>
