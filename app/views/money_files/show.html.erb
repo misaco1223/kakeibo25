@@ -19,15 +19,15 @@
                 class: "prev-month btn btn-ghost", 
                 style: "padding:10px; margin-right:8px;" %>
 <span style="font-size:24px; margin-right:8px;">
-    <%= current_month.strftime("%Y年 %m月") %> の予算一覧
+  <%= current_month.strftime("%Y年 %m月") %>
 </span>
 <%= button_to "次月へ →", 
                 change_month_money_file_path(@money_file, direction: "next"), 
                 method: :post, 
                 params: { money_file_id: @money_file.id },
                 class: "next-month btn btn-ghost", 
-                style: "padding:10px;" %>
+                style: "padding:10px; margin-right:8px;" %>
 </div>
-<p style="margin: 0px 30px; font-size: large; font-weight:semibold; font-family:'Palatino Linotype';">今月の予算の合計は <strong><%= @budgets.sum(:amount) %>円</strong> です</p>
+<p style="margin: 0px 30px; font-size: large; font-weight:semibold;">今月の予算の合計は <strong><%= @budgets.sum(:amount) %>円</strong> です</p>
 
 <%= render "budgets/index" %>

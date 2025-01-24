@@ -27,11 +27,11 @@
         <!-- Navbar Right -->
         <div class="flex items-center space-x-4 ml-auto">
           <!-- ドロップダウンメニューボタン　-->
-          <div class="dropdown dropdown-end absolute z-[1000]">
+          <div class="dropdown dropdown-end absolute">
             <button onclick="toggleDropdown(event)" class="btn btn-outline btn-sm btn-circle">
               <i class="fas fa-bars text-gray-800"></i>
             </button>
-            <ul id="dropdownMenu" class="dropdown-content menu p-2 shadow bg-base-100 w-52 z-[1000] absolute">
+            <ul id="dropdownMenu" class="dropdown-content menu p-2 shadow bg-base-100 w-52 absolute" style="z-index:1000;">
               <% if current_user %>
                 <li class="p-2"><%= current_user.name %>さん<br><%= @greeting %></li>
                 <br>
@@ -50,7 +50,7 @@
                 <li><a href="/tutorial">操作ガイド</a></li>
               <% else %>
                 <li><a href="<%= login_path %>">ログイン</a></li>
-                <li class="divider"></li>
+                <li class="p-2">----------------</li>
                 <li><a href="/tutorial">操作ガイド</a></li>
                 <li><a href="<%= new_user_path %>">ユーザー登録</a></li>
               <% end %>

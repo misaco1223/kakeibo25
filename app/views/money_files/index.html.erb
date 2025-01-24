@@ -1,40 +1,39 @@
-<div class="mx-w-md w-full mx-4">
-  <div>
+<div class="mx-w-md w-full">
+  <div class="mb-4">
     <a class="btn btn-ghost text-xl gray-900" href="/">家計簿ファイル一覧</a>
-    <br>
-    <p class="sm:ml-4 text-gray-700" style="margin-left:16px;"><%= @greeting %>、<%= current_user.name %>さん</p>
   </div>
 </div>
 
-<div class="navbar", style="margin-left: 8px;">
-  <%= link_to new_money_file_path, class: "btn", style:"background-color:#FFCC66;", data: { turbo: false } do %>ファイルを新規作成<% end %>
+<div class="navbar px-4 mb-4">
+  <%= link_to new_money_file_path, class: "btn bg-yellow-300 text-gray-800", data: { turbo: false } do %>ファイルを新規作成<i class="fa-solid fa-plus"></i><% end %>
 </div>
 
-<br>
 <% if @money_files.present? %>
-  <div class="carousel relative z-0" style="display: flex; overflow-x: auto; gap: 16px; padding: 16px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; margin-bottom: 40px; max-width: 100%;">
+  <!--家計簿の登録がある場合-->
+  <div class="carousel relative z-0 flex overflow-x-auto px-4 py-4 rounded-lg" style="gap:16px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;">
     <% @money_files.each do |file| %>
-      <div class="carousel-item" style="flex: 0 0 auto; width: 320px; text-align: left; scroll-snap-align: center; border-radius: 8px; border: 1px solid #ccc;">
-        <div class="card" style="display: flex; text-left; background-color: white;">
-          <div class="card-body">
+      <div class="carousel-item flex-none text-left scroll-snap-center rounded-lg border border-gray-300" style="width:300px; border-radius: 16px;">
+        <div class="card bg-white">
+          <div class="card-body p-4">
             <figure class="text-left">
                 <%= image_tag file.money_file_image_url, class: "card-img-top", width: "300", height:"200" %>
             </figure>
-            <h2 class="card-title" style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;"><%= file.title %></h2>
-            <p><%= file.description %></p>
+            <h2 class="card-title text-xl font-bold mb-2"><%= file.title %></h2>
+            <p class="text-gray-600 mb-4"><%= file.description %></p>
             <br>
-            <div class="card-actions" style="display: flex; margin-top: auto;">
+            <div class="card-actions flex space-x-2">
               <%= link_to money_file_path(file), class: "btn", style:"background-color:#FFCC66;" do %>このファイルをCheck Now<% end %>
-              <%= link_to edit_money_file_path(file), class: "btn" do %>編集<% end %>
-              <%= link_to money_file_path(file), method: :delete, data: { turbo_method: :delete }, class: "btn" do %>削除<% end %>
+              <%= link_to edit_money_file_path(file), class: "btn" do %><i class="fa-solid fa-pen-to-square"></i>編集<% end %>
+              <%= link_to money_file_path(file), method: :delete, data: { turbo_method: :delete }, class: "btn btn-outline btn-error text-gray-800" do %><i class="fa-solid fa-trash"></i>削除<% end %>
             </div>
           </div>
         </div>
       </div>
     <% end %>
   </div>
+<!--家計簿の登録がない場合 -->
 <% else %>
-  <p style="margin-left:20px;"> 家計簿の登録がありません</p>
+  <p class="ml-4 text-gray-700"> 家計簿の登録がありません</p>
 <% end %>
 
 <!-- 
