@@ -35,7 +35,7 @@
 
           <!-- ドロップダウンメニューボタン　-->
           <div class="dropdown dropdown-end">
-            <button id="dropdownButton" class="btn btn-outline btn-sm btn-circle">
+            <button id="dropdownButton" class="btn btn-sm">
               <i class="fas fa-bars text-gray-800"></i>
             </button>
             <ul id="dropdownMenu" class="dropdown-content menu p-2 shadow bg-base-100 w-52 hidden" style="z-index:1000;">
@@ -99,27 +99,17 @@ document.addEventListener("DOMContentLoaded", function() {
   const dropdownButton = document.getElementById("dropdownButton");
   const dropdownMenu = document.getElementById("dropdownMenu");
 
-  // タッチイベントにも対応（スマホでのタッチ）
-  document.addEventListener("touchstart", function(event) {
-    const isHidden = dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '';
-    dropdownMenu.style.display = isHidden ? 'block' : 'none'; // メニューを表示または非表示に切り替え
-
-    event.stopPropagation(); // 他のクリックイベントが反応しないように
-  });
-
-  // ドロップダウンメニューの表示/非表示を切り替え
+  //非表示の状態をisHiddenとして切り替える
   dropdownButton.addEventListener("click", function(event) {
-    const isHidden = dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '';
-    dropdownMenu.style.display = isHidden ? 'block' : 'none'; // メニューを表示または非表示に切り替え
+    const isHidden = dropdownMenu.style.display === 'none' || dropdownMenu.style.display === ''; 
+    dropdownMenu.style.display = isHidden ? 'block' : 'none'; // isHiddenの時は表示させる
 
-    event.stopPropagation(); // 他のクリックイベントが反応しないように
+    event.stopPropagation(); // 他のクリックイベントが反応しないように?
   });
 
-  // ページ外をクリックしたらドロップダウンメニューを閉じる
-  document.addEventListener("click", function(event) {
-    if (!dropdownMenu.contains(event.target) && !event.target.closest('.dropdown')) {
-      dropdownMenu.style.display = 'none'; // メニューを非表示にする
-    }
+  // ページ外をクリックすると閉じる
+  document.addEventListener('click', () => {
+    dropdownMenu.style.display = 'none';
   });
 });
 </script>
