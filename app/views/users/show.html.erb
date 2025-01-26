@@ -1,13 +1,8 @@
-<div class="navbar">
-    <a class="btn btn-ghost text-xl gray-900">ユーザー情報</a>
+<div class="mx-w-md w-full">
+  <div>
+    <a class="btn btn-ghost text-xl gray-900" href="/">ユーザー情報</a>
   </div>
-  <div class="navbar">
-    <%= link_to "編集", "#", class: "btn",id: "edit-user-link" ,data: { user: @user} %>
-    <%= form_with model: @user, method: :delete, local: true do |form| %>
-      <%= form.submit "アカウントを削除する", class: "btn btn-danger" %>
-    <% end %>
-  </div>
-<div>
+</div>
 
 <div class="container", style="margin: 10px; padding: 24px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 35rem; width: 100%;">
   <div class="block">
@@ -20,9 +15,14 @@
     <label>パスワード</label>
     <p>******</p>
   </div>
-  <br><br>
-  <div class="block">
-    <%= link_to money_files_path, class: "btn", style:"background-color:#FFCC66;" do %>家計簿一覧へ戻る<% end %>
+  <br>
+  <div class="card-actions flex space-x-2">
+    <%= link_to "", class: "btn", id:"edit-user-link" do %>
+      <i class="fa-solid fa-pen-to-square"></i>編集
+    <% end %>
+    <%= link_to user_path(@user), method: :delete, data: { turbo_method: :delete }, class: "btn btn-outline btn-error text-gray-800" do %>
+      <i class="fa-solid fa-trash"></i>削除
+    <% end %>
   </div>
 </div>
 

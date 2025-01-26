@@ -1,96 +1,118 @@
 
-<header>
-  <div class="navbar">
-    <a href="" class="btn btn-ghost text-xl">登録されている支出データ一覧</a>
+<div class="mx-w-md w-full">
+  <div class="mb-4">
+    <a class="btn btn-ghost text-xl gray-900" href="/">全ての支出データ</a>
   </div>
-</header>
+</div>
+
 <!-- 絞り込みフォーム -->
-<div style="flex:1; margin-top:20px;">
-  <div style="padding: 15px; max-width: 800px; width:100%; margin-left:20px; border: 1px solid #ccc; font-size:small;">
-  <h1 style="font-weight: bold;">絞り込み欄</h1>
-  <%= form_with url: timeline_path, method: :get, local: true do %>
-    <div class="row mb-4" style="display: flex; margin-top:4px;">
-
-    <!-- 年月フィルタ -->
-    <div class="col-md-4" style="flex: 1; margin-right: 10px; max-width: 2000px;">
-        <%= label_tag :year_month_filter, "予算の設定月", style: "display: block; margin-bottom: 5px;" %>
-        <%= select_tag :year_month_filter, options_for_select(
-            [['選択してください', '']] + @budgets.distinct.pluck(:year_month).map { |year_month| 
-            formatted_year_month = Date.strptime(year_month, "%Y-%m").strftime("%Y年-%m月")
-            [formatted_year_month, year_month]
-            },
-            params[:year_month_filter]
-            ), class: 'form-control', onchange: 'this.form.submit();', style: "width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;" %>
+<div class="flex-1 mt-2 mx-w-300">
+  <div class="max-w-4xl w-full mx-auto border border-gray-300 font-sm">
+    <div class="flex">
+      <h1 class="mb-4 mx-4 mt-4">絞り込み欄</h1>
+      <%= link_to timeline_path, class: "mx-4 mt-4" do %><i class="fa-solid fa-rotate-left"></i><% end %>
+      <button id="toggleFilter"><i class="fa-regular fa-eye-slash"></i></button>
     </div>
 
-    <!-- カテゴリーフィルタ -->
-    <div class="col-md-4" style="flex: 1; margin-right: 10px; max-width: 200px;">
-        <%= label_tag :category_filter, "カテゴリー", style: "display: block; margin-bottom: 5px;" %>
-        <%= select_tag :category_filter, options_for_select(
-            [['選択してください', '']] + @categories.map { |category| [category.name, category.id] },
-            params[:category_filter]
-            ), class: 'form-control', onchange: 'this.form.submit();', style: "width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;" %>
-    </div>
+    <div id="filterForm" class="hidden">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+        <%= form_with url: timeline_path, method: :get, local: true do %>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+          <!-- 年月フィルタ -->
+          <div class="flex flex-col" style="padding:4px; margin-bottom:4px;">
+            <%= label_tag :year_month_filter, "予算の設定月", class: "block mb-2 text-sm" %>
+            <%= select_tag :year_month_filter, options_for_select(
+                [['選択してください', '']] + @budgets.distinct.pluck(:year_month).map { |year_month| 
+                formatted_year_month = Date.strptime(year_month, "%Y-%m").strftime("%Y年-%m月")
+                [formatted_year_month, year_month]
+                },
+                params[:year_month_filter]
+                ), class: 'select select-bordered w-full text-sm', onchange: 'this.form.submit();' %>
+          </div>
 
-    <!-- 支払い方法フィルタ -->
-    <div class="col-md-4" style="flex: 1; margin-right: 10px; max-width: 200px;">
-        <%= label_tag :pay_method_filter, "支払い方法", style: "display: block; margin-bottom: 5px;" %>
-        <%= select_tag :pay_method_filter, options_for_select(
-            [['選択してください', '']] + @pay_methods.map { |method| [method.name, method.id] },
-            params[:pay_method_filter]
-            ), class: 'form-control', onchange: 'this.form.submit();', style: "width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;" %>
-    </div>
+          <!-- カテゴリーフィルタ -->
+          <div class="flex flex-col" style="padding:4px; margin-bottom:4px;">
+            <%= label_tag :category_filter, "カテゴリー", class: "block mb-2 text-sm" %>
+            <%= select_tag :category_filter, options_for_select(
+                [['選択してください', '']] + @categories.map { |category| [category.name, category.id] },
+                params[:category_filter]
+                ), class: 'select select-bordered w-full text-sm', onchange: 'this.form.submit();' %>
+          </div>
 
-    <!-- 店舗フィルタ -->
-    <div class="col-md-4" style="flex: 1; margin-right: 10px; max-width: 200px;">
-        <%= label_tag :shop_filter, "店舗", style: "display: block; margin-bottom: 5px;" %>
-        <%= select_tag :shop_filter, options_for_select(
-            [['選択してください', '']] + @shops.map { |shop| [shop.name, shop.id] },
-            params[:shop_filter]
-            ), class: 'form-control', onchange: 'this.form.submit();', style: "width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;" %>
-    </div>
+          <!-- 支払い方法フィルタ -->
+          <div class="flex flex-col" style="padding:4px; margin-bottom:4px;">
+            <%= label_tag :pay_method_filter, "支払い方法", class: "block mb-2 text-sm" %>
+            <%= select_tag :pay_method_filter, options_for_select(
+                [['選択してください', '']] + @pay_methods.map { |method| [method.name, method.id] },
+                params[:pay_method_filter]
+                ), class: 'select select-bordered w-full text-sm', onchange: 'this.form.submit();' %>
+          </div>
 
-    <div style="margin-top: 15px;"> 
-        <%= link_to "絞り込み条件をクリア", timeline_path, class: "btn btn-ghost", style:"font-size:small;" %>
+          <!-- 店舗フィルタ -->
+          <div class="flex flex-col" style="padding:4px; margin-bottom:4px;">
+            <%= label_tag :shop_filter, "店舗", class: "block mb-2 text-sm" %>
+            <%= select_tag :shop_filter, options_for_select(
+                [['選択してください', '']] + @shops.map { |shop| [shop.name, shop.id] },
+                params[:shop_filter]
+                ), class: 'select select-bordered w-full text-sm', onchange: 'this.form.submit();' %>
+          </div>
+        </div>
+        <% end %>
+      </div>
     </div>
-  <% end %>
   </div>
 </div>
 
 <br>
 
+<!-- 支出データテーブル -->
 <div class="overflow-x-auto">
-  <table class="table", style="margin:10px;">
+  <table class="table">
     <thead>
       <tr>
         <th>日付</th>
-        <th>家計簿</th>
-        <th>カテゴリー</th>
-        <th>タイトル</th>
-        <th>詳細</th>
-        <th>金額</th>
-        <th>支払い方法</th>
-        <th>店舗名</th>
+        <th>ファイル</th>
+        <th style="text-align:center;">カテゴリー</th>
+        <th style="padding:10px 36px; text-align:center;">タイトル</th>
+        <th style="padding:10px 36px; text-align:center;">金額</th>
+        <th style="padding:10px 36px; text-align:center;">支払い方法</th>
+        <th style="padding:10px 36px; text-align:center;">店舗名</th>
       </tr>
     </thead>
     <tbody>
       <% @payments.each do |payment| %>
-        <tr>
-          <td><%= payment.date.strftime('%Y-%m-%d') %></td> 
-          <td><%=link_to payment.budget.money_file&.title, money_file_path(payment.budget.money_file), class:"btn btn-ghost", style:"border: 1px solid #FFCC66;"%></td>
-          <td><%=link_to payment.budget.category&.name, category_path(payment.budget.category), class:"btn btn-ghost", style:"border: 1px solid #FFCC66;"%></td>
-          <td><%= link_to payment.title, budget_path(payment.budget),class: "btn btn-ghost", style:"border: 1px solid #C0C0C0;" %></td>
-          <td><%= payment.description %></td>
-          <td><%= payment.amount %>円</td>
-          <td><%= payment.pay_method&.name || "" %></td>
-          <td><%= payment.shop&.name || "" %></td>
+        <tr style="height:80px;">
+          <td style="padding:0; text-align:center;">
+            <%= payment.date.strftime('%Y-%m-%d') %>
+          </td> 
+          <td style="padding:0; text-align:center;">
+            <%= link_to payment.budget.money_file&.title, money_file_path(payment.budget.money_file), class: "underline" %>
+          </td>
+          <td style="padding:0; text-align:center;">
+            <%= link_to payment.budget.category&.name, category_path(payment.budget.category), class: "underline hover:text-green-500" %>
+          </td>
+          <td style="padding:0; text-align:center;">
+            <%= link_to payment.title, budget_path(payment.budget), class: "underline" %>
+          </td>
+          <td style="padding:0; text-align:center;">
+            <%= payment.amount %>円
+          </td>
+          <td style="padding:0; text-align:center;">
+            <% if payment.pay_method %>
+              <%= link_to payment.pay_method.name, pay_method_path(payment.pay_method), class: "underline" %>
+            <% end %>
+          </td>
+          <td style="padding:0; text-align:center;">
+            <% if payment.shop %>
+              <%= link_to payment.shop.name, shop_path(payment.shop), class: "underline" %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
     <tfoot>
-      <% if params[:date_filter].blank? && params[:pay_method_filter].blank? && params[:shop_filter].blank? %>
+      <% if params[:date_filter].blank? && params[:category_filter].blank? && params[:pay_method_filter].blank? && params[:shop_filter].blank? %>
         <tr>
-          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -102,7 +124,6 @@
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
           <td style="text-align:right">合計</td>
           <td><%= @filtered_total_amount %>円</td>
         </tr>
@@ -110,4 +131,21 @@
     </tfoot>
   </table>
 </div>
+
 <%= paginate @payments %>
+
+<script>
+  // トグルボタンのクリックイベント
+  document.getElementById("toggleFilter").addEventListener("click", function() {
+    const filterForm = document.getElementById("filterForm");
+    const isHidden = filterForm.classList.contains("hidden");
+
+    if (isHidden) {
+      filterForm.classList.remove("hidden"); // 表示
+      this.innerHTML = '<i class="fa-regular fa-eye"></i>';
+    } else {
+      filterForm.classList.add("hidden"); // 非表示
+      this.innerHTML = '<i class="fa-regular fa-eye-slash"></i>';
+    }
+  });
+</script>

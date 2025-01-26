@@ -1,33 +1,39 @@
-<div class="navbar">
-  <a href="" class="btn btn-ghost text-xl">カテゴリー別予算一覧</a>
-  <%= link_to money_files_path(@money_file), class: "btn btn-ghost" do %>
-    from<%= @money_file.title %>ファイル
-  <% end %>
-</div>
-  
-<div class="navbar", style="margin-left: 8px;">
-  <%= link_to "予算を新規作成", new_budget_path(money_file_id: @money_file.id), class: "btn", style:"background-color:#FFCC66;" %>
+<div class="mx-w-md w-full">
+  <div>
+    <div style="height:40px; paddig-top:0px;">
+      <%= link_to money_files_path, class: "btn btn-ghost text-sm", style:"padding-right: 0px; width:auto;" do %>
+        <i class="fa-regular fa-folder"></i>ホーム<i class="fa-solid fa-chevron-right"></i>
+      <% end %>
+      <%= link_to "", class: "btn btn-ghost text-sm", style:"padding-left:0px; padding-right: 0px; width:auto; " do %>
+        <i class="fa-regular fa-folder"></i><%= @money_file.title %>
+      <% end %>
+    </div>
+    <a class="btn btn-ghost text-xl gray-900" href="/">カテゴリー別予算一覧</a>
+  </div>
 </div>
 
-<div class="month-navigation" style="margin:0px 10px; padding:10px; display:flex; align-items:center;">
+<div class="navbar px-4 mb-4">
+  <%= link_to new_budget_path(money_file_id:@money_file.id), class: "btn bg-yellow-300 text-gray-800", data: { turbo: false } do %>予算を新規作成<i class="fa-solid fa-plus"></i><% end %>
+</div>
+
+<div class="month-navigation flex items-center gap-4 mx-auto px-4 py-3 sm:justify-center">
 <% current_month = Date.strptime(session[:year_month], "%Y-%m") %>
 <!-- 前月へのボタン -->
-<%= button_to "← 前月へ", 
-                change_month_money_file_path(@money_file, direction: "prev"), 
-                method: :post,
-                params: { money_file_id: @money_file.id },
-                class: "prev-month btn btn-ghost", 
-                style: "padding:10px; margin-right:8px;" %>
-<span style="font-size:24px; margin-right:8px;">
-    <%= current_month.strftime("%Y年 %m月") %> の予算一覧
+<%= button_to change_month_money_file_path(@money_file, direction: "prev"), 
+    method: :post,
+    params: { money_file_id: @money_file.id },
+    class: "prev-month btn btn-ghost", 
+    style: "padding:10px; margin-right:8px;" do %><i class="fa-solid fa-backward"></i>前月へ<% end %>
+<span class="text-xl font-bold">
+  <%= current_month.strftime("%Y年 %m月") %>
 </span>
-<%= button_to "次月へ →", 
-                change_month_money_file_path(@money_file, direction: "next"), 
-                method: :post, 
-                params: { money_file_id: @money_file.id },
-                class: "next-month btn btn-ghost", 
-                style: "padding:10px;" %>
+<%= button_to change_month_money_file_path(@money_file, direction: "next"), 
+    method: :post, 
+    params: { money_file_id: @money_file.id },
+    class: "next-month btn btn-ghost", 
+    style: "padding:10px; margin-right:8px;" do %>次月へ<i class="fa-solid fa-forward"></i><% end %>
 </div>
-<p style="margin: 0px 30px; font-size: large; font-weight:semibold; font-family:'Palatino Linotype';">今月の予算の合計は <strong><%= @budgets.sum(:amount) %>円</strong> です</p>
+<p class="mx-4 px-4 text-lg font-semibold">今月の予算の合計は <strong><%= @budgets.sum(:amount) %>円</strong> です</p>
 
+<br>
 <%= render "budgets/index" %>

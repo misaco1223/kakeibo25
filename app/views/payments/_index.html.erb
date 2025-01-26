@@ -1,30 +1,40 @@
 <div class="overflow-x-auto">
-  <table class="table", style="margin:10px;">
+  <table class="table">
     <thead>
       <tr>
         <th>日付</th>
-        <th>タイトル</th>
-        <th>詳細</th>
-        <th>金額</th>
-        <th>支払い方法</th>
-        <th>店舗名</th>
+        <th style="padding:10px 36px; text-align:center;">タイトル</th>
+        <th style="padding:10px 36px; text-align:center;">詳細</th>
+        <th style="padding:10px 36px; text-align:center;">金額</th>
+        <th style="padding:10px 36px; text-align:center;">支払い方法</th>
+        <th style="padding:10px 36px; text-align:center;">店舗名</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
       <% @payments.each do |payment| %>
-        <tr>
-          <td><%= payment.date.strftime('%Y-%m-%d') %></td>
-          <td><%= payment.title %></td>
-          <td><%= payment.description %></td>
-          <td><%= payment.amount %>円</td>
-          <td><%= payment.pay_method&.name || "" %></td>
-          <td><%= payment.shop&.name || "" %></td>
-          <td style="display:flex;">
-            <%= link_to edit_budget_payment_path(@budget, payment), class: "btn", style:"background-color:#FFCC66;" do %>編集<% end %>
-            <%= form_with url: budget_payment_path(@budget, payment), method: :delete, local: true do %>
-              <%= submit_tag "削除", class: "btn btn-danger" %>
-            <% end %>
+        <tr style="height:80px;">
+          <td style="padding:0; text-align:center;">
+            <%= payment.date.strftime('%Y-%m-%d') %>
+          </td>
+          <td style="padding:0; text-align:center;">
+            <%= payment.title %>
+          </td>
+          <td style="padding:0; text-align:center;">
+            <%= payment.description %>
+          </td>
+          <td style="padding:0; text-align:center;">
+            <%= payment.amount %>円
+          </td>
+          <td style="padding:0; text-align:center;">
+            <%= payment.pay_method&.name || "" %>
+          </td>
+          <td style="padding:0; text-align:center;">
+            <%= payment.shop&.name || "" %>
+          </td>
+          <td class="flex">
+            <%= link_to edit_budget_payment_path(@budget,payment), class: "btn btn-ghost" do %><i class="fa-solid fa-pen-to-square"></i>編集<% end %>
+            <%= link_to budget_payment_path(@budget, payment), method: :delete, data: { turbo_method: :delete }, class: "btn btn-ghost btn-outline btn-error text-gray-800" do %><i class="fa-solid fa-trash"></i>削除<% end %>
           </td>
         </tr>
       <% end %>

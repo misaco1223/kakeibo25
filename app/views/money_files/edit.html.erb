@@ -1,27 +1,26 @@
-<div class="navbar", style="margin: 10px; max-width: 32rem; width: 100%;">
+<div class="navbar max-w-[32rem] w-full">
   <a class="btn btn-ghost text-xl gray-900">ファイルを編集</a>
 </div>
 
-<div class="container bg-white shadow-md", style="margin: 10px; padding: 24px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 35rem; width: 100%;">
+<div class="container bg-white shadow-md", style="padding:24px; border-radius:8px; max-width:400px;">
 <%= form_with model: @money_file, local: true, class: "space-y-4" do |form| %>
-    <!-- タイトル入力 -->
-    <div>
-    <%= form.label :title, "ファイルのタイトル :", class: "block text-gray-700" %>
+  <!-- タイトル入力 -->
+  <div>
+    <%= form.label :title, "ファイルのタイトル(必須) :", class: "block text-gray-700" %>
     <%= form.text_field :title, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
 
     <!-- 説明入力 -->
-    <br><br>
+    <br>
     <div>
-    <%= form.label :description, "詳細 (任意) :", class: "block text-gray-700" %>
+    <%= form.label :description, "詳細 :", class: "block text-gray-700" %>
     <%= form.text_area :description, rows: 3, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
 
-    <br><br>
+    <br>
     <!-- 画像入力 -->
     <div>
-    <%= form.label :money_file_image, "画像:", class: "block text-xl text-gray-700" %>
-    <br>
+    <%= form.label :money_file_image, "画像:", class: "block text-gray-700" %>
     <% if @money_file.money_file_image.present? %>
         <!-- 現在登録されている画像を表示 -->
         <%= image_tag @money_file.money_file_image_url, class: "card-img-top", width: "150", height: "100" %>
@@ -30,13 +29,13 @@
         <%= form.check_box :remove_money_file_image, class: "form-checkbox h-5 w-5 text-red-600" %>
         <br>
     <% end %>
-    <%= form.file_field :money_file_image, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;", accept: 'image/*' %>
+    <%= form.file_field :money_file_image, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc; max-width:300px;", accept: 'image/*' %>
     <%= form.hidden_field :money_file_image_cache %>
     </div>
 
     <!-- 提出ボタン -->
-    <br><br>
-    <div>
+    <br>
+    <div class="m-4 space-x-2">
     <%= form.submit "家計簿を更新", class: "btn", style:"background-color:#FFCC66;" %>
     <%= link_to "キャンセル", money_files_path, class: "btn" %>
     </div>
