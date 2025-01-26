@@ -20,8 +20,9 @@ class PayMethodsController < ApplicationController
       @shops = Shop.where(id: @payments.pluck(:shop_id)).distinct
 
     # フィルタリング
-    if params[:date_filter].present?
-      @payments = @payments.where(date: params[:date_filter])
+    if params[:year_month_filter].present?
+      filtered_budgets = @budgets.where(year_month: params[:year_month_filter])
+      @payments = Payment.where(budget_id: filtered_budgets.pluck(:id)).order(date: :asc)
       @filtered_total_amount = Budget.total_amount(@payments)
     end
 

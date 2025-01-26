@@ -1,7 +1,14 @@
 <div class="mx-w-md w-full">
-  <div class="mb-4 flex">
+  <div>
+    <div style="paddig-top:0px;">
+      <%= link_to categories_path, class: "btn btn-ghost text-sm", style:"padding-right: 0px; width:auto;" do %>
+        <i class="fa-regular fa-folder"></i>カテゴリー<i class="fa-solid fa-chevron-right"></i>
+      <% end %>
+      <%= link_to "", class: "btn btn-ghost text-sm", style:"padding-left:0px; padding-right: 0px; width:auto; " do %>
+        <i class="fa-regular fa-folder"></i><%= @category.name %>
+      <% end %>
+    </div>
     <a class="btn btn-ghost text-xl gray-900" href="/"><%= @category.name %>の支出一覧</a>
-    <%= link_to "カテゴリーの一覧に戻る", categories_path, class: "btn btn-ghost", style:"margin-left:8px;" %>
   </div>
 </div>
 
@@ -19,7 +26,7 @@
     </div>
 
     <div id="filterForm" class="hidden">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4 mb-4">
         <%= form_with url: category_path(@category), method: :get, local: true do %>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
 
@@ -68,7 +75,6 @@
       <tr>
         <th>日付</th>
         <th>ファイル</th>
-        <th style="text-align:center;">カテゴリー</th>
         <th style="padding:10px 36px; text-align:center;">タイトル</th>
         <th style="padding:10px 36px; text-align:center;">金額</th>
         <th style="padding:10px 36px; text-align:center;">支払い方法</th>
@@ -83,9 +89,6 @@
           </td> 
           <td style="padding:0; text-align:center;">
             <%= link_to payment.budget.money_file&.title, money_file_path(payment.budget.money_file), class: "underline" %>
-          </td>
-          <td style="padding:0; text-align:center;">
-            <%= link_to payment.budget.category&.name, category_path(payment.budget.category), class: "underline hover:text-green-500" %>
           </td>
           <td style="padding:0; text-align:center;">
             <%= link_to payment.title, budget_path(payment.budget), class: "underline" %>
@@ -107,7 +110,7 @@
       <% end %>
     </tbody>
     <tfoot>
-      <% if params[:date_filter].blank? && params[:category_filter].blank? && params[:pay_method_filter].blank? && params[:shop_filter].blank? %>
+      <% if params[:year_month_filter].blank? && params[:category_filter].blank? && params[:pay_method_filter].blank? && params[:shop_filter].blank? %>
         <tr>
           <td></td>
           <td></td>

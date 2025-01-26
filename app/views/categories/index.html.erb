@@ -1,5 +1,10 @@
 <div class="mx-w-md w-full">
   <div>
+    <div style="height:40px; paddig-top:0px;">
+      <%= link_to "", class: "btn btn-ghost text-sm", style:"padding-right: 0px; width:auto;" do %>
+        <i class="fa-regular fa-folder"></i>カテゴリー
+      <% end %>
+    </div>
     <a class="btn btn-ghost text-xl gray-900" href="/">登録されたカテゴリー</a>
   </div>
 </div>
@@ -23,10 +28,10 @@
           <%= link_to category.name, category_path(category), class:"underline" %>
         </td>
         <td class="flex space-x-4">
-          <%= link_to "", class: "btn", id: "edit-category-link", data: { category_id: category.id, category_name: category.name } do %>
+          <%= link_to "", class: "btn btn-ghost", id: "edit-category-link", data: { category_id: category.id, category_name: category.name } do %>
             <i class="fa-solid fa-pen-to-square"></i>編集
           <% end %>
-          <%= link_to category_path(category), method: :delete, data: { turbo_method: :delete }, class: "btn btn-outline btn-error text-gray-800" do %>
+          <%= link_to category_path(category), method: :delete, data: { turbo_method: :delete }, class: "btn btn-ghost btn-outline btn-error text-gray-800" do %>
             <i class="fa-solid fa-trash"></i>削除
           <% end %>
         </td>
@@ -46,8 +51,8 @@
     </div>
     <br>
     <div class="text-center mt-4">
-      <%= category_form.submit "カテゴリーを作成", class: "btn", style:"background-color:#FFCC66;" %>
-      <%= link_to "キャンセル", categories_path, class:"btn" %>
+      <%= category_form.submit "カテゴリーを更新", class: "btn", style:"background-color:#FFCC66;" %>
+      <%= link_to "キャンセル", categories_path, class:"btn cancel-btn" %>
     </div>
   <% end %>
 </div>
