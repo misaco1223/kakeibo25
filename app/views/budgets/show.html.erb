@@ -40,8 +40,8 @@
   </div>
 
   <!--絞り込みフォーム-->
-  <div class="mx-w-300">
-    <div class="max-w-4xl w-full mx-auto border border-gray-300 font-sm">
+  <div class="mx-w-300 justify-start">
+    <div class="max-w-md border border-gray-300 font-sm">
       <div class="flex">
         <h1 class="mb-4 mx-4 mt-4">絞り込み欄</h1>
         <%= link_to budget_path(@budget), class: "mx-4 mt-4" do %><i class="fa-solid fa-rotate-left"></i><% end %>
@@ -59,7 +59,7 @@
               <%= select_tag :date_filter, options_for_select(
                     [['選択してください', '']] + @payments.distinct.pluck(:date).map { |date| [date.strftime('%Y-%m-%d'), date.strftime('%Y-%m-%d')] },
                     params[:date_filter]
-                  ), class: 'select select-borderd w-full text-sm', onchange: 'this.form.submit();' %>
+                  ), class: 'select select-bordered w-full text-sm', onchange: 'this.form.submit();' %>
             </div>
 
             <!-- 支払い方法フィルタ -->

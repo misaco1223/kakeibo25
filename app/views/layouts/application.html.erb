@@ -25,14 +25,15 @@
         </div>
 
         <!-- Navbar Right -->
-        <div class="flex items-center space-x-2 ml-auto">
-          <div class="text-sm">
+        <div class="flex">
+          <!--ユーザー名-->
+          <div class="text-sm" style="align-items: center; width:150px; flex:1; text-align:right;">
             <% if current_user %>
               <i class="fa-solid fa-user"></i><%=current_user.name%>さん
             <% end %>
           </div>
           <!-- ドロップダウンメニューボタン　-->
-          <div class=" flex dropdown dropdown-end absolute">
+          <div class="dropdown dropdown-end absolute" style="flex:1; max-width:40px; text-align:right;">
             <button onclick="toggleDropdown(event)" class="btn btn-outline btn-sm btn-circle">
               <i class="fas fa-bars text-gray-800"></i>
             </button>
