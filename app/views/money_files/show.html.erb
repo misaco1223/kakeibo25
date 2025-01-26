@@ -1,9 +1,14 @@
 <div class="mx-w-md w-full">
-  <div class="flex">
+  <div>
+    <div style="height:40px; paddig-top:0px;">
+      <%= link_to money_files_path, class: "btn btn-ghost text-sm", style:"padding-right: 0px; width:auto;" do %>
+        <i class="fa-regular fa-folder"></i>ホーム<i class="fa-solid fa-chevron-right"></i>
+      <% end %>
+      <%= link_to "", class: "btn btn-ghost text-sm", style:"padding-left:0px; padding-right: 0px; width:auto; " do %>
+        <i class="fa-regular fa-folder"></i><%= @money_file.title %>
+      <% end %>
+    </div>
     <a class="btn btn-ghost text-xl gray-900" href="/">カテゴリー別予算一覧</a>
-    <%= link_to money_files_path(@money_file), class: "btn btn-ghost" do %>
-      <i class="fa-regular fa-folder"></i><%= @money_file.title %>
-  <% end %>
   </div>
 </div>
 
