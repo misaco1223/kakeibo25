@@ -34,7 +34,10 @@ Rails.application.routes.draw do
   get "/tutorial" => "statistic_pages#tutorial", as: :tutorial
   get "/service_terms" => "statistic_pages#service_terms", as: :service_terms
   get "/privacy_policy" => "statistic_pages#privacy_policy", as: :privacy_policy
-  get "/contacts" => "statistic_pages#contacts", as: :contacts
+  
+  resources :contacts, only: %i[new create]
 
   get "/timeline" => "money_files#timeline", as: :timeline
+
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 end

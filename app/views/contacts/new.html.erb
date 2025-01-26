@@ -1,0 +1,29 @@
+<div class="my-10 mx-4 items-start">
+  <a class="btn btn-ghost text-xl gray-900">お問い合わせ</a>
+  <p>ご不明な点やご意見などございましたら<br>
+  以下のフォームにご入力の上、送信ボタンを押してください。</p>
+
+  <br>
+  <div class="container m-4 p-4 mx-w-xs bg-white">
+    <%= form_with model: @contact, local: true do |f| %>
+      <div>
+        <%= f.label :name, 'お名前' %><br>
+        <%= f.text_field :name, required: true, class:"border  mb-4" %>
+      </div>
+
+      <div>
+          <%= f.label :email, '返信用メールアドレス' %><br>
+          <%= f.email_field :email, required: true, class:"border  mb-4" %>
+      </div>
+
+      <div>
+          <%= f.label :message, 'お問い合わせ内容' %><br>
+          <%= f.text_area :message, rows: 5, required: true, class:"border  mb-4" %>
+      </div>
+
+      <div>
+          <%= f.submit '送信', class:"btn" %>
+      </div>
+    <% end %>
+  </div>
+</div>

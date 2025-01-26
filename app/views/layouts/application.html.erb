@@ -28,9 +28,9 @@
         <div class="flex items-center gap-4">
           <!--ユーザー名-->
           <% if current_user %>
-          <div class="text-sm" style="align-items: center; width:150px; flex:1; text-align:right;">
-            <i class="fa-solid fa-user"></i><%=current_user.name%>さん
-          </div>
+            <%= link_to user_path(current_user), class:"text-sm text-right" do %>
+              <i class="fa-solid fa-user"></i><%=current_user.name%>さん
+            <% end %>
           <% end %>
 
           <!-- ドロップダウンメニューボタン　-->
@@ -75,7 +75,7 @@
       <nav class="flex justify-center space-x-4 mb-2">
         <a class="text-gray-700 hover:underline sm:text-sm md:text-base" href="/service_terms">利用規約</a>
         <a class="text-gray-700 hover:underline sm:text-sm md:text-base" href="/privacy_policy">プライバシーポリシー</a>
-        <a class="text-gray-700 hover:underline sm:text-sm md:text-base" href="/contacts">お問い合わせ</a>
+        <a class="text-gray-700 hover:underline sm:text-sm md:text-base" href="<%= new_contact_path %>">お問い合わせ</a>
       </nav>
       <p class="text-gray-600 sm:text-sm md:text-base">© 2025. 予算を守る家計簿 </p>
     </footer>
