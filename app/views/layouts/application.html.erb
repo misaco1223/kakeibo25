@@ -38,7 +38,7 @@
             <button id="dropdownButton" class="btn btn-outline btn-sm btn-circle">
               <i class="fas fa-bars text-gray-800"></i>
             </button>
-            <ul id="dropdownMenu" class="dropdown-content menu p-2 shadow bg-base-100 w-52" style="z-index:1000; pointer-events: auto;">
+            <ul id="dropdownMenu" class="dropdown-content menu p-2 shadow bg-base-100 w-52 hidden style="z-index:1000;">
               <% if current_user %>
                 <li class="p-2"><%= current_user.name %>さん<br><%= @greeting %></li>
                 <br>
@@ -68,6 +68,18 @@
     </header>
 
     <main class="flex-grow p-4 z-0">
+      <!--エラーメッセージ-->
+      <% if flash.present? %>
+        <% flash.each do |message_type, message| %>
+          <% if message_type.to_sym == :success %>
+            <div class="navbar", style= "background-color: lightgreen;" ><%= message %></div>
+          <% else %>
+            <div class="navbar" style= "background-color: pink;" ><%= message %></div>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <!--各ビューを返す-->
       <%= yield %>
     </main>
 
@@ -87,10 +99,10 @@
     const dropdownButton = document.getElementById("dropdownButton");
     const dropdownMenu = document.getElementById("dropdownMenu");
 
+    // ドロップダウンメニューの表示/非表示を切り替え
     dropdownButton.addEventListener("click", function(event) {
-      // ドロップダウンメニューの表示/非表示を切り替え
       dropdownMenu.classList.toggle("hidden");
-      event.stopPropagation(); // 他のクリックイベントが反応しないようにする
+      event.stopPropagation();  // クリックイベントが他に伝播しないように
     });
 
     // ページ外をクリックしたらドロップダウンメニューを閉じる
@@ -100,11 +112,12 @@
       }
     });
 
-    // タッチイベントにも対応
+    // タッチイベントにも対応（スマホ対応）
     document.addEventListener("touchstart", function(event) {
       if (!dropdownMenu.contains(event.target) && !event.target.closest('.dropdown')) {
         dropdownMenu.classList.add("hidden");
       }
+      event.stopPropagation(); // 他のクリックイベントが反応しないように
     });
   });
 </script>
