@@ -99,8 +99,25 @@
 </script>
 
 <script>
-  // スマホ画面の場合、ログアウトボタンを非表示にする
-  if (window.innerWidth <= 640) {
-    document.getElementById('logoutButton').style.display = 'none';
+  function toggleDropdown(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropdown = document.getElementById('dropdownMenu');
+    dropdown.classList.toggle('hidden');
+  }
+
+  document.addEventListener('click', (e) => {
+    closeDropdownIfClickedOutside(e);
+  });
+
+  document.addEventListener('touchstart', (e) => {
+    closeDropdownIfClickedOutside(e);
+  });
+
+  function closeDropdownIfClickedOutside(event) {
+    const dropdown = document.getElementById('dropdownMenu');
+    if (!dropdown.contains(event.target) && !event.target.closest('.dropdown')) {
+      dropdown.classList.add('hidden');
+    }
   }
 </script>
