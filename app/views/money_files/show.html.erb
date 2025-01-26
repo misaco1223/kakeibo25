@@ -16,7 +16,7 @@
   <%= link_to new_budget_path(money_file_id:@money_file.id), class: "btn bg-yellow-300 text-gray-800", data: { turbo: false } do %>予算を新規作成<i class="fa-solid fa-plus"></i><% end %>
 </div>
 
-<div class="mx-4 flex flex-col justify-start sm:justify-center items-start sm:items-center mx-w-96">
+<div class="mx-4 flex flex-col items-start lg:items-start sm:items-center">
   <div class="month-navigation flex items-center justify-between gap-2">
     <% current_month = Date.strptime(session[:year_month], "%Y-%m") %>
     <!-- 前月へのボタン -->
