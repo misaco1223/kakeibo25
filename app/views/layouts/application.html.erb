@@ -106,11 +106,8 @@
     dropdown.classList.toggle('hidden');
   }
 
+  document.addEventListener('touchstart', toggleDropdown, { passive: false });
   document.addEventListener('click', (e) => {
-    closeDropdownIfClickedOutside(e);
-  });
-
-  document.addEventListener('touchstart', (e) => {
     closeDropdownIfClickedOutside(e);
   });
 
