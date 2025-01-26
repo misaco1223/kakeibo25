@@ -40,49 +40,50 @@
   </div>
 
   <!--絞り込みフォーム-->
-  <div class="mx-w-300 justify-start">
-    <div class="max-w-md border border-gray-300 font-sm">
-      <div class="flex">
-        <h1 class="mb-4 mx-4 mt-4">絞り込み欄</h1>
-        <%= link_to budget_path(@budget), class: "mx-4 mt-4" do %><i class="fa-solid fa-rotate-left"></i><% end %>
-        <button id="toggleFilter"><i class="fa-regular fa-eye-slash"></i></button>
+  <div class="max-w-md border border-gray-300 p-4">
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="font-semibold">絞り込み欄</h1>
+      <div class="flex items-center space-x-4">
+        <%= link_to budget_path(@budget), class: "text-gray-600 hover:text-blue-600" do %>
+          <i class="fa-solid fa-rotate-left"></i>
+        <% end %>
+        <button id="toggleFilter" class="text-gray-600 hover:text-blue-600">
+          <i class="fa-regular fa-eye-slash"></i>
+        </button>
       </div>
+    </div>
 
-      <div id="filterForm" class="hidden">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-          <%= form_with url: budget_path(@budget), method: :get, local: true do %>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-
-            <!-- 日付フィルタ -->
-            <div class="flex flex-col" style="padding:4px; margin-bottom: 4px;">
-              <%= label_tag :date_filter, "日付", class: "block mb-2 text-sm" %>
-              <%= select_tag :date_filter, options_for_select(
-                    [['選択してください', '']] + @payments.distinct.pluck(:date).map { |date| [date.strftime('%Y-%m-%d'), date.strftime('%Y-%m-%d')] },
-                    params[:date_filter]
-                  ), class: 'select select-bordered w-full text-sm', onchange: 'this.form.submit();' %>
-            </div>
-
-            <!-- 支払い方法フィルタ -->
-            <div class="flex flex-col" style="padding:4px; margin-bottom:4px;">
-              <%= label_tag :pay_method_filter, "支払い方法", class: "block mb-2 text-sm" %>
-              <%= select_tag :pay_method_filter, options_for_select(
-                  [['選択してください', '']] + @pay_methods.map { |method| [method.name, method.id] },
-                  params[:pay_method_filter]
-                  ), class: 'select select-bordered w-full text-sm', onchange: 'this.form.submit();' %>
-            </div>
-
-            <!-- 店舗フィルタ -->
-            <div class="flex flex-col" style="padding:4px; margin-bottom:4px;">
-              <%= label_tag :shop_filter, "店舗", class: "block mb-2 text-sm" %>
-              <%= select_tag :shop_filter, options_for_select(
-                  [['選択してください', '']] + @shops.map { |shop| [shop.name, shop.id] },
-                  params[:shop_filter]
-                  ), class: 'select select-bordered w-full text-sm', onchange: 'this.form.submit();' %>
-            </div>
+    <div id="filterForm" class="hidden">
+      <%= form_with url: budget_path(@budget), method: :get, local: true do %>
+        <div class="space-y-4">
+          <!-- 日付フィルタ -->
+          <div class="flex flex-col">
+            <%= label_tag :date_filter, "日付", class: "block mb-1 text-sm font-medium text-gray-700" %>
+            <%= select_tag :date_filter, options_for_select(
+                  [['選択してください', '']] + @payments.distinct.pluck(:date).map { |date| [date.strftime('%Y-%m-%d'), date.strftime('%Y-%m-%d')] },
+                  params[:date_filter]
+                ), class: 'select select-bordered w-full text-sm', onchange: 'this.form.submit();' %>
           </div>
-          <% end %>
+
+          <!-- 支払い方法フィルタ -->
+          <div class="flex flex-col">
+            <%= label_tag :pay_method_filter, "支払い方法", class: "block mb-1 text-sm font-medium text-gray-700" %>
+            <%= select_tag :pay_method_filter, options_for_select(
+                [['選択してください', '']] + @pay_methods.map { |method| [method.name, method.id] },
+                params[:pay_method_filter]
+                ), class: 'select select-bordered w-full text-sm', onchange: 'this.form.submit();' %>
+          </div>
+
+          <!-- 店舗フィルタ -->
+          <div class="flex flex-col">
+            <%= label_tag :shop_filter, "店舗", class: "block mb-1 text-sm font-medium text-gray-700" %>
+            <%= select_tag :shop_filter, options_for_select(
+                [['選択してください', '']] + @shops.map { |shop| [shop.name, shop.id] },
+                params[:shop_filter]
+                ), class: 'select select-bordered w-full text-sm', onchange: 'this.form.submit();' %>
+          </div>
         </div>
-      </div>
+      <% end %>
     </div>
   </div>
 

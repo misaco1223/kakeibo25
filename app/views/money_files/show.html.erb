@@ -16,14 +16,14 @@
   <%= link_to new_budget_path(money_file_id:@money_file.id), class: "btn bg-yellow-300 text-gray-800", data: { turbo: false } do %>予算を新規作成<i class="fa-solid fa-plus"></i><% end %>
 </div>
 
-<div class="mx-4 flex flex-col justify-start sm:justify-center items-start sm:items-center lg:w-80">
+<div class="mx-4 flex flex-col justify-start sm:justify-center items-start sm:items-center mx-w-96">
   <div class="month-navigation flex items-center justify-between gap-2">
     <% current_month = Date.strptime(session[:year_month], "%Y-%m") %>
     <!-- 前月へのボタン -->
     <%= button_to change_month_money_file_path(@money_file, direction: "prev"), 
         method: :post,
         params: { money_file_id: @money_file.id },
-        class: "prev-month btn btn-ghost whitespace-nowrap px-3 py-2" do %>
+        class: "prev-month flex btn btn-ghost whitespace-nowrap px-3 py-2" do %>
       <i class="fa-solid fa-backward"></i>前月へ
     <% end %>
     <span class="text-xl font-bold whitespace-nowrap sm:text-center lg:text-left">
@@ -32,7 +32,7 @@
     <%= button_to change_month_money_file_path(@money_file, direction: "next"), 
         method: :post, 
         params: { money_file_id: @money_file.id },
-        class: "next-month btn btn-ghost whitespace-nowrap px-3 py-2" do %>
+        class: "next-month flex btn btn-ghost whitespace-nowrap px-3 py-2" do %>
       次月へ<i class="fa-solid fa-forward"></i>
     <% end %>
   </div>

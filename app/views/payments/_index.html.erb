@@ -27,10 +27,14 @@
             <%= payment.amount %>円
           </td>
           <td style="padding:0; text-align:center;">
-            <%= payment.pay_method&.name || "" %>
+            <% if payment.pay_method %>
+              <%= link_to payment.pay_method.name, pay_method_path(payment.pay_method), class: "underline" %>
+            <% end %>
           </td>
           <td style="padding:0; text-align:center;">
-            <%= payment.shop&.name || "" %>
+            <% if payment.shop %>
+              <%= link_to payment.shop.name, shop_path(payment.shop), class: "underline" %>
+            <% end %>
           </td>
           <td class="flex">
             <%= link_to edit_budget_payment_path(@budget,payment), class: "btn btn-ghost" do %><i class="fa-solid fa-pen-to-square"></i>編集<% end %>
