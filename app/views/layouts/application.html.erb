@@ -35,7 +35,7 @@
 
           <!-- ドロップダウンメニューボタン　-->
           <div class="dropdown dropdown-end">
-            <button onclick="toggleDropdown(event)" class="btn btn-outline btn-sm btn-circle">
+            <button id="dropdownButton" class="btn btn-outline btn-sm btn-circle">
               <i class="fas fa-bars text-gray-800"></i>
             </button>
             <ul id="dropdownMenu" class="dropdown-content menu p-2 shadow bg-base-100 w-52" style="z-index:1000;">
@@ -83,17 +83,28 @@
 </html>
 
 <script>
-  function toggleDropdown(event) {
-    const dropdown = document.getElementById('dropdownMenu');
-    dropdown.classList.toggle('hidden');
-    event.stopPropagation(); // 他のクリックイベントが反応しないようにする
-  }
+  document.addEventListener("DOMContentLoaded", function() {
+    const dropdownButton = document.getElementById("dropdownButton");
+    const dropdownMenu = document.getElementById("dropdownMenu");
 
-  // ページ外をクリックすると閉じる
-  document.addEventListener('click', (e) => {
-    const dropdown = document.getElementById('dropdownMenu');
-    if (!dropdown.contains(e.target) && !e.target.closest('.dropdown')) {
-      dropdown.classList.add('hidden');  // 外をクリックしたらメニューを閉じる
-    }
+    dropdownButton.addEventListener("click", function(event) {
+      // ドロップダウンメニューの表示/非表示を切り替え
+      dropdownMenu.classList.toggle("hidden");
+      event.stopPropagation(); // 他のクリックイベントが反応しないようにする
+    });
+
+    // ページ外をクリックしたらドロップダウンメニューを閉じる
+    document.addEventListener("click", function(event) {
+      if (!dropdownMenu.contains(event.target) && !event.target.closest('.dropdown')) {
+        dropdownMenu.classList.add("hidden");
+      }
+    });
+
+    // タッチイベントにも対応
+    document.addEventListener("touchstart", function(event) {
+      if (!dropdownMenu.contains(event.target) && !event.target.closest('.dropdown')) {
+        dropdownMenu.classList.add("hidden");
+      }
+    });
   });
 </script>
