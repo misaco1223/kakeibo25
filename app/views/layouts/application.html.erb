@@ -99,6 +99,14 @@ document.addEventListener("DOMContentLoaded", function() {
   const dropdownButton = document.getElementById("dropdownButton");
   const dropdownMenu = document.getElementById("dropdownMenu");
 
+  // タッチイベントにも対応（スマホでのタッチ）
+  document.addEventListener("touchstart", function(event) {
+    const isHidden = dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '';
+    dropdownMenu.style.display = isHidden ? 'block' : 'none'; // メニューを表示または非表示に切り替え
+
+    event.stopPropagation(); // 他のクリックイベントが反応しないように
+  });
+
   // ドロップダウンメニューの表示/非表示を切り替え
   dropdownButton.addEventListener("click", function(event) {
     const isHidden = dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '';
