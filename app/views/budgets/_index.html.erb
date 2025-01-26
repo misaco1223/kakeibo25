@@ -28,7 +28,7 @@
             </p>
             <div class="card-actions" style="display: flex; margin-top: auto;"class="card-actions" style="display: flex; margin-top: auto;">
               <%= link_to edit_budget_path(budget), class: "btn" do %><i class="fa-solid fa-pen-to-square"></i>編集<% end %>
-              <%= link_to budget_path(budget), method: :delete, data: { turbo_method: :delete }, class: "btn btn-outline btn-error text-gray-800" do %><i class="fa-solid fa-trash"></i>削除<% end %>
+              <%= link_to budget_path(budget), method: :delete, data: { turbo_method: :delete }, class: "btn", style:"color:red;" do %><i class="fa-solid fa-trash"></i>削除<% end %>
             </div>
           </div>
         </div>

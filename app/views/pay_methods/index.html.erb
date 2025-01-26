@@ -42,7 +42,7 @@
 </div>
 
 <!-- 支払い方法の編集フォーム -->
-<div id="edit-paymethod-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 300px; margin: 20px auto;">
+<div id="edit-paymethod-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 300px; margin: 20px 4px;">
   <%= form_with model: @pay_method, url: "", local: true, class: "space-y-4" do |paymethod_form| %>
     <%= paymethod_form.hidden_field :user_id, value: current_user.id %>
     <div>
