@@ -38,7 +38,7 @@
             <button id="dropdownButton" class="btn btn-outline btn-sm btn-circle">
               <i class="fas fa-bars text-gray-800"></i>
             </button>
-            <ul id="dropdownMenu" class="dropdown-content menu p-2 shadow bg-base-100 w-52" style="z-index:1000;">
+            <ul id="dropdownMenu" class="dropdown-content menu p-2 shadow bg-base-100 w-52" style="z-index:1000; pointer-events: auto;">
               <% if current_user %>
                 <li class="p-2"><%= current_user.name %>さん<br><%= @greeting %></li>
                 <br>
