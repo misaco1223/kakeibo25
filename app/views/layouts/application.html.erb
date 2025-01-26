@@ -95,29 +95,23 @@
 </html>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const dropdownButton = document.getElementById("dropdownButton");
-    const dropdownMenu = document.getElementById("dropdownMenu");
+document.addEventListener("DOMContentLoaded", function() {
+  const dropdownButton = document.getElementById("dropdownButton");
+  const dropdownMenu = document.getElementById("dropdownMenu");
 
-    // ドロップダウンメニューの表示/非表示を切り替え
-    dropdownButton.addEventListener("click", function(event) {
-      dropdownMenu.classList.toggle("hidden");
-      event.stopPropagation();  // クリックイベントが他に伝播しないように
-    });
+  // ドロップダウンメニューの表示/非表示を切り替え
+  dropdownButton.addEventListener("click", function(event) {
+    const isHidden = dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '';
+    dropdownMenu.style.display = isHidden ? 'block' : 'none'; // メニューを表示または非表示に切り替え
 
-    // ページ外をクリックしたらドロップダウンメニューを閉じる
-    document.addEventListener("click", function(event) {
-      if (!dropdownMenu.contains(event.target) && !event.target.closest('.dropdown')) {
-        dropdownMenu.classList.add("hidden");
-      }
-    });
-
-    // タッチイベントにも対応（スマホ対応）
-    document.addEventListener("touchstart", function(event) {
-      if (!dropdownMenu.contains(event.target) && !event.target.closest('.dropdown')) {
-        dropdownMenu.classList.add("hidden");
-      }
-      event.stopPropagation(); // 他のクリックイベントが反応しないように
-    });
+    event.stopPropagation(); // 他のクリックイベントが反応しないように
   });
+
+  // ページ外をクリックしたらドロップダウンメニューを閉じる
+  document.addEventListener("click", function(event) {
+    if (!dropdownMenu.contains(event.target) && !event.target.closest('.dropdown')) {
+      dropdownMenu.style.display = 'none'; // メニューを非表示にする
+    }
+  });
+});
 </script>
