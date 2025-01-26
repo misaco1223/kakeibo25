@@ -97,24 +97,3 @@
     }
   });
 </script>
-
-<script>
-  function toggleDropdown(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    const dropdown = document.getElementById('dropdownMenu');
-    dropdown.classList.toggle('hidden');
-  }
-
-  document.addEventListener('touchstart', toggleDropdown, { passive: false });
-  document.addEventListener('click', (e) => {
-    closeDropdownIfClickedOutside(e);
-  });
-
-  function closeDropdownIfClickedOutside(event) {
-    const dropdown = document.getElementById('dropdownMenu');
-    if (!dropdown.contains(event.target) && !event.target.closest('.dropdown')) {
-      dropdown.classList.add('hidden');
-    }
-  }
-</script>
