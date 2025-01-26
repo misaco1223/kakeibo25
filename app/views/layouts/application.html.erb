@@ -25,38 +25,39 @@
         </div>
 
         <!-- Navbar Right -->
-        <div class="flex">
+        <div class="flex items-center gap-4">
           <!--ユーザー名-->
+          <% if current_user %>
           <div class="text-sm" style="align-items: center; width:150px; flex:1; text-align:right;">
-            <% if current_user %>
-              <i class="fa-solid fa-user"></i><%=current_user.name%>さん
-            <% end %>
+            <i class="fa-solid fa-user"></i><%=current_user.name%>さん
           </div>
+          <% end %>
+
           <!-- ドロップダウンメニューボタン　-->
-          <div class="dropdown dropdown-end absolute" style="flex:1; max-width:40px; text-align:right;">
+          <div class="dropdown dropdown-end">
             <button onclick="toggleDropdown(event)" class="btn btn-outline btn-sm btn-circle">
               <i class="fas fa-bars text-gray-800"></i>
             </button>
-            <ul id="dropdownMenu" class="dropdown-content menu p-2 shadow bg-base-100 w-52 absolute" style="z-index:1000;">
+            <ul id="dropdownMenu" class="dropdown-content menu p-2 shadow bg-base-100 w-52" style="z-index:1000;">
               <% if current_user %>
                 <li class="p-2"><%= current_user.name %>さん<br><%= @greeting %></li>
                 <br>
                 <li><a href="<%= money_files_path(current_user) %>">ホーム</a></li>
-                <li class="p-2">----------------</li>
+                <li><hr class="my-1"></li>
                 <li><a href="<%= new_payment_path %>">支出データ登録</a></li>
                 <li><a href="/timeline">支出タイムライン</a></li>
-                <li class="p-2">----------------</li>
+                <li><hr class="my-1"></li>
                 <li><a href="<%= categories_path %>">カテゴリー</a></li>
                 <li><a href="<%= pay_methods_path %>">支払い方法</a></li>
                 <li><a href="<%= shops_path %>">店舗</a></li>
-                <li class="p-2">----------------</li>
+                <li><hr class="my-1"></li>
                 <li><a href="<%= user_path(current_user) %>">ユーザー情報</a></li>
                 <li><a href="<%= logout_path %>">ログアウト</a></li>
-                <li class="p-2">----------------</li>
+                <li><hr class="my-1"></li>
                 <li><a href="/tutorial">操作ガイド</a></li>
               <% else %>
                 <li><a href="<%= login_path %>">ログイン</a></li>
-                <li class="p-2">----------------</li>
+                <li><hr class="my-1"></li>
                 <li><a href="/tutorial">操作ガイド</a></li>
                 <li><a href="<%= new_user_path %>">ユーザー登録</a></li>
               <% end %>

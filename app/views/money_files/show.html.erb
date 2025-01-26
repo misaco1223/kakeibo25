@@ -16,24 +16,30 @@
   <%= link_to new_budget_path(money_file_id:@money_file.id), class: "btn bg-yellow-300 text-gray-800", data: { turbo: false } do %>予算を新規作成<i class="fa-solid fa-plus"></i><% end %>
 </div>
 
-<div class="month-navigation flex gap-4 mx-4 px-4 py-3 items-center lg:justify-start sm:justify-center">
-<% current_month = Date.strptime(session[:year_month], "%Y-%m") %>
-<!-- 前月へのボタン -->
-<%= button_to change_month_money_file_path(@money_file, direction: "prev"), 
-    method: :post,
-    params: { money_file_id: @money_file.id },
-    class: "prev-month btn btn-ghost", 
-    style: "padding:10px; margin-right:8px;" do %><i class="fa-solid fa-backward"></i>前月へ<% end %>
-<span class="text-xl font-bold mx-w-auto">
-  <%= current_month.strftime("%Y年 %m月") %>
-</span>
-<%= button_to change_month_money_file_path(@money_file, direction: "next"), 
-    method: :post, 
-    params: { money_file_id: @money_file.id },
-    class: "next-month btn btn-ghost", 
-    style: "padding:10px; margin-right:8px;" do %>次月へ<i class="fa-solid fa-forward"></i><% end %>
+<div class="mx-4 flex flex-col justify-start sm:justify-center items-start sm:items-center lg:w-80">
+  <div class="month-navigation flex items-center justify-between gap-2">
+    <% current_month = Date.strptime(session[:year_month], "%Y-%m") %>
+    <!-- 前月へのボタン -->
+    <%= button_to change_month_money_file_path(@money_file, direction: "prev"), 
+        method: :post,
+        params: { money_file_id: @money_file.id },
+        class: "prev-month btn btn-ghost whitespace-nowrap px-3 py-2" do %>
+      <i class="fa-solid fa-backward"></i>前月へ
+    <% end %>
+    <span class="text-xl font-bold whitespace-nowrap sm:text-center lg:text-left">
+      <%= current_month.strftime("%Y年 %m月") %>
+    </span>
+    <%= button_to change_month_money_file_path(@money_file, direction: "next"), 
+        method: :post, 
+        params: { money_file_id: @money_file.id },
+        class: "next-month btn btn-ghost whitespace-nowrap px-3 py-2" do %>
+      次月へ<i class="fa-solid fa-forward"></i>
+    <% end %>
+  </div>
+  <p class="text-lg font-semibold text-center w-full py-2">
+    今月の予算の合計は <strong><%= @budgets.sum(:amount) %>円</strong> です
+  </p>
 </div>
-<p class="mx-4 px-4 text-lg font-semibold">今月の予算の合計は <strong><%= @budgets.sum(:amount) %>円</strong> です</p>
 
 <br>
 <%= render "budgets/index" %>

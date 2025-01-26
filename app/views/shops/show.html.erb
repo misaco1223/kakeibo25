@@ -17,8 +17,8 @@
 </div>
 
 <!-- 絞り込みフォーム -->
-<div class="flex-1 mx-w-300">
-  <div class="max-w-4xl w-full mx-auto border border-gray-300 font-sm">
+<div class="mx-w-300 justify-start">
+  <div class="max-w-md border border-gray-300 font-sm">
     <div class="flex">
       <h1 class="mb-4 mx-4 mt-4">絞り込み欄</h1>
        <%= link_to shop_path(@shop), class: "mx-4 mt-4" do %><i class="fa-solid fa-rotate-left"></i><% end %>
@@ -26,9 +26,9 @@
     </div>
 
     <div id="filterForm" class="hidden">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         <%= form_with url: shop_path(@shop), method: :get, local: true do %>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4 px-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
           <!-- 年月フィルタ -->
           <div class="flex flex-col" style="padding:4px; margin-bottom:4px;">
             <%= label_tag :year_month_filter, "予算の設定月", class: "block mb-2 text-sm" %>
