@@ -35,7 +35,7 @@
 
           <!-- ドロップダウンメニューボタン　-->
           <div class="dropdown dropdown-end">
-            <button id="dropdownButton" class="btn btn-sm">
+            <button id="dropdownButton" class="btn">
               <i class="fas fa-bars text-gray-800"></i>
             </button>
             <ul id="dropdownMenu" class="dropdown-content menu p-2 shadow bg-base-100 w-52 hidden" style="z-index:1000;">
@@ -67,8 +67,8 @@
       </div>
     </header>
 
-    <main class="flex-grow p-4 z-0">
-      <!--エラーメッセージ-->
+    <div class="pt-0">
+    <!--エラーメッセージ-->
       <% if flash.present? %>
         <% flash.each do |message_type, message| %>
           <% if message_type.to_sym == :success %>
@@ -78,7 +78,9 @@
           <% end %>
         <% end %>
       <% end %>
+    </div>
 
+    <main class="flex-grow p-4 z-0">
       <!--各ビューを返す-->
       <%= yield %>
     </main>
@@ -95,21 +97,15 @@
 </html>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  const dropdownButton = document.getElementById("dropdownButton");
-  const dropdownMenu = document.getElementById("dropdownMenu");
+  // トグルボタンのクリックイベント
+  document.getElementById("dropdownButton").addEventListener("click", function() {
+    const dropdownMenu = document.getElementById("dropdownMenu");
+    const isHidden = dropdownMenu.classList.contains("hidden");
 
-  //非表示の状態をisHiddenとして切り替える
-  dropdownButton.addEventListener("click", function(event) {
-    const isHidden = dropdownMenu.style.display === 'none' || dropdownMenu.style.display === ''; 
-    dropdownMenu.style.display = isHidden ? 'block' : 'none'; // isHiddenの時は表示させる
-
-    event.stopPropagation(); // 他のクリックイベントが反応しないように?
+    if (isHidden) {
+      dropdownMenu.classList.remove("hidden"); // 表示
+    } else {
+      dropdownMenu.classList.add("hidden"); // 非表示
+    }
   });
-
-  // ページ外をクリックすると閉じる
-  document.addEventListener('click', () => {
-    dropdownMenu.style.display = 'none';
-  });
-});
 </script>
