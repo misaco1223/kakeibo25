@@ -97,15 +97,51 @@
 </html>
 
 <script>
-  // トグルボタンのクリックイベント
-  document.getElementById("dropdownButton").addEventListener("click", function() {
-    const dropdownMenu = document.getElementById("dropdownMenu");
-    const isHidden = dropdownMenu.classList.contains("hidden");
+  document.addEventListener("turbo:load", function () {
+  const dropdownButton = document.getElementById("dropdownButton");
+  const dropdownMenu = document.getElementById("dropdownMenu");
 
-    if (isHidden) {
-      dropdownMenu.classList.remove("hidden"); // 表示
-    } else {
-      dropdownMenu.classList.add("hidden"); // 非表示
+  if (dropdownButton && dropdownMenu) {
+    let isTouchEvent = false; // タッチイベントが発生したかを判定
+
+    // トグルボタンのタッチイベント
+    dropdownButton.addEventListener(
+      "touchstart",
+      function (event) {
+        isTouchEvent = true; // タッチイベントが発生したことを記録
+        toggleDropdown(event);
+      },
+      { passive: true }
+    );
+
+    // トグルボタンのクリックイベント
+    dropdownButton.addEventListener("click", function (event) {
+      if (isTouchEvent) {
+        // 直前にタッチイベントが発生していれば処理しない
+        isTouchEvent = false;
+        return;
+      }
+      toggleDropdown(event);
+    });
+
+    // ドロップダウンを閉じるロジック
+    document.addEventListener("click", function (event) {
+      if (!dropdownMenu.contains(event.target) && !dropdownButton.contains(event.target)) {
+        dropdownMenu.classList.add("hidden");
+      }
+    });
+
+    // ドロップダウンを開閉する関数
+    function toggleDropdown(event) {
+      console.log("Dropdown toggle triggered");
+      const isHidden = dropdownMenu.classList.contains("hidden");
+      if (isHidden) {
+        dropdownMenu.classList.remove("hidden");
+      } else {
+        dropdownMenu.classList.add("hidden");
+      }
+      event.stopPropagation(); // 他のイベントへの伝播を防ぐ
     }
-  });
+  }
+});
 </script>
