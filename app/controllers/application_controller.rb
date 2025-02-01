@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :logged_in?
   add_flash_types :success, :danger
   before_action :set_greeting
+  before_action :set_money_files
 
   def current_user
     @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
@@ -27,5 +28,9 @@ class ApplicationController < ActionController::Base
     else
       @greeting = "こんばんは!"
     end
+  end
+
+  def set_money_files
+    @money_files = current_user.money_files if current_user
   end
 end

@@ -44,6 +44,13 @@
                 <li class="p-2"><%= current_user.name %>さん<br><%= @greeting %></li>
                 <br>
                 <li><a href="<%= money_files_path(current_user) %>">ホーム</a></li>
+                <% @money_files.each do |money_file| %>
+                  <li>
+                    <%= link_to money_file_path(money_file) do %>
+                      <i class="fa-regular fa-folder"></i><%= money_file.title %>  <!-- 表示したい属性を変更 -->
+                    <% end %>
+                  </li>
+                <% end %>
                 <li><hr class="my-1"></li>
                 <li><a href="<%= new_payment_path %>">支出データ登録</a></li>
                 <li><a href="/timeline">支出タイムライン</a></li>

@@ -39,10 +39,7 @@ class BudgetsController < ApplicationController
   end
 
   def create
-    # monthを許可するように追加
-    budget_params = params.require(:budget).permit(:amount, :description, :money_file_id, :category_id, :budget_image, :budget_image_cache, :remove_budget_image, :year_month)
-
-    # monthが送信されている場合、ゼロ埋めしてyear_monthに結合
+    # 月が送信されている場合、ゼロ埋めしてyear_monthに結合
     if params[:budget][:month].present?
       month = params[:budget][:month].rjust(2, '0')  # 1桁の場合、ゼロ埋め
       year_month = "#{params[:budget][:year_month]}-#{month}"
@@ -51,14 +48,53 @@ class BudgetsController < ApplicationController
     end
 
     # 新しいBudgetオブジェクトを作成
-    @budget = Budget.new(budget_params.merge(year_month: year_month))
+    if params[:budget][:budget_ids].present?
+      budget_ids = Array(params[:budget][:budget_ids])
+      Rails.logger.debug "選択された予算idは: #{budget_ids.inspect}" 
+      success_count = 0
 
-    if @budget.save
-      redirect_to money_file_path(@budget.money_file), success: "予算が作成されました。"
+      # quick_addで選択された予算のデータを使って、新しい予算を作成し、カウントする
+      budget_ids.each do |budget_id|
+        old_budget = Budget.find(budget_id)
+        @budget = Budget.new(
+          amount: old_budget.amount,
+          category_id: old_budget.category_id,
+          budget_image: old_budget.budget_image,
+          year_month: year_month,
+          money_file_id: params[:budget][:money_file_id]
+        )
+        if @budget.save
+          success_count += 1
+        end
+      end
+
+      # 成功件数を表示
+      if success_count > 0
+        flash[:success] = "#{success_count} 件の予算が作成されました。"
+      end
+      redirect_to money_file_path(@budget.money_file)
+  
     else
-      flash.now[:danger] = "予算を登録できません。"
-      render :new, status: :unprocessable_entity
+    # monthを許可するように追加
+    budget_params = params.require(:budget).permit(:amount, :description, :money_file_id, :category_id, :budget_image, :budget_image_cache, :remove_budget_image, :year_month)
+
+    # 新しいBudgetオブジェクトを作成
+      @budget = Budget.new(budget_params.merge(year_month: year_month))
+
+      if @budget.save
+        redirect_to money_file_path(@budget.money_file), success: "予算が作成されました。"
+      else
+        flash.now[:danger] = "予算を登録できません。"
+        render :new, status: :unprocessable_entity
+      end
     end
+  end
+
+  def quick_add
+    @money_file = MoneyFile.find(params[:money_file_id])
+    @budget = @money_file.budgets.new
+    @budgets = Budget.where(money_file_id: @money_file.id).order(year_month: :desc)
+    @categories = current_user.categories
   end
 
   def edit

@@ -13,7 +13,12 @@
 </div>
 
 <div class="navbar px-4 mb-4">
-  <%= link_to new_budget_path(money_file_id:@money_file.id), class: "btn bg-yellow-300 text-gray-800", data: { turbo: false } do %>予算を新規作成<i class="fa-solid fa-plus"></i><% end %>
+  <%= link_to new_budget_path(money_file_id:@money_file.id), class: "btn bg-yellow-300 text-gray-800", data: { turbo: false } do %>
+    予算を新規作成<i class="fa-solid fa-plus"></i>
+  <% end %>
+  <%= link_to quick_add_path(money_file_id: @money_file.id), class: "btn btn-ghost text-xs px-10", data: { turbo: false } do %>
+    クイック作成 <i class="fa-regular fa-copy"></i>
+  <% end %>
 </div>
 
 <div class="mx-4 flex flex-col items-start lg:items-start sm:items-center">
