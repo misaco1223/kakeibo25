@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   resources :sessions, only: %i[new create destroy]
-  resources :users, only: %i[index show new create edit update destroy]
-  resources :money_files, only: %i[index show new create edit update destroy]
+  resources :users, only: %i[show new create edit update destroy]
+  resources :money_files, only: %i[indexshow new create edit update destroy]
   resources :budgets do
-    resources :payments, only: %i[index show new create edit update destroy]
+    resources :payments, only: %i[new create edit update destroy]
   end
   resources :categories, only: %i[index show new create edit update destroy]
   resources :shops, only: %i[index show new create edit update destroy]
@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   resources :money_files do
     post :change_month, on: :member
   end
+  resources :carry_forwards, only: %i[index]
+  get "quick_add" => "budgets#quick_add"
   
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

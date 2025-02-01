@@ -13,7 +13,12 @@
 </div>
 
 <div class="navbar px-4 mb-4">
-  <%= link_to new_budget_path(money_file_id:@money_file.id), class: "btn bg-yellow-300 text-gray-800", data: { turbo: false } do %>予算を新規作成<i class="fa-solid fa-plus"></i><% end %>
+  <%= link_to new_budget_path(money_file_id:@money_file.id), class: "btn bg-yellow-300 text-gray-800", data: { turbo: false } do %>
+    予算を新規作成<i class="fa-solid fa-plus"></i>
+  <% end %>
+  <%= link_to quick_add_path(money_file_id: @money_file.id), class: "btn btn-ghost text-xs px-10", data: { turbo: false } do %>
+    クイック作成 <i class="fa-regular fa-copy"></i>
+  <% end %>
 </div>
 
 <div class="mx-4 flex flex-col items-start lg:items-start sm:items-center">
@@ -39,6 +44,15 @@
   <p class="text-lg font-semibold text-left sm:text-center py-2">
     今月の予算の合計は <strong><%= @budgets.sum(:amount) %>円</strong> です
   </p>
+  <% if @budgets_with_data.sum { |data| data[:remaining_amount] } > 0 %>
+    <p class="text-lg font-semibold text-left sm:text-center py-2">
+      予算はあと<strong><%= @budgets_with_data.sum { |data| data[:remaining_amount] } %>円</strong> 残っています
+    </p>
+  <% elsif @budgets_with_data.sum { |data| data[:remaining_amount] } < 0 %>
+    <p class="text-lg font-semibold text-red-500 text-left sm:text-center py-2">
+      予算をすでに<strong><%= @budgets_with_data.sum { |data| data[:remaining_amount] } %>円</strong> 超えています
+    </p>
+  <% end %>
 </div>
 
 <br>

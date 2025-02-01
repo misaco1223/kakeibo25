@@ -1,0 +1,60 @@
+<div class="max-w-[32rem] w-full">
+  <a class="btn btn-ghost text-xl gray-900">過去月と同じ予算をまとめて作成</a>
+</div>
+
+<div class="bg-white shadow-md", style="padding:24px; border-radius:8px; max-width:400px;">
+<%= form_with model: @budget, local: true, class: "space-y-4" do |form| %>
+
+  <!-- 登録先の家計簿ファイルを表示する -->
+  <div>
+    <p><i class="fa-regular fa-folder"></i> <%= @money_file.title %>ファイルへ保存</p>
+    <%= form.hidden_field :money_file_id, value: params[:money_file_id] %>
+  </div>
+
+  <!-- 年月 -->
+  <div>
+    <%= form.label :year_month, "何月の予算にしますか(必須) :", class: "block text-gray-700" %>
+    <%= form.select :year_month, options_for_select(
+      (Date.today.year-5..Date.today.year+5).to_a.map { |year| ["#{year}年", year] }, 
+      selected: session[:year_month]&.split("-")&.first
+    ), 
+    { prompt: "選択してください" }, 
+    style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc; width: 45%;" 
+    %>
+    <%= form.select :month, options_for_select(
+      Date::MONTHNAMES.compact.each_with_index.map { |month, i| ["#{i+1}月", i+1] }, 
+      selected: session[:year_month]&.split("-")&.last
+    ), 
+    { prompt: "月を選択" }, 
+    style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc; width: 45%;" 
+    %>
+  </div>
+
+  <!-- 予算の一覧を表示 -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px;">
+    <% @budgets.each do |budget| %>
+      <!-- 1枚ずつカードを表示 -->
+      <div style="max-width: 150px; margin: auto; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 12px;">
+        <div>
+          <%= form.check_box :budget_ids, { id: "budget_#{budget.id}", multiple: true }, budget.id, nil %>
+          <figure style="text-align: left;">
+            <%= image_tag budget.budget_image_url, style: "width: 100%; height: auto;" %>
+          </figure>
+          <h2 class="card-title">
+            <%= budget.year_month.gsub("-", "年")+"月" %>
+            <br>
+            <%= budget.category.name%></h2>
+          <div>
+            <p>予算: <%= budget.amount %>円</p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit "予算を複製して作成", class: "btn", style:"background-color:#FFCC66;" %>
+    <%= link_to "キャンセル", money_file_path(@money_file), class: "btn" %>
+  </div>
+<% end %>
+</div>

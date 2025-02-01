@@ -1,7 +1,9 @@
 <div class="navbar max-w-[32rem] w-full">
   <a class="btn btn-ghost text-xl gray-900">新しい予算を作成</a>
+  <%= link_to quick_add_path(money_file_id: @money_file.id), class: "btn btn-ghost text-xs px-10", data: { turbo: false } do %>
+    クイック作成 <i class="fa-regular fa-copy"></i>
+  <% end %>
 </div>
-
 
 <div class="container bg-white shadow-md", style="padding:24px; border-radius:8px; max-width:400px;">
   <!-- 予算フォーム -->

@@ -44,6 +44,13 @@
                 <li class="p-2"><%= current_user.name %>さん<br><%= @greeting %></li>
                 <br>
                 <li><a href="<%= money_files_path(current_user) %>">ホーム</a></li>
+                <% @money_files.each do |money_file| %>
+                  <li>
+                    <%= link_to money_file_path(money_file) do %>
+                      <i class="fa-regular fa-folder"></i><%= money_file.title %>  <!-- 表示したい属性を変更 -->
+                    <% end %>
+                  </li>
+                <% end %>
                 <li><hr class="my-1"></li>
                 <li><a href="<%= new_payment_path %>">支出データ登録</a></li>
                 <li><a href="/timeline">支出タイムライン</a></li>
@@ -51,6 +58,8 @@
                 <li><a href="<%= categories_path %>">カテゴリー</a></li>
                 <li><a href="<%= pay_methods_path %>">支払い方法</a></li>
                 <li><a href="<%= shops_path %>">店舗</a></li>
+                <li><hr class="my-1"></li>
+                <li><a href="<%= carry_forwards_path %>">繰越金を確認する</a></li>
                 <li><hr class="my-1"></li>
                 <li><a href="<%= user_path(current_user) %>">ユーザー情報</a></li>
                 <li><a href="<%= logout_path %>">ログアウト</a></li>
@@ -96,44 +105,6 @@
     </footer>
   </body>
 </html>
-
-<script>
-document.addEventListener("turbo:load", function () {
-  const dropdownButton = document.getElementById("dropdownButton");
-  const dropdownMenu = document.getElementById("dropdownMenu");
-
-  if (!dropdownButton || !dropdownMenu) {
-    console.error("Dropdown elements not found");
-    return;
-  }
-
-  let isTouchEvent = false;
-
-  dropdownButton.addEventListener("click", function (event) {
-    if (!isTouchEvent) {
-      toggleDropdown(event);
-    }
-    isTouchEvent = false; // 次回のクリックのためにリセット
-  });
-
-  dropdownButton.addEventListener("touchstart", function (event) {
-    isTouchEvent = true;
-    toggleDropdown(event);
-  });
-
-  document.addEventListener("click", function (event) {
-    if (!dropdownMenu.contains(event.target) && !dropdownButton.contains(event.target)) {
-      dropdownMenu.classList.add("hidden");
-    }
-  });
-
-  function toggleDropdown(event) {
-    console.log("Dropdown toggle triggered");
-    dropdownMenu.classList.toggle("hidden");
-    event.stopPropagation();
-  }
-});
-</script>
 
 <script>
   // トグルボタンのクリックイベント
