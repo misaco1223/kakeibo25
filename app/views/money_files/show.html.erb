@@ -39,6 +39,15 @@
   <p class="text-lg font-semibold text-left sm:text-center py-2">
     今月の予算の合計は <strong><%= @budgets.sum(:amount) %>円</strong> です
   </p>
+  <% if @budgets_with_data.sum { |data| data[:remaining_amount] } > 0 %>
+    <p class="text-lg font-semibold text-left sm:text-center py-2">
+      予算はあと<strong><%= @budgets_with_data.sum { |data| data[:remaining_amount] } %>円</strong> 残っています
+    </p>
+  <% elsif @budgets_with_data.sum { |data| data[:remaining_amount] } < 0 %>
+    <p class="text-lg font-semibold text-red-500 text-left sm:text-center py-2">
+      予算をすでに<strong><%= @budgets_with_data.sum { |data| data[:remaining_amount] } %>円</strong> 超えています
+    </p>
+  <% end %>
 </div>
 
 <br>

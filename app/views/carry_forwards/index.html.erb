@@ -1,0 +1,83 @@
+<div class="max-w-md w-full">
+  <a class="btn btn-ghost text-xl text-gray-900" href="/">繰越された金額の一覧</a>
+</div>
+
+<br>
+
+<div role="tablist" class="tabs tabs-lifted">
+  <!-- タブラベル -->
+  <div class="tabs tabs-boxed">
+    <% @money_files_with_data.each_with_index do |money_file, index| %>
+      <button type="button" class="tab tab-bordered px-4 py-2 font-medium text-sm rounded-md hover:bg-gray-200 transition-all duration-300" data-tab="tab-<%= money_file[:id] %>">
+        <%= money_file[:title] %>
+      </button>
+    <% end %>
+  </div>
+
+  <!-- タブコンテンツ -->
+  <div class="tab-contents mt-4">
+    <% @money_files_with_data.each_with_index do |money_file, index| %>
+      <div id="tab-<%= money_file[:id] %>" class="tab-content hidden">
+        <p class="px-4 py-2 font-semibold text-md text-gray-900">繰越合計 <%= money_file[:carry_forward] %>円</p>
+        <div class="overflow-x-auto mt-4">
+          <table class="table w-full text-sm text-gray-700">
+            <!-- head -->
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="p-2 text-left">登録月-カテゴリー</th>
+                <th class="p-2 text-left">繰越金</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% money_file[:budgets].each do |budget| %>
+                <tr class="hover:bg-gray-50">
+                  <td class="p-2">
+                    <%= link_to money_file_path(money_file[:id]), class: "underline text-blue-600 hover:text-blue-800" do %>
+                      <%= budget[:year_month].gsub('-', '年') + '月'%> <%= budget[:category_name]%>
+                    <% end %>
+                  </td>
+                  <td class="p-2">
+                    <%= budget[:remaining_amount] %> 円
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+  const tabButtons = document.querySelectorAll(".tabs .tab");
+  const tabContents = document.querySelectorAll(".tab-content");
+
+  tabButtons.forEach(button => {
+    button.addEventListener("click", function() {
+      // すべてのタブコンテンツを隠す
+      tabContents.forEach(content => {
+        content.classList.add("hidden");
+      });
+
+      // クリックされたタブのコンテンツを表示
+      const targetTab = document.getElementById(button.getAttribute("data-tab"));
+      targetTab.classList.remove("hidden");
+
+      // すべてのタブのクラスから "active" を削除
+      tabButtons.forEach(btn => {
+        btn.classList.remove("tab-active");
+        btn.classList.remove("font-bold");
+      });
+
+      // クリックされたタブに "active" クラスを追加
+      button.classList.add("tab-active");
+      button.classList.add("font-bold");
+    });
+  });
+
+  // 最初のタブを表示する
+  tabButtons[0].click();
+});
+</script>

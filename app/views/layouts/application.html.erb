@@ -52,6 +52,8 @@
                 <li><a href="<%= pay_methods_path %>">支払い方法</a></li>
                 <li><a href="<%= shops_path %>">店舗</a></li>
                 <li><hr class="my-1"></li>
+                <li><a href="<%= carry_forwards_path %>">繰越金を確認する</a></li>
+                <li><hr class="my-1"></li>
                 <li><a href="<%= user_path(current_user) %>">ユーザー情報</a></li>
                 <li><a href="<%= logout_path %>">ログアウト</a></li>
                 <li><hr class="my-1"></li>
@@ -96,44 +98,6 @@
     </footer>
   </body>
 </html>
-
-<script>
-document.addEventListener("turbo:load", function () {
-  const dropdownButton = document.getElementById("dropdownButton");
-  const dropdownMenu = document.getElementById("dropdownMenu");
-
-  if (!dropdownButton || !dropdownMenu) {
-    console.error("Dropdown elements not found");
-    return;
-  }
-
-  let isTouchEvent = false;
-
-  dropdownButton.addEventListener("click", function (event) {
-    if (!isTouchEvent) {
-      toggleDropdown(event);
-    }
-    isTouchEvent = false; // 次回のクリックのためにリセット
-  });
-
-  dropdownButton.addEventListener("touchstart", function (event) {
-    isTouchEvent = true;
-    toggleDropdown(event);
-  });
-
-  document.addEventListener("click", function (event) {
-    if (!dropdownMenu.contains(event.target) && !dropdownButton.contains(event.target)) {
-      dropdownMenu.classList.add("hidden");
-    }
-  });
-
-  function toggleDropdown(event) {
-    console.log("Dropdown toggle triggered");
-    dropdownMenu.classList.toggle("hidden");
-    event.stopPropagation();
-  }
-});
-</script>
 
 <script>
   // トグルボタンのクリックイベント
