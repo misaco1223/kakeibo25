@@ -41,8 +41,13 @@
     </div>
     <br>
     <div>
-      <%= user_form.label :password, "パスワード", class: "block text-gray-700" %>
+      <%= user_form.label :password, "パスワード(変更する場合のみ入力)", class: "block text-gray-700" %>
       <%= user_form.password_field :password, class: "w-full", style: "border: 1px solid #ccc;" %>
+    </div>
+    <br>
+    <div>
+      <%= user_form.label :password_confirmation, "パスワード確認（変更する場合のみ入力）", class: "block text-gray-700" %>
+      <%= user_form.password_field :password_confirmation, class: "w-full", style: "border: 1px solid #ccc;" %>
     </div>
     <br>
     <div class="text-center mt-4">
