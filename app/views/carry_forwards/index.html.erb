@@ -8,9 +8,54 @@
   <% @money_files_with_data.each_with_index do |money_file, index| %>
     <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="<%= money_file[:title] %>" <%= 'checked="checked"' if index == 0 %>/>
     <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-      <p class="px-4 py-2 font-semibold text-sm text-gray-900">繰越合計 <%= money_file[:carry_forward] %>円</p>
+      <!--合計金額-->
+      <p class="px-4 py-2 font-semibold text-md text-gray-900">繰越合計 <%= money_file[:carry_forward] %>円</p>
+
+      <!-- 絞り込みフォーム -->
+      <div class="max-w-md border border-gray-300 p-4">
+        <div class="flex items-center justify-between mb-4">
+          <h1 class="font-semibold">絞り込み欄</h1>
+          <div class="flex items-center space-x-4">
+            <%= link_to carry_forwards_path, class: "text-gray-600 hover:text-blue-60" do %>
+              <i class="fa-solid fa-rotate-left"></i>
+            <% end %>
+            <button id="toggleFilter" class="text-gray-600 hover:text-blue-60">
+              <i class="fa-regular fa-eye-slash"></i>
+            </button>
+          </div>
+        </div>
+        <div id="filterForm" class="hidden">
+          <%= form_with url: carry_forwards_path, method: :get, local: true do %>
+            <div class="space-y-4">
+              <!-- 開始月フィルタ -->
+              <div class="flex flex-col space-y-2">
+                <%= label_tag :start_year_month, "開始年月", class: "block mb-1 text-sm font-medium text-gray-700" %>
+                <%= select_tag :start_year_month, options_for_select(
+                      [['選択してください', '']] + @money_files_with_data.flat_map { |mf| mf[:budgets].map { |b| b[:year_month] } }.uniq.sort.map { |ym| 
+                      formatted_ym = Date.strptime(ym, "%Y-%m").strftime("%Y年-%m月")
+                      [formatted_ym, ym]
+                      },
+                      params[:start_year_month]
+                    ), class: 'select select-bordered w-full text-sm', onchange: 'this.form.submit();' %>
+              </div>
+              <!-- 終わり月フィルタ -->
+              <div class="flex flex-col space-y-2 mt-2">
+                <%= label_tag :end_year_month, "終了年月", class: "block mb-1 text-sm font-medium text-gray-700" %>
+                <%= select_tag :end_year_month, options_for_select(
+                      [['選択してください', '']] + @money_files_with_data.flat_map { |mf| mf[:budgets].map { |b| b[:year_month] } }.uniq.sort.map { |ym| 
+                      formatted_ym = Date.strptime(ym, "%Y-%m").strftime("%Y年-%m月")
+                      [formatted_ym, ym]
+                      },
+                      params[:end_year_month]
+                    ), class: 'select select-bordered w-full text-sm', onchange: 'this.form.submit();' %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!--テーブル-->
       <table class="table w-full text-sm text-gray-700">
-        <!-- head -->
         <thead class="bg-gray-100">
           <tr>
             <th class="p-2 text-left">登録月-カテゴリー</th>
@@ -35,3 +80,19 @@
     </div>
   <% end %>
 </div>
+
+<script>
+  // トグルボタンのクリックイベント
+  document.getElementById("toggleFilter").addEventListener("click", function() {
+    const filterForm = document.getElementById("filterForm");
+    const isHidden = filterForm.classList.contains("hidden");
+
+    if (isHidden) {
+      filterForm.classList.remove("hidden"); // 表示
+      this.innerHTML = '<i class="fa-regular fa-eye"></i>';
+    } else {
+      filterForm.classList.add("hidden"); // 非表示
+      this.innerHTML = '<i class="fa-regular fa-eye-slash"></i>';
+    }
+  });
+</script>
