@@ -42,7 +42,7 @@
           </div>
 
           <!-- ドロップダウンメニュー -->
-          <div id="dropdownMenu" class="hidden absolute top-full right-0 w-52 bg-white shadow-md rounded-lg z-1000 border border-gray-300">
+          <div id="dropdownMenu" class="hidden absolute top-full right-0 w-52 bg-white shadow-md rounded-lg z-[1000] border border-gray-300">
             <ul>
               <% if current_user %>
                 <li class="p-2 font-bold text-gray-700"><%= current_user.name %>さん<br><%= @greeting %></li>
@@ -119,8 +119,11 @@
   }
 
   // ページ外をクリックすると閉じる
-  document.addEventListener('click', () => {
+  document.addEventListener('click', (event) => {
     const dropdown = document.getElementById('dropdownMenu');
-    dropdown.style.display = 'none';
+    // ドロップダウンメニューかボタンのクリックを無視
+    if (!dropdown.contains(event.target) && !event.target.closest('[onclick="toggleDropdown(event)"]')) {
+      dropdown.style.display = 'none';
+    }
   });
 </script>
