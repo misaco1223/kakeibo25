@@ -296,6 +296,32 @@
       </div>
     </div>
   </div>
+
+  <!-- 繰越金を確認-->
+  <div class="carousel-item flex-none text-left scroll-snap-center rounded-lg border-gray-300" style="width:300px; border-radius: 16px;">
+    <div class="card bg-white">
+      <div class="card-body p-4">
+        <figure class="text-left">
+        <%= image_tag "tutorial_carry_forwards", class: "card-img-top", width:"300", height:"200" %>
+        </figure> 
+        <br><br>
+        <h2 class="card-title text-sm font-bold mb-2">
+          余った予算を一覧で確認しよう
+        </h2>
+        <div id="toggle-carryforwards">
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <div class="hidden" id="carryforwards">
+          <p>予算を使い切らずに余った金額を「繰越金」として確認することができます。</p>
+          <div class="card-actions" style="display: flex; margin-top:4px;">
+            <%= link_to carry_forwards_path, class: "btn", style:"background-color:#FFCC66;" do %>
+              繰越金を確認する
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -350,6 +376,22 @@
   // トグルボタンのクリックイベント
   document.getElementById("toggle-timeline").addEventListener("click", function() {
     const filterForm = document.getElementById("timeline");
+    const isHidden = filterForm.classList.contains("hidden");
+
+    if (isHidden) {
+      filterForm.classList.remove("hidden"); // 表示
+      this.innerHTML = '<i class="fa-solid fa-chevron-up"></i>';
+    } else {
+      filterForm.classList.add("hidden"); // 非表示
+      this.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
+    }
+  });
+</script>
+
+<script>
+  // トグルボタンのクリックイベント
+  document.getElementById("toggle-carryforwards").addEventListener("click", function() {
+    const filterForm = document.getElementById("carryforwards");
     const isHidden = filterForm.classList.contains("hidden");
 
     if (isHidden) {
