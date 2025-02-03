@@ -6,7 +6,7 @@
 
 <div role="tablist" class="tabs tabs-lifted">
   <% @money_files_with_data.each_with_index do |money_file, index| %>
-    <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="<%= money_file[:title] %>" />
+    <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="<%= money_file[:title] %>" <%= 'checked="checked"' if index == 0 %>/>
     <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
       <table class="table w-full text-sm text-gray-700">
         <!-- head -->
