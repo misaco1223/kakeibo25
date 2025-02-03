@@ -38,12 +38,13 @@
     <!-- カテゴリー入力 -->
     <div>
       <%= form.label :category_id, "カテゴリー(必須) :", class: "block text-gray-700" %>
-      <%= form.collection_select :category_id, @categories, :id, :name,
-      { prompt: "カテゴリーを選択してください" },
-      { style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" } %>
+      <%= form.collection_select :category_id, @categories, :id, :name, { prompt: "カテゴリーを選択してください" }, { id: "category_select", style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" } %>
       
-      <!-- 新しいカテゴリーリンク -->
-      <a href="#" class="btn btn-ghost text-sm" id="new-category-link">新しいカテゴリーを作成する<i class="fa-solid fa-plus"></i></a>
+      <br>
+      <input type="checkbox" id="new-category-checkbox"> 新しいカテゴリーを作成する
+      <div id="new-category-form" style="display:none; margin-top:10px;">
+        <%= form.text_field :category_name, placeholder: "新しいカテゴリー名", style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
+      </div>
     </div>
 
     <br>
@@ -77,29 +78,8 @@
   <% end %>
 </div>
 
-<!-- 新しいカテゴリー作成フォーム -->
-<div id="new-category-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 300px; margin: 20px auto;">
-  <%= form_with model: Category.new, url: categories_path, local: true, class: "space-y-4" do |category_form| %>
-    <%= category_form.hidden_field :user_id, value: current_user.id %>
-    <div>
-      <%= category_form.label :name, "カテゴリー名", class: "block text-gray-700" %>
-      <%= category_form.text_field :name, class: "w-full", style: "border: 1px solid #ccc;" %>
-    </div>
-    <br>
-    <div class="text-center mt-4">
-      <%= category_form.submit "カテゴリーを作成", class: "btn", style:"background-color:#FFCC66;" %>
-      <%= link_to "キャンセル", new_budget_path(money_file_id: @money_file.id), class:"btn" %>
-    </div>
-  <% end %>
-</div>
-
 <script>
-  document.getElementById('new-category-link').addEventListener('click', function(e) {
-    e.preventDefault();
-    var form = document.getElementById('new-category-form');
-    // ボタンの親要素を取得し、その下にフォームを移動
-    const buttonContainer = document.getElementById('new-category-link');
-    buttonContainer.after(form);
-    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  document.getElementById('new-category-checkbox').addEventListener('change', function() {
+    document.getElementById('new-category-form').style.display = this.checked ? 'block' : 'none';
   });
 </script>

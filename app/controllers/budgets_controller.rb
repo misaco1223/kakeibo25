@@ -75,10 +75,17 @@ class BudgetsController < ApplicationController
       redirect_to money_file_path(@budget.money_file)
   
     else
-    # monthを許可するように追加
-    budget_params = params.require(:budget).permit(:amount, :description, :money_file_id, :category_id, :budget_image, :budget_image_cache, :remove_budget_image, :year_month)
 
-    # 新しいBudgetオブジェクトを作成
+      # monthを許可するように追加
+      budget_params = params.require(:budget).permit(:amount, :description, :money_file_id, :category_id, :budget_image, :budget_image_cache, :remove_budget_image, :year_month)
+
+      # 予算のnew作成フォームで新しいカテゴリーを作成しているかどうか。
+      if budget_params[:category_id].blank? && params[:budget][:category_name].present?
+        category = current_user.categories.create!(name: params[:budget][:category_name])
+        budget_params[:category_id] = category.id  # ここで更新
+      end
+
+      # 新しいBudgetオブジェクトを作成
       @budget = Budget.new(budget_params.merge(year_month: year_month))
 
       if @budget.save
