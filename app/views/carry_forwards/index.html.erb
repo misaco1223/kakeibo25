@@ -5,48 +5,32 @@
 <br>
 
 <div role="tablist" class="tabs tabs-lifted">
-  <!-- タブラベル -->
-  <div class="tabs tabs-boxed">
-    <% @money_files_with_data.each_with_index do |money_file, index| %>
-      <label for="tab-<%= money_file[:id] %>" class="tab tab-bordered px-4 py-2 font-medium text-sm rounded-md hover:bg-gray-200 transition-all duration-300">
-        <%= money_file[:title] %>
-      </label>
-    <% end %>
-  </div>
-
-  <!-- タブコンテンツ -->
-  <div class="tab-contents mt-4">
-    <% @money_files_with_data.each_with_index do |money_file, index| %>
-      <!-- タブのコンテンツをチェックボックスの状態に応じて表示 -->
-      <input type="radio" id="tab-<%= money_file[:id] %>" name="tab" class="hidden peer">
-      <div class="tab-content hidden peer-checked:block">
-        <p class="px-4 py-2 font-semibold text-md text-gray-900">繰越合計 <%= money_file[:carry_forward] %>円</p>
-        <div class="overflow-x-auto mt-4">
-          <table class="table w-full text-sm text-gray-700">
-            <!-- head -->
-            <thead class="bg-gray-100">
-              <tr>
-                <th class="p-2 text-left">登録月-カテゴリー</th>
-                <th class="p-2 text-left">繰越金</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% money_file[:budgets].each do |budget| %>
-                <tr class="hover:bg-gray-50">
-                  <td class="p-2">
-                    <%= link_to money_file_path(money_file[:id]), class: "underline text-blue-600 hover:text-blue-800" do %>
-                      <%= budget[:year_month].gsub('-', '年') + '月'%> <%= budget[:category_name]%>
-                    <% end %>
-                  </td>
-                  <td class="p-2">
-                    <%= budget[:remaining_amount] %> 円
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    <% end %>
-  </div>
+  <% @money_files_with_data.each_with_index do |money_file, index| %>
+    <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="<%= money_file[:title] %>" />
+    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+      <table class="table w-full text-sm text-gray-700">
+        <!-- head -->
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="p-2 text-left">登録月-カテゴリー</th>
+            <th class="p-2 text-left">繰越金</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% money_file[:budgets].each do |budget| %>
+            <tr class="hover:bg-gray-50">
+              <td class="p-2">
+                <%= link_to money_file_path(money_file[:id]), class: "underline text-blue-600 hover:text-blue-800" do %>
+                  <%= budget[:year_month].gsub('-', '年') + '月'%> <%= budget[:category_name]%>
+                <% end %>
+              </td>
+              <td class="p-2">
+                <%= budget[:remaining_amount] %> 円
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
 </div>

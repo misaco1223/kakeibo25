@@ -18,58 +18,62 @@
   </head>
 
   <body class="flex flex-col min-h-screen bg-yellow-50">
-    <header class="flex-none bg-cover bg-center p-4 relative z-10" style="background-image: url('<%= asset_path('header_image') %>');">
-      <div class="flex justify-between items-center">
+    <header>
+      <div class="flex justify-between items-center bg-cover bg-center p-4 z-50" style="background-image: url('<%= asset_path('header_image') %>');">
         <!-- Navbar Left -->
         <div>
           <a href="/" class="text-xl font-bold text-gray-800 no-underline w-full">予算を守る家計簿</a>
         </div>
 
         <!-- Navbar Right -->
-        <div class="flex items-center gap-4">
+        <div class="text-right flex items-center justify-end relative">
           <!--ユーザー名-->
           <% if current_user %>
-            <%= link_to user_path(current_user), class:"text-sm text-right" do %>
+            <%= link_to user_path(current_user), class:"text-sm text-right px-4" do %>
               <i class="fa-solid fa-user"></i><%=current_user.name%>さん
             <% end %>
           <% end %>
 
-          <!-- ドロップダウンメニューボタン　-->
-          <div class="dropdown dropdown-end">
-            <button id="dropdownButton" class="btn">
+          <!-- ドロップダウンメニューボタン -->
+          <div class="relative inline-block">
+            <div onclick="toggleDropdown(event)" tabindex="0" role="button" class="border-none cursor-pointer inline-flex items-center justify-center w-10 h-10 shadow-sm">
               <i class="fas fa-bars text-gray-800"></i>
-            </button>
-            <ul id="dropdownMenu" class="dropdown-content menu p-2 shadow bg-base-100 w-52 hidden" style="z-index:1000;">
+            </div>
+          </div>
+
+          <!-- ドロップダウンメニュー -->
+          <div id="dropdownMenu" class="hidden absolute top-full right-0 w-52 bg-white shadow-md rounded-lg z-1000 border border-gray-300">
+            <ul>
               <% if current_user %>
-                <li class="p-2"><%= current_user.name %>さん<br><%= @greeting %></li>
-                <br>
-                <li><a href="<%= money_files_path(current_user) %>">ホーム</a></li>
+                <li class="p-2 font-bold text-gray-700"><%= current_user.name %>さん<br><%= @greeting %></li>
+                <hr class="my-1">
+                <li><a href="<%= money_files_path(current_user) %>" class="block px-4 py-2 hover:bg-gray-100">ホーム</a></li>
                 <% @money_files.each do |money_file| %>
                   <li>
-                    <%= link_to money_file_path(money_file) do %>
-                      <i class="fa-regular fa-folder"></i><%= money_file.title %>  <!-- 表示したい属性を変更 -->
+                    <%= link_to money_file_path(money_file), class: "block px-4 py-2 hover:bg-gray-100" do %>
+                      <i class="fa-regular fa-folder"></i> <%= money_file.title %>
                     <% end %>
                   </li>
                 <% end %>
-                <li><hr class="my-1"></li>
-                <li><a href="<%= new_payment_path %>">支出データ登録</a></li>
-                <li><a href="/timeline">支出タイムライン</a></li>
-                <li><hr class="my-1"></li>
-                <li><a href="<%= categories_path %>">カテゴリー</a></li>
-                <li><a href="<%= pay_methods_path %>">支払い方法</a></li>
-                <li><a href="<%= shops_path %>">店舗</a></li>
-                <li><hr class="my-1"></li>
-                <li><a href="<%= carry_forwards_path %>">繰越金を確認する</a></li>
-                <li><hr class="my-1"></li>
-                <li><a href="<%= user_path(current_user) %>">ユーザー情報</a></li>
-                <li><a href="<%= logout_path %>">ログアウト</a></li>
-                <li><hr class="my-1"></li>
-                <li><a href="/tutorial">操作ガイド</a></li>
+                <hr class="my-1">
+                <li><a href="<%= new_payment_path %>" class="block px-4 py-2 hover:bg-gray-100">支出データ登録</a></li>
+                <li><a href="/timeline" class="block px-4 py-2 hover:bg-gray-100">支出タイムライン</a></li>
+                <hr class="my-1">
+                <li><a href="<%= categories_path %>" class="block px-4 py-2 hover:bg-gray-100">カテゴリー</a></li>
+                <li><a href="<%= pay_methods_path %>" class="block px-4 py-2 hover:bg-gray-100">支払い方法</a></li>
+                <li><a href="<%= shops_path %>" class="block px-4 py-2 hover:bg-gray-100">店舗</a></li>
+                <hr class="my-1">
+                <li><a href="<%= carry_forwards_path %>" class="block px-4 py-2 hover:bg-gray-100">繰越金を確認する</a></li>
+                <hr class="my-1">
+                <li><a href="<%= user_path(current_user) %>" class="block px-4 py-2 hover:bg-gray-100">ユーザー情報</a></li>
+                <li><a href="<%= logout_path %>" class="block px-4 py-2 hover:bg-gray-100">ログアウト</a></li>
+                <hr class="my-1">
+                <li><a href="/tutorial" class="block px-4 py-2 hover:bg-gray-100">操作ガイド</a></li>
               <% else %>
-                <li><a href="<%= login_path %>">ログイン</a></li>
-                <li><hr class="my-1"></li>
-                <li><a href="/tutorial">操作ガイド</a></li>
-                <li><a href="<%= new_user_path %>">ユーザー登録</a></li>
+                <li><a href="<%= login_path %>" class="block px-4 py-2 hover:bg-gray-100">ログイン</a></li>
+                <hr class="my-1">
+                <li><a href="/tutorial" class="block px-4 py-2 hover:bg-gray-100">操作ガイド</a></li>
+                <li><a href="<%= new_user_path %>" class="block px-4 py-2 hover:bg-gray-100">ユーザー登録</a></li>
               <% end %>
             </ul>
           </div>
@@ -107,16 +111,16 @@
 </html>
 
 <script>
-  // トグルボタンのクリックイベント
-  document.getElementById("dropdownButton").addEventListener("click", function() {
-    const dropdownMenu = document.getElementById("dropdownMenu");
-    const isHidden = dropdownMenu.classList.contains("hidden");
-    console.log('Dropdown button clicked/touched');
+  function toggleDropdown(event) {
+    const dropdown = document.getElementById('dropdownMenu');
+    const isHidden = dropdown.style.display === 'none' || dropdown.style.display === '';
+    dropdown.style.display = isHidden ? 'block' : 'none';
+    event.stopPropagation(); // 他のクリックイベントが反応しないようにする
+  }
 
-    if (isHidden) {
-      dropdownMenu.classList.remove("hidden"); // 表示
-    } else {
-      dropdownMenu.classList.add("hidden"); // 非表示
-    }
+  // ページ外をクリックすると閉じる
+  document.addEventListener('click', () => {
+    const dropdown = document.getElementById('dropdownMenu');
+    dropdown.style.display = 'none';
   });
 </script>
