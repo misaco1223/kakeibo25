@@ -71,22 +71,6 @@
   </table>
 </div>
 
-<!-- 支払い方法の編集フォーム -->
-<div id="edit-paymethod-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 300px; margin: 20px 4px;">
-  <%= form_with model: @pay_method, url: "", local: true, class: "space-y-4" do |paymethod_form| %>
-    <%= paymethod_form.hidden_field :user_id, value: current_user.id %>
-    <div>
-      <%= paymethod_form.label :name, "店舗名", class: "block text-gray-700" %>
-      <%= paymethod_form.text_field :name, class: "w-full", style: "border: 1px solid #ccc;",id:"paymethod-name" %>
-    </div>
-    <br>
-    <div class="text-center mt-4">
-      <%= paymethod_form.submit "支払い方法を更新", class: "btn", style:"background-color:#FFCC66;" %>
-      <%= link_to "キャンセル", pay_methods_path, class:"btn cancel-btn" %>
-    </div>
-  <% end %>
-</div>
-
 <script>
   document.querySelectorAll('.btn#edit-paymethod-link').forEach(function(button) {
     button.addEventListener('click', function(e) {
