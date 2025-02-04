@@ -10,6 +10,21 @@
 </div>
 
 <a href="#" class="btn btn-ghost text-sm" id="new-category-link">新しいカテゴリーを作成する<i class="fa-solid fa-plus"></i></a>
+<!-- 新しいカテゴリー作成フォーム -->
+<div id="new-category-form" class="mt-2" style="display:none;">
+  <%= form_with model: Category.new, url: categories_path, local: true do |category_form| %>
+    <%= category_form.hidden_field :user_id, value: current_user.id %>
+    <div>
+      <%= category_form.text_field :name, placeholder: "新しいカテゴリー名", style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
+      <%= button_tag type: "submit", class:"px-4" do %>
+        <i class="fa-solid fa-check"></i> 
+      <% end %>
+      <%= link_to categories_path do %>
+        <i class="fa-solid fa-xmark"></i>
+      <% end %>
+    </div>
+  <% end %>
+</div>
 
 <br><br>
 <div class="overflow-x-auto">
@@ -36,25 +51,24 @@
           <% end %>
         </td>
       </tr>
+      <!-- カテゴリーの編集フォーム -->
+      <div id="edit-category-form" class="mt-2" style="display:none;">
+        <%= form_with model: category, url: category_path(category), method: :patch, local: true do |category_form| %>
+          <%= category_form.hidden_field :user_id, value: current_user.id %>
+          <div class="flex items-center">
+            <%= category_form.text_field :name, id:"category-name-field", style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
+            <%= button_tag type: "submit", class:"px-4" do %>
+              <i class="fa-solid fa-check"></i> 
+            <% end %>
+            <%= link_to categories_path do %>
+              <i class="fa-solid fa-xmark"></i>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
     <% end %>
     </tbody>
   </table>
-</div>
-
-<!-- カテゴリーの編集フォーム -->
-<div id="edit-category-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 300px; margin: 20px auto;">
-  <%= form_with model: @category, url: "", local: true, class: "space-y-4" do |category_form| %>
-    <%= category_form.hidden_field :user_id, value: current_user.id %>
-    <div>
-      <%= category_form.label :name, "カテゴリー名", class: "block text-gray-700" %>
-      <%= category_form.text_field :name, id: "category-name-field", class: "w-full", style: "border: 1px solid #ccc;" %>
-    </div>
-    <br>
-    <div class="text-center mt-4">
-      <%= category_form.submit "カテゴリーを更新", class: "btn", style:"background-color:#FFCC66;" %>
-      <%= link_to "キャンセル", categories_path, class:"btn cancel-btn" %>
-    </div>
-  <% end %>
 </div>
 
 <script>
@@ -94,31 +108,10 @@
   });
 </script>
 
-<!-- 新しいカテゴリー作成フォーム -->
-<div id="new-category-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 300px; margin: 20px auto;">
-  <%= form_with model: Category.new, url: categories_path, local: true, class: "space-y-4" do |category_form| %>
-    <%= category_form.hidden_field :user_id, value: current_user.id %>
-    <div>
-      <%= category_form.label :name, "カテゴリー名", class: "block text-gray-700" %>
-      <%= category_form.text_field :name, class: "w-full", style: "border: 1px solid #ccc;" %>
-    </div>
-    <br>
-    <div class="text-center mt-4">
-      <%= category_form.submit "カテゴリーを更新", class: "btn", style:"background-color:#FFCC66;" %>
-      <%= link_to "キャンセル", categories_path, class:"btn" %>
-    </div>
-  <% end %>
-</div>
-
 <script>
   document.getElementById('new-category-link').addEventListener('click', function(e) {
     e.preventDefault();
     var form = document.getElementById('new-category-form');
-
-    // ボタンの親要素を取得し、その下にフォームを移動
-    const buttonContainer = document.getElementById('new-category-link');
-    buttonContainer.after(form);
-
     form.style.display = form.style.display === 'none' ? 'block' : 'none';
   });
 </script>

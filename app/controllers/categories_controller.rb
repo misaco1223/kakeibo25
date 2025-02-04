@@ -42,8 +42,6 @@ class CategoriesController < ApplicationController
     @category = current_user.categories.build(category_params)
     if @category.save
       redirect_to request.referer, success: "カテゴリーを登録しました。"
-    else
-      render :new, status: :unprocessable_entity
     end
   end
 
