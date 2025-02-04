@@ -17,22 +17,22 @@
     <!-- head -->
     <thead>
     <tr>
-      <th style="width:300px;">店舗名</th>
-      <th>住所</th>
-      <th>連絡先</th>
+      <th style="padding:10px 42px; text-align:center;">店舗名</th>
+      <th style="padding:10px 42px; text-align:center;">住所</th>
+      <th style="padding:10px 36px; text-align:center;">連絡先</th>
       <th></th>
     </tr>
     </thead>
     <tbody>
     <% @shops.each do |shop| %>
       <tr>
-        <td>
+        <td class="px-4" style="text-align:left;"> 
           <%= link_to shop.name, shop_path(shop), class:"underline" %>
         </td>
-        <td>
+        <td style="padding:0; text-align:center;">
           <%= shop.address %>
         </td>
-        <td>
+        <td style="padding:0; text-align:center;">
           <%= shop.tel %>
         </td>
         <td class="flex">

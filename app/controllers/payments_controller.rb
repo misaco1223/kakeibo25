@@ -18,7 +18,28 @@ class PaymentsController < ApplicationController
 
   def create
     @budget = Budget.find_by(id: params[:payment][:budget_id])
-    @payment = Payment.build(payments_params)
+
+    payment_params = params.require(:payment).permit(:date, :title, :description, :amount, :shop_id, :shop_name, :shop_address, :shop_tel, :pay_method_id, :pay_method_name, :budget_id)
+
+    # 予算のnew作成フォームで新しい支払い方法を作成しているかどうか。
+    if payment_params[:pay_method_id].blank? && params[:payment][:pay_method_name].present?
+      pay_method = current_user.pay_methods.create!(name: params[:payment][:pay_method_name])
+      payment_params[:pay_method_id] = pay_method.id  # ここで更新
+    end
+
+    # 予算のnew作成フォームで新しい店舗を作成しているかどうか。
+    if payment_params[:shop_id].blank? && params[:payment][:shop_name].present?
+      shop = current_user.shops.create!(name: params[:payment][:shop_name], tel: params[:payment][:shop_tel] || "", address: params[:payment][:shop_address] || "")
+      payment_params[:shop_id] = shop.id  # ここで更新
+    end
+
+    payment_params.delete(:pay_method_name)
+    payment_params.delete(:shop_name)
+    payment_params.delete(:shop_address)
+    payment_params.delete(:shop_tel)
+
+    @payment = Payment.build(payment_params)
+
     if @payment.save
       # shop_ids が存在する場合のみ関連付け
       shop_ids = params[:payment][:shop_ids]&.reject(&:blank?)
@@ -44,7 +65,33 @@ class PaymentsController < ApplicationController
   def update
     @payment = Payment.find(params[:id])
     @budget = @payment.budget
-    if @payment.update(payments_params)
+
+    payment_params = params.require(:payment).permit(:date, :title, :description, :amount, :shop_id, :shop_name, :shop_address, :shop_tel, :remove_shop,:pay_method_id, :pay_method_name, :remove_pay_method,:budget_id)
+
+    # 予算のnew作成フォームで新しい支払い方法を作成しているかどうか。
+    if params[:payment][:pay_method_name].present?
+      pay_method = current_user.pay_methods.create!(name: params[:payment][:pay_method_name])
+      payment_params[:pay_method_id] = pay_method.id  # ここで更新
+    elsif params[:payment][:remove_pay_method] == "true"
+      payment_params[:pay_method_id] = nil
+    end
+
+    # 予算のnew作成フォームで新しい店舗を作成しているかどうか。
+    if params[:payment][:shop_name].present?
+      shop = current_user.shops.create!(name: params[:payment][:shop_name], tel: params[:payment][:shop_tel] || "", address: params[:payment][:shop_address] || "")
+      payment_params[:shop_id] = shop.id  # ここで更新
+    elsif params[:payment][:remove_shop] == "true"
+      payment_params[:shop_id] = nil
+    end
+
+    payment_params.delete(:pay_method_name)
+    payment_params.delete(:shop_name)
+    payment_params.delete(:shop_address)
+    payment_params.delete(:shop_tel)
+    payment_params.delete(:remove_pay_method)
+    payment_params.delete(:remove_shop)
+
+    if @payment.update(payment_params)
       redirect_to budget_path(@budget), success: "支出が正常に更新されました。"
     else
       render :edit, status: :unprocessable_entity
