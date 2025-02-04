@@ -112,14 +112,30 @@ class BudgetsController < ApplicationController
 
   def update
     @budget = Budget.find(params[:id])
+    @money_file = @budget.money_file
+    @categories = current_user.categories.all
 
-    # 画像削除チェックボックスの処理
+    # 許可するパラメータ
+    budget_params = params.require(:budget).permit(:amount, :description, :money_file_id, :category_id, :category_name, :budget_image, :budget_image_cache, :remove_budget_image, :year_month)
+    
+    # 画像削除処理（budget_params の merge に統合）
     if params[:budget][:remove_budget_image] == "1"
-      @budget.remove_budget_image!
+      budget_params[:budget_image] = nil
     end
 
+    # 予算のnew作成フォームで新しいカテゴリーを作成しているかどうか。
+    if params[:budget][:category_name].present?
+      category = current_user.categories.create!(name: params[:budget][:category_name])
+      budget_params[:category_id] = category.id
+    end
+
+    # category_idをparamsから削除
+    budget_params.delete(:category_name)
+
+    Rails.logger.debug "budget_paramsは: #{budget_params.inspect}"
+
     if @budget.update(budget_params)
-      redirect_to money_file_path(@budget.money_file), success: "予算が更新されました。"
+      redirect_to money_file_path(@money_file), success: "予算が更新されました。"
     else
       render :edit, status: :unprocessable_entity
     end

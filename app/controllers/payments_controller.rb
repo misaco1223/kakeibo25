@@ -8,7 +8,7 @@ class PaymentsController < ApplicationController
     else
       @budget = nil
       @money_files = current_user.money_files
-      @budgets = Budget.includes(:category).where(money_file_id: @money_files.pluck(:id))
+      @budgets = Budget.includes(:category).where(money_file_id: @money_files.pluck(:id)).order(year_month: :desc)
       @payment = Payment.new
     end
   

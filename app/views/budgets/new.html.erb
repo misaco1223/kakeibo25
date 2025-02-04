@@ -38,13 +38,19 @@
     <!-- カテゴリー入力 -->
     <div>
       <%= form.label :category_id, "カテゴリー(必須) :", class: "block text-gray-700" %>
-      <%= form.collection_select :category_id, @categories, :id, :name, { prompt: "カテゴリーを選択してください" }, { id: "category_select", style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" } %>
-      
+      <%= form.collection_select :category_id, @categories, :id, :name, { prompt: "カテゴリーを選択してください" }, { id: "category_select", style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" } %> 
       <br>
       <input type="checkbox" id="new-category-checkbox"> 新しいカテゴリーを作成する
       <div id="new-category-form" style="display:none; margin-top:10px;">
         <%= form.text_field :category_name, placeholder: "新しいカテゴリー名", style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
       </div>
+    </div>
+
+    <br>
+    <!-- 金額入力 -->
+    <div>
+      <%= form.label :amount, "予算金額(必須) :", class: "block font-medium text-gray-700" %>
+      <%= form.number_field :amount, min: 0, step: 100, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
 
     <br>
@@ -60,13 +66,6 @@
     <div>
       <%= form.label :description, "詳細 :", class: "block font-medium text-gray-700" %>
       <%= form.text_area :description, rows: 3, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
-    </div>
-    
-    <br>
-    <!-- 金額入力 -->
-    <div>
-      <%= form.label :amount, "予算金額(必須) :", class: "block font-medium text-gray-700" %>
-      <%= form.number_field :amount, min: 0, step: 100, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
     </div>
     
     <br>
