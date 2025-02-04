@@ -103,7 +103,6 @@ class PaymentsController < ApplicationController
     @payment = @budget.payments.find(params[:id])
     @payment.destroy
     redirect_to budget_payments_path(@budget), notice: "支払いを削除しました。"
-
   end
 
   private

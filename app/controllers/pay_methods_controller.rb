@@ -58,8 +58,13 @@ class PayMethodsController < ApplicationController
   
     def destroy
       @pay_method= PayMethod.find(params[:id])
-      @pay_method.destroy
-      redirect_to pay_methods_path, notice: "支払い方法を削除しました。"
+      begin
+        @pay_method.destroy
+        redirect_to pay_methods_path, notice: "支払い方法を削除しました。"
+      rescue ActiveRecord::InvalidForeignKey => e
+        flash.now[:error] = "支払いを削除できませんでした。関連するデータがあります。"
+        redirect_to pay_method_path(@pay_method)
+      end
     end
   
     private

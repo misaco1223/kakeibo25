@@ -10,6 +10,21 @@
 </div>
 
 <a href="#" class="btn btn-ghost text-sm" id="new-paymethod-link">新しい支払い方法を作成する<i class="fa-solid fa-plus"></i></a>
+<!-- 新しい支払い方法作成フォーム -->
+<div id="new-paymethod-form" class="mt-2" style="display:none;">
+  <%= form_with model: PayMethod.new, url: pay_methods_path, local: true do |paymethod_form| %>
+    <%= paymethod_form.hidden_field :user_id, value: current_user.id %>
+    <div>
+      <%= paymethod_form.text_field :name, placeholder: "新しい支払い方法", style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
+      <%= button_tag type: "submit", class:"px-4" do %>
+        <i class="fa-solid fa-check"></i> 
+      <% end %>
+      <%= link_to pay_methods_path do %>
+        <i class="fa-solid fa-xmark"></i>
+      <% end %>
+    </div>
+  <% end %>
+</div>
 
 <br><br>
 <div class="overflow-x-auto">
@@ -36,6 +51,21 @@
           <% end %>
         </td>
       </tr>
+      <!-- 支払い方法の編集フォーム -->
+      <div id="edit-paymethod-form" class="mt-2" style="display:none;">
+        <%= form_with model: pay_method, url: pay_method_path(pay_method), method: :patch, local: true do |paymethod_form| %>
+          <%= paymethod_form.hidden_field :user_id, value: current_user.id %>
+          <div class="flex items-center">
+            <%= paymethod_form.text_field :name, id:"paymethod-name", style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
+            <%= button_tag type: "submit", class:"px-4" do %>
+              <i class="fa-solid fa-check"></i> 
+            <% end %>
+            <%= link_to pay_methods_path do %>
+              <i class="fa-solid fa-xmark"></i>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
     <% end %>
     </tbody>
   </table>
@@ -94,33 +124,10 @@
   });
 </script>
 
-
-<!-- 新しい支払い方法作成フォーム -->
-<div id="new-paymethod-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 300px; margin: 20px auto;">
-  <%= form_with model: @pay_method, local: true, style: "space-y-4" do |paymethod_form| %>
-    <%= paymethod_form.hidden_field :user_id, value: current_user.id %>
-      <!--支払い方法名 -->
-      <div>
-        <%= paymethod_form.label :name, "支払い方法名", class: "block text-gray-700" %>
-        <%= paymethod_form.text_field :name, class: "w-full", style: "border: 1px solid #ccc;" %>
-      </div>
-      <br>
-      <div class="text-center mt-4">
-        <%= paymethod_form.submit "支払い方法を作成", class: "btn", style:"background-color:#FFCC66;" %>
-        <%= link_to "キャンセル", pay_methods_path, class:"btn" %>
-      </div>
-  <% end %>
-</div>
-
 <script>
   document.getElementById('new-paymethod-link').addEventListener('click', function(e) {
     e.preventDefault();
     var form = document.getElementById('new-paymethod-form');
-
-    // ボタンの親要素を取得し、その下にフォームを移動
-    const buttonContainer = document.getElementById('new-paymethod-link');
-    buttonContainer.after(form);
-
     form.style.display = form.style.display === 'none' ? 'block' : 'none';
   });
 </script>
