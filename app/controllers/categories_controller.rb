@@ -42,8 +42,6 @@ class CategoriesController < ApplicationController
     @category = current_user.categories.build(category_params)
     if @category.save
       redirect_to request.referer, success: "カテゴリーを登録しました。"
-    else
-      render :new, status: :unprocessable_entity
     end
   end
 
@@ -62,10 +60,12 @@ class CategoriesController < ApplicationController
 
   def destroy
     @category = Category.find(params[:id])
-    if @category.destroy
+    begin
+      @category.destroy
       redirect_to categories_path, success: "カテゴリーを削除しました。"
-    else
-      redirect_to categories_path, danger: "カテゴリーを削除できません。"
+    rescue ActiveRecord::InvalidForeignKey => e
+      flash[:notice] = "カテゴリーを削除できませんでした。関連するデータがあります。"
+      redirect_to category_path(@category)
     end
   end
 

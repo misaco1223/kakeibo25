@@ -3,7 +3,7 @@
 </div>
 
 <div class="container bg-white shadow-md", style="padding:24px; border-radius:8px; max-width:400px;">
-  <%= form_with model: @money_file, local: true, class: "space-y-4" do |form| %>
+  <%= form_with model: @money_file, url: money_files_path, method: :post, local: true, data: { turbo: false }, class: "space-y-4" do |form| %>
 
     <!-- タイトル入力 -->
     <div>

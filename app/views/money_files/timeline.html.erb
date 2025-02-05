@@ -1,4 +1,5 @@
 
+<% content_for(:title, "タイムライン") %>
 <div class="mx-w-md w-full">
   <div class="mb-4">
     <a class="btn btn-ghost text-xl gray-900" href="/">全ての支出データ</a>
@@ -96,7 +97,7 @@
           <td style="padding:0; text-align:center;">
             <%= link_to payment.title, budget_path(payment.budget), class: "underline" %>
           </td>
-          <td style="padding:0; text-align:center;">
+          <td class="px-2" style="text-align:right;">
             <%= payment.amount %>円
           </td>
           <td style="padding:0; text-align:center;">
@@ -119,7 +120,7 @@
           <td></td>
           <td></td>
           <td style="text-align:right">合計</td>
-          <td><%= @total_amount %>円</td>
+          <td style="text-align:right"><%= @total_amount %>円</td>
         </tr>
       <% else %>
         <tr>
@@ -127,7 +128,7 @@
           <td></td>
           <td></td>
           <td style="text-align:right">合計</td>
-          <td><%= @filtered_total_amount %>円</td>
+          <td style="text-align:right"><%= @filtered_total_amount %>円</td>
         </tr>
       <% end %>
     </tfoot>

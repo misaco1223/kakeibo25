@@ -4,7 +4,7 @@
   </div>
 </div>
 
-<div class="container", style="margin: 10px; padding: 24px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 35rem; width: 100%;">
+<div class="container", style="margin: 10px; padding: 24px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); max-width: 22rem;">
   <div class="block">
     <label>名前</label>
     <h1><%= @user.name %></h1>
@@ -27,7 +27,7 @@
 </div>
 
 
-<div id="edit-user-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 300px; margin: 20px;">
+<div id="edit-user-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 340px; margin: 20px;">
   <%= form_with model: @user, local: true, class: "space-y-4" do |user_form| %>
     <div>
       <%= user_form.label :name, "名前", class: "block text-gray-700" %>
@@ -41,8 +41,13 @@
     </div>
     <br>
     <div>
-      <%= user_form.label :password, "パスワード", class: "block text-gray-700" %>
+      <%= user_form.label :password, "パスワード(変更する場合のみ入力)", class: "block text-gray-700" %>
       <%= user_form.password_field :password, class: "w-full", style: "border: 1px solid #ccc;" %>
+    </div>
+    <br>
+    <div>
+      <%= user_form.label :password_confirmation, "パスワード確認（変更する場合のみ入力）", class: "block text-gray-700" %>
+      <%= user_form.password_field :password_confirmation, class: "w-full", style: "border: 1px solid #ccc;" %>
     </div>
     <br>
     <div class="text-center mt-4">

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-theme="cupcake">
   <head>
-    <title><%= content_for(:title) || "Kakeibo25" %></title>
+    <title><%= "kakeibo25 | #{content_for(:title)}" || "Kakeibo25" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="turbo-visit-control" content="reload">
@@ -57,13 +57,13 @@
                 <% end %>
                 <hr class="my-1">
                 <li><a href="<%= new_payment_path %>" class="block px-4 py-2 hover:bg-gray-100">支出データ登録</a></li>
-                <li><a href="/timeline" class="block px-4 py-2 hover:bg-gray-100">支出タイムライン</a></li>
+                <li><a href="/timeline" class="block px-4 py-2 hover:bg-gray-100">タイムライン</a></li>
                 <hr class="my-1">
                 <li><a href="<%= categories_path %>" class="block px-4 py-2 hover:bg-gray-100">カテゴリー</a></li>
                 <li><a href="<%= pay_methods_path %>" class="block px-4 py-2 hover:bg-gray-100">支払い方法</a></li>
                 <li><a href="<%= shops_path %>" class="block px-4 py-2 hover:bg-gray-100">店舗</a></li>
                 <hr class="my-1">
-                <li><a href="<%= carry_forwards_path %>" class="block px-4 py-2 hover:bg-gray-100">繰越金を確認する</a></li>
+                <li><a href="<%= carry_forwards_path %>" class="block px-4 py-2 hover:bg-gray-100">繰越金を確認</a></li>
                 <hr class="my-1">
                 <li><a href="<%= user_path(current_user) %>" class="block px-4 py-2 hover:bg-gray-100">ユーザー情報</a></li>
                 <li><a href="<%= logout_path %>" class="block px-4 py-2 hover:bg-gray-100">ログアウト</a></li>

@@ -5,6 +5,9 @@ class Budget < ApplicationRecord
   has_many :payments, dependent: :destroy
   belongs_to :category, optional: true
 
+  validates :category_id, presence: true
+  validates :money_file_id, presence: true
+  validates :amount, presence: true
   validates :year_month, presence: true
   validates :year_month, format: { with: /\A\d{4}-\d{2}\z/, message: "はYYYY-MM形式で入力してください" }
 

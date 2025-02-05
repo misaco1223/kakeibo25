@@ -25,10 +25,17 @@ class UsersController < ApplicationController
  end
 
  def update
-    @user = User.find(params[:id])
-    if @user.update(user_params)
-      redirect_to user_path(@user), success: "アカウント情報を更新しました"
-    end
+   @user = User.find(params[:id])
+
+   # パスワードが空なら `user_params` から削除する
+   if params[:user][:password].blank?
+      params[:user].delete(:password)
+      params[:user].delete(:password_confirmation)
+   end
+
+   if @user.update(user_params)
+     redirect_to user_path(@user), notice: "アカウント情報を更新しました"
+   end
  end
  def destroy
     @user = User.find(params[:id])

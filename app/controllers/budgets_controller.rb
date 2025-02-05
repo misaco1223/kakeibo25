@@ -1,5 +1,9 @@
 class BudgetsController < ApplicationController
   before_action :require_login
+  def index
+    redirect_to money_files_path
+  end
+
   def show
     @budget = Budget.find(params[:id])
     @money_file = @budget.money_file
@@ -34,8 +38,7 @@ class BudgetsController < ApplicationController
   def new
     @money_file = MoneyFile.find(params[:money_file_id])
     @budget = @money_file.budgets.new
-    @categories = current_user.categories
-    Rails.logger.info "Categories: #{@categories.inspect}" 
+    @categories = current_user.categories 
   end
 
   def create
@@ -47,8 +50,8 @@ class BudgetsController < ApplicationController
       year_month = params[:budget][:year_month]
     end
 
-    # 新しいBudgetオブジェクトを作成
-    if params[:budget][:budget_ids].present?
+    # quick_addをしようした場合に複数のBudgetオブジェクトを作成
+    if params[:budget][:budget_ids].present? && params[:budget][:year_month].present? && params[:budget][:month].present?
       budget_ids = Array(params[:budget][:budget_ids])
       Rails.logger.debug "選択された予算idは: #{budget_ids.inspect}" 
       success_count = 0
@@ -71,20 +74,43 @@ class BudgetsController < ApplicationController
       # 成功件数を表示
       if success_count > 0
         flash[:success] = "#{success_count} 件の予算が作成されました。"
+        redirect_to money_file_path(@budget.money_file)
+      else
+        flash[:error] = "予算の作成に失敗しました。"
+        render :quick_add, status: :unprocessable_entity
       end
-      redirect_to money_file_path(@budget.money_file)
+    
+    # quick_addで、月が指定されなかった場合
+    elsif (params[:budget][:budget_ids].present? && params[:budget][:month].blank?) || (params[:budget][:year_month].present? && params[:budget][:year_month].blank?)
+      Rails.logger.debug "パラメータは#{params[:budget]}"
+      flash.now[:error] = "予算を登録する月を設定してください"
+      @money_file = MoneyFile.find(params[:budget][:money_file_id])
+      @budgets = Budget.where(money_file_id: @money_file.id).order(year_month: :desc)
+      @budget_ids = params[:budget][:budget_ids]
+      render :quick_add, status: :unprocessable_entity
   
+    # newから新規作成する場合
     else
-    # monthを許可するように追加
-    budget_params = params.require(:budget).permit(:amount, :description, :money_file_id, :category_id, :budget_image, :budget_image_cache, :remove_budget_image, :year_month)
 
-    # 新しいBudgetオブジェクトを作成
+      # monthを許可するように追加
+      budget_params = params.require(:budget).permit(:amount, :description, :money_file_id, :category_id, :budget_image, :budget_image_cache, :remove_budget_image, :year_month)
+
+      # 予算のnew作成フォームで新しいカテゴリーを作成しているかどうか。
+      if budget_params[:category_id].blank? && params[:budget][:category_name].present?
+        category = current_user.categories.create!(name: params[:budget][:category_name])
+        budget_params[:category_id] = category.id  # ここで更新
+      end
+
+      # 新しいBudgetオブジェクトを作成
       @budget = Budget.new(budget_params.merge(year_month: year_month))
 
       if @budget.save
-        redirect_to money_file_path(@budget.money_file), success: "予算が作成されました。"
+        flash[:success] = "予算が作成されました。"
+        redirect_to money_file_path(@budget.money_file)
       else
-        flash.now[:danger] = "予算を登録できません。"
+        flash.now[:error] = "入力内容を確認してください"
+        @money_file = MoneyFile.find(@budget.money_file_id)
+        @categories = current_user.categories
         render :new, status: :unprocessable_entity
       end
     end
@@ -105,15 +131,32 @@ class BudgetsController < ApplicationController
 
   def update
     @budget = Budget.find(params[:id])
+    @money_file = @budget.money_file
+    @categories = current_user.categories.all
 
-    # 画像削除チェックボックスの処理
+    # 許可するパラメータ
+    budget_params = params.require(:budget).permit(:amount, :description, :money_file_id, :category_id, :category_name, :budget_image, :budget_image_cache, :remove_budget_image, :year_month)
+    
+    # 画像削除処理（budget_params の merge に統合）
     if params[:budget][:remove_budget_image] == "1"
-      @budget.remove_budget_image!
+      budget_params[:budget_image] = nil
     end
 
+    # 予算のnew作成フォームで新しいカテゴリーを作成しているかどうか。
+    if params[:budget][:category_name].present?
+      category = current_user.categories.create!(name: params[:budget][:category_name])
+      budget_params[:category_id] = category.id
+    end
+
+    # category_idをparamsから削除
+    budget_params.delete(:category_name)
+
+    Rails.logger.debug "budget_paramsは: #{budget_params.inspect}"
+
     if @budget.update(budget_params)
-      redirect_to money_file_path(@budget.money_file), success: "予算が更新されました。"
+      redirect_to money_file_path(@money_file), success: "予算が更新されました。"
     else
+      flash.now[:error] = "入力内容を確認してください"
       render :edit, status: :unprocessable_entity
     end
   end
@@ -121,8 +164,9 @@ class BudgetsController < ApplicationController
   def destroy
     @budget = Budget.find(params[:id])
     @money_file = @budget.money_file
-    @budget.destroy # dependent: :destroy で関連データも削除
-    redirect_to money_file_path(@money_file), success: "予算が削除されました"
+    if @budget.destroy
+      redirect_to money_file_path(@money_file), success: "予算が削除されました。"
+    end
   end
 
   private

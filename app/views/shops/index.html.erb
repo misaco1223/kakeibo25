@@ -10,6 +10,23 @@
 </div>
 
 <a href="#" class="btn btn-ghost text-sm" id="new-shop-link">新しい店舗を作成する<i class="fa-solid fa-plus"></i></a>
+<!-- 新しい店舗作成フォーム -->
+<div id="new-shop-form" class="mt-2" style="display:none;">
+  <%= form_with model: Shop.new, url: shops_path, local: true do |shop_form| %>
+    <%= shop_form.hidden_field :user_id, value: current_user.id %>
+    <div>
+      <%= shop_form.text_field :name, placeholder: "新しい店舗名", style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
+      <%= shop_form.text_field :address, placeholder: "住所(任意)", style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
+      <%= shop_form.text_field :tel, placeholder: "電話(任意)", style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
+      <%= button_tag type: "submit", class:"px-4" do %>
+        <i class="fa-solid fa-check"></i> 
+      <% end %>
+      <%= link_to shops_path do %>
+        <i class="fa-solid fa-xmark"></i>
+      <% end %>
+    </div>
+  <% end %>
+</div>
 
 <br><br>
 <div class="overflow-x-auto">
@@ -17,65 +34,53 @@
     <!-- head -->
     <thead>
     <tr>
-      <th style="width:300px;">店舗名</th>
-      <th>住所</th>
-      <th>連絡先</th>
+      <th style="padding:10px 42px; text-align:center;">店舗名</th>
+      <th style="padding:10px 42px; text-align:center;">住所</th>
+      <th style="padding:10px 36px; text-align:center;">連絡先</th>
       <th></th>
     </tr>
     </thead>
     <tbody>
     <% @shops.each do |shop| %>
       <tr>
-        <td>
+        <td class="px-4" style="text-align:left;"> 
           <%= link_to shop.name, shop_path(shop), class:"underline" %>
         </td>
-        <td>
+        <td style="padding:0; text-align:center;">
           <%= shop.address %>
         </td>
-        <td>
+        <td style="padding:0; text-align:center;">
           <%= shop.tel %>
         </td>
         <td class="flex">
           <%= link_to "",class: "btn btn-ghost", id:"edit-shop-link", data: { shop_id: shop.id, shop_name: shop.name, shop_address: shop.address, shop_tel: shop.tel } do %>
             <i class="fa-solid fa-pen-to-square"></i>編集
           <% end %>
-          <%= link_to shop_path(shop), method: :delete, data: { turbo_method: :delete }, class: "btn btn-ghost btn-outline btn-error text-gray-800" do %>
+          <%= button_to shop_path(shop), method: :delete, data: { turbo_confirm: "本当に削除しますか？"  }, class: "btn btn-ghost text-red-500" do %>
             <i class="fa-solid fa-trash"></i>削除
           <% end %>
         </td>
       </tr>
+      <!-- 店舗の編集フォーム -->
+      <div id="edit-shop-form" class="mt-2 flex flex-row" style="display:none;">
+        <%= form_with model: shop, url: shop_path(shop), method: :patch, local: true do |shop_form| %>
+          <%= shop_form.hidden_field :user_id, value: current_user.id %>
+          <div class="items-center">
+            <%= shop_form.text_field :name, id:"shop-name", style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
+            <%= shop_form.text_field :address, id:"shop-address", style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
+            <%= shop_form.text_field :tel, id:"shop-tel", style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
+            <%= button_tag type: "submit", class:"px-4" do %>
+              <i class="fa-solid fa-check"></i> 
+            <% end %>
+            <%= link_to shops_path do %>
+              <i class="fa-solid fa-xmark"></i>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
     <% end %>
     </tbody>
   </table>
-</div>
-
-<!-- Shopの編集フォーム -->
-<div id="edit-shop-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 300px; margin: 20px auto;">
-  <%= form_with model: @shop, url: "", local: true, class: "space-y-4", style: "display: flex; flex-direction: column;" do |shop_form| %>
-    <%= shop_form.hidden_field :user_id, value: current_user.id %>
-    <!-- 店舗名 -->
-    <div>
-      <%= shop_form.label :name, "店舗名", class: "block text-gray-700" %>
-      <%= shop_form.text_field :name, class: "w-full", style: "border: 1px solid #ccc;",id:"shop-name" %>
-    </div>
-
-    <!-- 住所 -->
-    <div>
-      <%= shop_form.label :address, "住所", class: "block text-gray-700" %>
-      <%= shop_form.text_field :address, class: "w-full", style: "border: 1px solid #ccc;", id:"shop-address" %>
-    </div>
-    
-    <!-- 電話番号 -->
-    <div>
-      <%= shop_form.label :tel, "電話番号", class: "block text-gray-700" %>
-      <%= shop_form.text_field :tel, class: "w-full", style: "border: 1px solid #ccc;", id:"shop-tel" %>
-    </div>
-    <br>
-    <div class="text-center mt-4">
-      <%= shop_form.submit "お店を更新", class: "btn", style:"background-color:#FFCC66;" %>
-      <%= link_to "キャンセル", shops_path, class:"btn cancel-btn" %>
-    </div>
-  <% end %>
 </div>
 
 <script>
@@ -121,45 +126,10 @@
   });
 </script>
 
-
-<!-- 新しいShop作成フォーム -->
-<div id="new-shop-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 300px; margin: 20px auto; flex-direction: column; gap: 20px;">
-  <%= form_with model: @shop, local: true, style: "display: flex; flex-direction: column;" do |shop_form| %>
-    <%= shop_form.hidden_field :user_id, value: current_user.id %>
-    <!-- 店舗名 -->
-    <div style="flex: 1;">
-      <%= shop_form.label :name, "店舗名", class: "block text-gray-700" %>
-      <%= shop_form.text_field :name, class: "w-full", style: "border: 1px solid #ccc;" %>
-    </div>
-
-    <!-- 住所 -->
-    <div style="flex: 2;">
-      <%= shop_form.label :address, "住所", class: "block text-gray-700" %>
-      <%= shop_form.text_field :address, class: "w-full", style: "border: 1px solid #ccc; width: 100%;" %>
-    </div>
-    
-    <!-- 電話番号 -->
-    <div style="flex: 1;">
-      <%= shop_form.label :tel, "電話番号", class: "block text-gray-700" %>
-      <%= shop_form.text_field :tel, class: "w-full", style: "border: 1px solid #ccc; width: 100%;" %>
-    </div>
-    <br>
-    <div class="text-center mt-4">
-      <%= shop_form.submit "店舗を作成", class: "btn", style:"background-color:#FFCC66;" %>
-      <%= link_to "キャンセル", shops_path, class:"btn" %>
-    </div>
-  <% end %>
-</div>
-
 <script>
   document.getElementById('new-shop-link').addEventListener('click', function(e) {
     e.preventDefault();
     var form = document.getElementById('new-shop-form');
-
-    // ボタンの親要素を取得し、その下にフォームを移動
-    const buttonContainer = document.getElementById('new-shop-link');
-    buttonContainer.after(form);
-
     form.style.display = form.style.display === 'none' ? 'block' : 'none';
   });
 </script>

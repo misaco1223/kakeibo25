@@ -3,42 +3,37 @@
 </div>
 
 <div class="container bg-white shadow-md", style="padding:24px; border-radius:8px; max-width:400px;">
-  <%= form_with model: @budget, local: true, class: "space-y-4" do |form| %>
-    <%= form.hidden_field :money_file_id, value: @money_file.id %>
-
+  <%= form_with model: @budget, url: budget_path, method: :patch, local: true, data: { turbo: false }, class: "space-y-4" do |form| %>
     <!-- 家計簿ファイルを表示する -->
     <div>
       <p><i class="fa-regular fa-folder"></i> <%= @money_file.title %>ファイル</p>
-      <%= form.hidden_field :money_file_id, value: params[:money_file_id] %>
+      <%= form.hidden_field :money_file_id, value: @money_file.id %>
+    </div>
+    <!--予算の設定月-->
+    <div>
+      <p><%= @budget.year_month.gsub("-","年")+"月" %>の予算</p>
+      <%= form.hidden_field :year_month, value: @budget.year_month %>
     </div>
 
     <br>
-    <!--予算の設定月-->
-    <div>
-      <%= form.label :year_month, "何月の予算にしますか(必須) :", class: "block text-gray-700" %>
-      <%= form.select :year_month, options_for_select(
-        (Date.today.year-5..Date.today.year+5).to_a.map { |year| ["#{year}年", year] }, 
-        selected: session[:year_month]&.split("-")&.first
-      ), 
-      { prompt: "選択してください" }, 
-      style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc; width: 45%;" 
-      %>
-      <%= form.select :month, options_for_select(
-        Date::MONTHNAMES.compact.each_with_index.map { |month, i| ["#{i+1}月", i+1] }, 
-        selected: session[:year_month]&.split("-")&.last
-      ), 
-      { prompt: "月を選択" }, 
-      style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc; width: 45%;" 
-      %>
-    </div>
-
     <!-- カテゴリー入力 -->
     <div>
       <%= form.label :category_id, "カテゴリー(必須) :", class: "block text-gray-700" %>
       <%= form.collection_select :category_id, @categories, :id, :name, 
       { prompt: "カテゴリーを選択してください" },
       {  style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;"  } %>
-      <a class="btn text-sm btn-ghost" href="#", id="new-category-link">新しいカテゴリーを作成する<i class="fa-solid fa-plus"></i></a>
+      <br>
+      <input type="checkbox" id="new-category-checkbox"> 新しいカテゴリーを作成する
+      <div id="new-category-form" style="display:none; margin-top:10px;">
+        <%= form.text_field :category_name, placeholder: "新しいカテゴリー名", style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" %>
+      </div>
+    </div>
+
+    <br>
+    <!-- 金額入力 -->
+    <div>
+      <%= form.label :amount, "予算金額(必須) :", class: "block font-medium text-gray-700" %>
+      <%= form.number_field :amount, min: 0, step: 100, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;"  %>
     </div>
 
     <br>
@@ -64,44 +59,16 @@
     </div>
 
     <br>
-    <!-- 金額入力 -->
-    <div>
-      <%= form.label :amount, "予算金額(必須) :", class: "block font-medium text-gray-700" %>
-      <%= form.number_field :amount, min: 0, step: 100, style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc;"  %>
-    </div>
-
-    <br>
     <!-- 提出ボタン -->
     <div>
-      <%= form.submit "予算を作成", class: "btn", style:"background-color:#FFCC66;" %>
+      <%= form.submit "予算を更新", class: "btn", style:"background-color:#FFCC66;" %>
       <%= link_to "キャンセル", money_file_path(@money_file), class: "btn" %>
     </div>
   <% end %>
 </div>
 
-<!-- 新しいカテゴリー作成フォーム -->
-<div id="new-category-form" style="display:none; background-color: white; border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 300px; margin: 20px auto;">
-  <%= form_with model: Category.new, url: categories_path, local: true, class: "space-y-4" do |category_form| %>
-    <%= category_form.hidden_field :user_id, value: current_user.id %>
-    <div>
-      <%= category_form.label :name, "カテゴリー名", class: "block text-gray-700" %>
-      <%= category_form.text_field :name, class: "w-full", style: "border: 1px solid #ccc;" %>
-    </div>
-    <br>
-    <div class="text-center mt-4">
-      <%= category_form.submit "カテゴリーを作成", class: "btn", style:"background-color:#FFCC66;" %>
-      <%= link_to "キャンセル", edit_budget_path(money_file_id: @money_file.id), class:"btn" %>
-    </div>
-  <% end %>
-</div>
-
 <script>
-  document.getElementById('new-category-link').addEventListener('click', function(e) {
-    e.preventDefault();
-    var form = document.getElementById('new-category-form');
-     // ボタンの親要素を取得し、その下にフォームを移動
-    const buttonContainer = document.getElementById('new-category-link');
-    buttonContainer.after(form);
-    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  document.getElementById('new-category-checkbox').addEventListener('change', function() {
+    document.getElementById('new-category-form').style.display = this.checked ? 'block' : 'none';
   });
 </script>

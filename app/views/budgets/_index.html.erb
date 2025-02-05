@@ -28,7 +28,9 @@
             </p>
             <div class="card-actions" style="display: flex; margin-top: auto;"class="card-actions" style="display: flex; margin-top: auto;">
               <%= link_to edit_budget_path(budget), class: "btn" do %><i class="fa-solid fa-pen-to-square"></i>編集<% end %>
-              <%= link_to budget_path(budget), method: :delete, data: { turbo_method: :delete }, class: "btn", style:"color:red;" do %><i class="fa-solid fa-trash"></i>削除<% end %>
+              <%= button_to budget_path(budget), method: :delete, data: { turbo_confirm: "本当に削除しますか？"  }, class: "btn btn-ghost text-red-500" do %>
+                <i class="fa-solid fa-trash"></i>削除
+              <% end %>
             </div>
           </div>
         </div>
@@ -36,5 +38,5 @@
     <% end %>
   </div>
 <% else %>
-  <p class="ml-4 text-gray-700"> 予算の登録がありません</p>
+  <p class="mx-4 text-gray-700"> 予算の登録がありません</p>
 <% end %>

@@ -54,9 +54,9 @@ class MoneyFilesController < ApplicationController
   def create
    @money_file = current_user.money_files.build(money_file_params)
     if @money_file.save
-      redirect_to money_files_path, success: "家計簿が作成されました。"
+      redirect_to money_files_path, success: "家計簿が作成されました"
     else
-      render :new, status: :unprocessable_entity
+      flash.now[:danger] = "入力内容を確認してください"
     end
   end
 
@@ -75,6 +75,7 @@ class MoneyFilesController < ApplicationController
     if @money_file.update(money_file_params)
       redirect_to money_files_path, success: "家計簿が更新されました。"
     else
+      flash.now[:danger] = "入力内容を確認してください"
       render :edit, status: :unprocessable_entity
     end
   end
