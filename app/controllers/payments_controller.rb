@@ -1,5 +1,14 @@
 class PaymentsController < ApplicationController
   before_action :require_login
+
+  def index
+    redirect_to root_path
+  end
+
+  def show
+    redirect_to root_path
+  end
+
   def new
     if params[:budget_id].present?
       @budget = Budget.find(params[:budget_id])
@@ -49,8 +58,12 @@ class PaymentsController < ApplicationController
       pay_method_ids = params[:payment][:pay_method_ids]&.reject(&:blank?)
       @payment.pay_methods << PayMethod.where(id: pay_method_ids) if pay_method_ids.present?
 
-      redirect_to budget_path(@budget), success: "支払いデータが正常に登録されました。"
+      redirect_to budget_path(@budget), success: "支払いデータが正常に登録されました"
     else
+      flash.now[:danger] = "入力内容を確認してください"
+      @money_file = @budget&.money_file
+      @shops = current_user.shops
+      @pay_methods = current_user.pay_methods
       render :new, status: :unprocessable_entity
     end
   end
@@ -92,17 +105,21 @@ class PaymentsController < ApplicationController
     payment_params.delete(:remove_shop)
 
     if @payment.update(payment_params)
-      redirect_to budget_path(@budget), success: "支出が正常に更新されました。"
+      redirect_to budget_path(@budget), success: "支出が正常に更新されました"
     else
+      flash[:danger] = "入力内容を確認してください"
+      @shops = current_user.shops
+      @pay_methods = current_user.pay_methods
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @budget = Budget.find(params[:budget_id])
-    @payment = @budget.payments.find(params[:id])
-    @payment.destroy
-    redirect_to budget_payments_path(@budget), notice: "支払いを削除しました。"
+    budget = Budget.find(params[:budget_id])
+    @payment = budget.payments.find(params[:id])
+    if @payment.destroy
+      redirect_to budget_path(budget.id), notice: "支払いを削除しました。"
+    end
   end
 
   private

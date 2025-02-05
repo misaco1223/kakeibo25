@@ -1,3 +1,4 @@
+<% content_for(:title, "カテゴリー") %>
 <div class="mx-w-md w-full">
   <div>
     <div style="height:40px; paddig-top:0px;">
@@ -46,7 +47,7 @@
           <%= link_to "", class: "btn btn-ghost", id: "edit-category-link", data: { category_id: category.id, category_name: category.name } do %>
             <i class="fa-solid fa-pen-to-square"></i>編集
           <% end %>
-          <%= link_to category_path(category), method: :delete, data: { turbo_method: :delete }, class: "btn btn-ghost btn-outline btn-error text-gray-800" do %>
+          <%= button_to category_path(category), method: :delete, class: "btn btn-ghost btn-outline btn-error text-gray-800" do %>
             <i class="fa-solid fa-trash"></i>削除
           <% end %>
         </td>

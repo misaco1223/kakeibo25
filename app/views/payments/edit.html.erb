@@ -3,7 +3,7 @@
 </div>
 
 <div class="container bg-white shadow-md", style="padding:24px; border-radius:8px; max-width:400px;">
-  <%= form_with model: [@budget, @payment], local: true, class: "space-y-4" do |form| %>
+  <%= form_with model: [@budget, @payment], url: budget_payment_path, method: :patch, local: true, data: { turbo: false }, class: "space-y-4" do |form| %>
 
     <!-- 登録先の家計簿ファイルと予算を入力 -->
     <div>
