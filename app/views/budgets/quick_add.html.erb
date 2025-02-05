@@ -3,7 +3,7 @@
 </div>
 
 <div class="bg-white shadow-md", style="padding:24px; border-radius:8px; max-width:400px;">
-<%= form_with model: @budget, local: true, class: "space-y-4" do |form| %>
+<%= form_with model: @budget, url: budgets_path, method: :post, local: true, data: { turbo: false }, class: "space-y-4" do |form| %>
 
   <!-- 登録先の家計簿ファイルを表示する -->
   <div>
@@ -26,6 +26,7 @@
       selected: session[:year_month]&.split("-")&.last
     ), 
     { prompt: "月を選択" }, 
+    name: "budget[month]", 
     style: "margin: 4px; padding: 10px; border-radius: 8px; border: 1px solid #ccc; width: 45%;" 
     %>
   </div>
@@ -36,7 +37,8 @@
       <!-- 1枚ずつカードを表示 -->
       <div style="max-width: 150px; margin: auto; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 12px;">
         <div>
-          <%= form.check_box :budget_ids, { id: "budget_#{budget.id}", multiple: true }, budget.id, nil %>
+          <%= form.check_box :budget_ids, { id: "budget_#{budget.id}", multiple: true, 
+          checked: @budget_ids&.map(&:to_i)&.include?(budget.id) }, budget.id, nil %>
           <figure style="text-align: left;">
             <%= image_tag budget.budget_image_url, style: "width: 100%; height: auto;" %>
           </figure>
