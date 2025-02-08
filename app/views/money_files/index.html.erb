@@ -29,7 +29,7 @@
             <div class="card-actions flex space-x-2">
               <%= link_to money_file_path(file), class: "btn", style:"background-color:#FFCC66;" do %>このファイルをCheck Now<% end %>
               <%= link_to edit_money_file_path(file), class: "btn" do %><i class="fa-solid fa-pen-to-square"></i>編集<% end %>
-              <%= button_to money_file_path(file), method: :delete, data: { turbo_confirm: "本当に削除しますか？"  }, class: "btn btn-ghost text-red-500 flex" do %>
+              <%= button_to money_file_path(file), method: :delete, data: { turbo_confirm: "本当に削除しますか？"  }, class: "btn btn-outline btn-error text-gray-800" do %>
                 <i class="fa-solid fa-trash"></i>削除
               <% end %>
             </div>

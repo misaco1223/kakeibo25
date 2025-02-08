@@ -56,7 +56,7 @@
           <%= link_to "",class: "btn btn-ghost", id:"edit-shop-link", data: { shop_id: shop.id, shop_name: shop.name, shop_address: shop.address, shop_tel: shop.tel } do %>
             <i class="fa-solid fa-pen-to-square"></i>編集
           <% end %>
-          <%= button_to shop_path(shop), method: :delete, data: { turbo_confirm: "本当に削除しますか？"  }, class: "btn btn-ghost text-red-500" do %>
+          <%= button_to shop_path(shop), method: :delete, data: { turbo_confirm: "本当に削除しますか？"  }, class: "btn btn-ghost btn-outline btn-error text-gray-800" do %>
             <i class="fa-solid fa-trash"></i>削除
           <% end %>
         </td>
