@@ -39,7 +39,7 @@ gem 'jsbundling-rails'
 
 gem 'sorcery'
 gem "gretel"
-gem 'carrierwave','2.2.2'
+gem 'carrierwave','3.1.2'
 gem 'kaminari', '~> 1.2', '>= 1.2.1'
 gem 'bootstrap5-kaminari-views', '~> 0.0.1'
 
