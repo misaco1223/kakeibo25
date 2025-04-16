@@ -1,6 +1,11 @@
 class CarryForwardsController < ApplicationController
   def index
     @money_files = current_user.money_files
+
+    if @money_files.empty?
+      redirect_to new_money_file_path, alert: "家計簿を登録してください"
+      return
+    end
   
     # フィルタの開始・終了年月を取得（デフォルトは nil）
     start_year_month = params[:start_year_month]

@@ -5,6 +5,13 @@ if gem list --no-installed --exact --silent foreman; then
   gem install foreman
 fi
 
+# 既に動作中の Rails サーバープロセスを探して停止
+if lsof -i :3000 -t >/dev/null 2>&1; then
+  echo "Stopping existing Rails server on port 3000..."
+  kill -TERM $(lsof -i :3000 -t)
+  sleep 2  # プロセスが完全に終了するのを待つ
+fi
+
 # Default to port 3000 if not specified
 export PORT="${PORT:-3000}"
 
